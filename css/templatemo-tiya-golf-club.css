@@ -32,6 +32,7 @@ https://templatemo.com/tm-587-tiya-golf-club
   --p-font-size:                  18px;
   --menu-font-size:               16px;
   --btn-font-size:                14px;
+  --social-icon-size:             45px;
 
   --border-radius-large:          100px;
   --border-radius-medium:         20px;
@@ -1125,6 +1126,12 @@ strong {
   margin-left: 15px;
 }
 
+.gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  height: 100%;
+  width: 100%;
+}
 
 /*---------------------------------------
   SOCIAL ICON               
@@ -1144,13 +1151,13 @@ strong {
   background: var(--secondary-color);
   border-radius: var(--border-radius-large);
   color: var(--white-color);
-  font-size: var(--btn-font-size);
+  font-size: var(--social-icon-size);
   display: block;
   margin-right: 5px;
   text-align: center;
-  width: 35px;
-  height: 35px;
-  line-height: 36px;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
   transition: background 0.2s, color 0.2s;
 }
 
