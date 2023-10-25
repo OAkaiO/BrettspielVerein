@@ -6,6 +6,8 @@ require '/home/eg5mx54b/neu.brettspiel-zofingen.ch/PHPMailer/src/Exception.php';
 require '/home/eg5mx54b/neu.brettspiel-zofingen.ch/PHPMailer/src/PHPMailer.php';
 require '/home/eg5mx54b/neu.brettspiel-zofingen.ch/PHPMailer/src/SMTP.php';
 
+require_once './mailPw.php'
+
 // Instantiation and passing [ICODE]true[/ICODE] enables exceptions
 $mail = new PHPMailer(true);
 
@@ -16,7 +18,7 @@ try {
  $mail->Host = 'authsmtp.securemail.pro'; // Specify main and backup SMTP servers
  $mail->SMTPAuth = true; // Enable SMTP authentication
  $mail->Username = 'versand@brettspiel-zofingen.ch'; // SMTP username
- $mail->Password = '<PASSWORD>'; // SMTP password
+ $mail->Password = $SMTP_PASSWORD; // SMTP password
  $mail->SMTPSecure = 'ssl'; // Enable TLS encryption, [ICODE]ssl[/ICODE] also accepted
  $mail->Port = 465; // TCP port to connect to
 
