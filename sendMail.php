@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '/home/eg5mx54b/neu.brettspiel-zofingen.ch/PHPMailer/src/Exception.php';
-require '/home/eg5mx54b/neu.brettspiel-zofingen.ch/PHPMailer/src/PHPMailer.php';
-require '/home/eg5mx54b/neu.brettspiel-zofingen.ch/PHPMailer/src/SMTP.php';
+require './PHPMailer/src/Exception.php';
+require './PHPMailer/src/PHPMailer.php';
+require './PHPMailer/src/SMTP.php';
 
 require_once './mailPw.php';
 
@@ -18,7 +18,7 @@ $mail = new PHPMailer(true);
 // TODO: Form validation!
 try {
  //Server settings
- $mail->SMTPDebug = 2; // Enable verbose debug output
+ $mail->SMTPDebug = $SMTP::DEBUG_OFF;
  $mail->isSMTP(); // Set mailer to use SMTP
  $mail->Host = 'authsmtp.securemail.pro'; // Specify main and backup SMTP servers
  $mail->SMTPAuth = true; // Enable SMTP authentication
