@@ -1,10 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 
-require './PHPMailer/src/Exception.php';
-require './PHPMailer/src/PHPMailer.php';
-require './PHPMailer/src/SMTP.php';
-
+require_once __DIR__ ."/vendor/autoload.php";
 require_once './mailPw.php';
 
 function sendMail($subject, $message, $from)

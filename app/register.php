@@ -2,7 +2,8 @@
 
 use PHPMailer\PHPMailer\Exception;
 
-require_once(dirname(__FILE__) . "sendMail.php");
+require_once __DIR__ . "/sendMail.php";
+require_once __DIR__ ."/vendor/autoload.php";
 
 function validateForm()
 {

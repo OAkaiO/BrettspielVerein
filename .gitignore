@@ -1,2 +1,2 @@
-mailPw.php
-PHPMailer/
+app/mailPw.php
+app/vendor
