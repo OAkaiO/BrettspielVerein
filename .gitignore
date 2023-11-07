@@ -1,2 +1,3 @@
 app/mailPw.php
 app/vendor
+**/.env

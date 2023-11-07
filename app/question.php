@@ -1,7 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\Exception;
+use BVZ\Mailer;
 
-require_once __DIR__ . "/sendMail.php";
 require_once __DIR__ ."/vendor/autoload.php";
 
 function validateForm()
@@ -35,7 +35,7 @@ if (!validateForm()) {
 try {
     $transformArray = array("{fullName}" => $_POST["full-name"]);
     $subject = strtr("Frage von {fullName}", $transformArray);
-    sendMail($subject, $_POST['message'], $_POST["email"]);
+    Mailer::configureMail()->sendMail($subject, $_POST['message'], $_POST["email"]);
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$e}";
 }

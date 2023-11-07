@@ -1,7 +1,8 @@
 <?php
 use PHPMailer\PHPMailer\Exception;
+use BVZ\Mailer;
 
-require_once __DIR__ ."/vendor/autoload.php";
+require_once __DIR__ . "/vendor/autoload.php";
 
 
 if (!isset($_POST['email'])) {
@@ -13,7 +14,7 @@ if (!isset($_POST['email'])) {
 try {
     $transformArray = array("{mail}" => $_POST["email"]);
     $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
-    sendMail($subject, "Ich melde mich hiermit and :)", $_POST["email"]);
+    Mailer::configureMail()->sendMail($subject, "Ich melde mich hiermit and :)", $_POST["email"]);
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$e}";
 }
