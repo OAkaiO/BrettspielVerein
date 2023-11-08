@@ -1,3 +1,0 @@
-<?php
-  $SMTP_PASSWORD = "<The actual Pw>";
-?>
