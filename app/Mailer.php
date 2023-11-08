@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 require_once __DIR__ ."/vendor/autoload.php";
 
-abstract class Mailer{
+abstract class Mailer {
     protected $mail;
     
     function __construct() {
@@ -50,7 +50,8 @@ class DummyMailer extends Mailer{
 
     function __construct() {
         parent::__construct();
-        $this->mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
+        // $this->mail->SMTPDebug = SMTP::DEBUG_CONNECTION; TODO: Need to figure out how to not print this to browser
+        $this->mail->SMTPDebug = SMTP::DEBUG_OFF;
     }
 }
 

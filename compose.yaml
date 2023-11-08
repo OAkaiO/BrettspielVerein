@@ -1,0 +1,17 @@
+services:
+  mail:
+    image: rnwood/smtp4dev
+    ports:
+      - "55555:25"
+      - "3000:80"
+  server:
+    build: .
+    # working_dir: /code
+    command: php -S 0.0.0.0:80 -t /code/app
+    ports:
+      - "80:80"
+    volumes:
+      - ./app/:/code/app
+      - vendor:/code/app/vendor
+volumes:
+  vendor:
