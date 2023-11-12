@@ -1,45 +1,48 @@
 <?php
-use PHPMailer\PHPMailer\Exception;
-use BVZ\Mailer;
 
-require_once __DIR__ ."/vendor/autoload.php";
+use BVZ\MailConfigurator;
+
+require_once __DIR__ . "/vendor/autoload.php";
 
 function validateForm()
 {
     $valid = true;
     if (!isset($_POST['full-name'])) {
-        header('Form-Error: full-name', false);
+        header('X-Error-State: full-name not found in request!', false);
         $valid = false;
     }
     if (!isset($_POST['email'])) {
-        header('Form-Error: email', false);
+        header('X-Error-State: email not found in request!', false);
         $valid = false;
     }
     if (!isset($_POST['message'])) {
-        header('Form-Error: message', false);
+        header('X-Error-State: message not found in request!', false);
         $valid = false;
     }
     return $valid;
 }
 
-if (!isset($_POST['full-name'])) {
-    header('Location: https://neu.brettspiel-zofingen.ch');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('X-Error-State: Not a POST');
+    http_response_code(405);
     die();
 }
 
 if (!validateForm()) {
-    header('Location: https://neu.brettspiel-zofingen.ch');
+    http_response_code(400);
     die();
 }
 
-try {
-    $transformArray = array("{fullName}" => $_POST["full-name"]);
-    $subject = strtr("Frage von {fullName}", $transformArray);
-    Mailer::configureMail()->sendMail($subject, $_POST['message'], $_POST["email"]);
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$e}";
+$transformArray = array("{fullName}" => $_POST["full-name"]);
+$subject = strtr("Frage von {fullName}", $transformArray);
+$mail =  MailConfigurator::configureMail($subject, $_POST['message'], $_POST["email"]);
+$success = $mail->send();
+if (!$success) {
+    // TODO: logging
+    // echo "Message could not be sent. Mailer Error: {$e}";
+    http_response_code(500);
+    die();
 }
-header('Location: https://neu.brettspiel-zofingen.ch');
-die();
 
-?>
+http_response_code(204);
+die();
