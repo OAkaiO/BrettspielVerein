@@ -7,26 +7,27 @@ require_once __DIR__ . "/vendor/autoload.php";
 function validateForm()
 {
     $valid = true;
-    if (!isset($_POST['full-name'])) {
-        header('X-Error-State: full-name not found in request!');
+    $fullName = $_POST['full-name'];
+    if (!isset($fullName) || strlen(trim($fullName)) === 0) {
+        header('X-Error-State: full-name not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['email'])) {
-        header('X-Error-State: email not found in request!', false);
+    $emailAddr = $_POST['email'];
+    if (!isset($emailAddr) || filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false) {
+        header('X-Error-State: email not found or not a valid email!', false);
         $valid = false;
     }
-    if (!isset($_POST['address'])) {
-        header('X-Error-State: address not found in request!', false);
+    $addr1 = $_POST['address'];
+    if (!isset($addr1) || strlen(trim($addr1)) === 0) {
+        header('X-Error-State: address not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['address2'])) {
-        header('X-Error-State: address2 not found in request!', false);
+    $addr2 = $_POST['address2'];
+    if (!isset($addr2) || strlen(trim($addr2)) === 0) {
+        header('X-Error-State: address2 not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['message'])) {
-        header('X-Error-State: message not found in request!', false);
-        $valid = false;
-    }
+
     return $valid;
 }
 
@@ -56,5 +57,5 @@ if (!$success) {
     // echo "Message could not be sent. Mailer Error: {$e}";
     http_response_code(500);
 }
-http_response_code(200);
+http_response_code(204);
 die();

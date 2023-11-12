@@ -7,16 +7,19 @@ require_once __DIR__ . "/vendor/autoload.php";
 function validateForm()
 {
     $valid = true;
-    if (!isset($_POST['full-name'])) {
-        header('X-Error-State: full-name not found in request!', false);
+    $fullName = $_POST['full-name'];
+    if (!isset($fullName) || strlen(trim($fullName)) === 0) {
+        header('X-Error-State: full-name not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['email'])) {
-        header('X-Error-State: email not found in request!', false);
+    $emailAddr = $_POST['email'];
+    if (!isset($emailAddr) || filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false) {
+        header('X-Error-State: email not found or not a valid email!', false);
         $valid = false;
     }
-    if (!isset($_POST['message'])) {
-        header('X-Error-State: message not found in request!', false);
+    $message = $_POST['message'];
+    if (!isset($message) || strlen(trim($message)) === 0) {
+        header('X-Error-State: message not found or empty!', false);
         $valid = false;
     }
     return $valid;

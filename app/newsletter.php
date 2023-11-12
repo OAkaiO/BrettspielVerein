@@ -10,15 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
-if (!isset($_POST['email'])) {
-    header('X-Error-State: Email address not found in request!');
+$emailAddr = $_POST['email'];
+if (!isset($emailAddr) || filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false) {
+    header('X-Error-State: Email address not found or invalid!');
     http_response_code(400);
     die();
 }
 
-$transformArray = array("{mail}" => $_POST["email"]);
+$transformArray = array("{mail}" => $emailAddr);
 $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
-$mail = MailConfigurator::configureMail($subject, "Ich melde mich hiermit and :)", $_POST["email"]);
+$mail = MailConfigurator::configureMail($subject, "Ich melde mich hiermit and :)", $emailAddr);
 $success = $mail->send();
 if (!$success) {
     // TODO: Logging, as echo kills the http response approach, and doesn't provide value, anyways
