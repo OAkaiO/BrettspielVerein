@@ -1,22 +1,30 @@
 <?php
-use PHPMailer\PHPMailer\Exception;
-use BVZ\Mailer;
+
+use BVZ\MailConfigurator;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
-
-if (!isset($_POST['email'])) {
-    header('Form-Error: email');
-    header('Location: https://neu.brettspiel-zofingen.ch');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('X-Error-State: Not a POST');
+    http_response_code(405);
     die();
 }
 
-try {
-    $transformArray = array("{mail}" => $_POST["email"]);
-    $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
-    Mailer::configureMail()->sendMail($subject, "Ich melde mich hiermit and :)", $_POST["email"]);
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$e}";
+$emailAddr = $_POST['email'];
+if (!isset($emailAddr) || filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false) {
+    header('X-Error-State: Email address not found or invalid!');
+    http_response_code(400);
+    die();
 }
-header('Location: https://neu.brettspiel-zofingen.ch');
-die();
+
+$transformArray = array("{mail}" => $emailAddr);
+$subject = strtr("Newsletter-Abo von {mail}", $transformArray);
+$mail = MailConfigurator::configureMail($subject, "Ich melde mich hiermit and :)", $emailAddr);
+$success = $mail->send();
+if (!$success) {
+    // TODO: Logging, as echo kills the http response approach, and doesn't provide value, anyways
+    // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
+    http_response_code(500);
+} else {
+    http_response_code(204);
+}

@@ -1,55 +1,61 @@
 <?php
 
-use PHPMailer\PHPMailer\Exception;
-use BVZ\Mailer;
+use BVZ\MailConfigurator;
 
-require_once __DIR__ ."/vendor/autoload.php";
+require_once __DIR__ . "/vendor/autoload.php";
 
 function validateForm()
 {
     $valid = true;
-    if (!isset($_POST['full-name'])) {
-        header('Form-Error: full-name');
+    $fullName = $_POST['full-name'];
+    if (!isset($fullName) || strlen(trim($fullName)) === 0) {
+        header('X-Error-State: full-name not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['email'])) {
-        header('Form-Error: email', false);
+    $emailAddr = $_POST['email'];
+    if (!isset($emailAddr) || filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false) {
+        header('X-Error-State: email not found or not a valid email!', false);
         $valid = false;
     }
-    if (!isset($_POST['address'])) {
-        header('Form-Error: address', false);
+    $addr1 = $_POST['address'];
+    if (!isset($addr1) || strlen(trim($addr1)) === 0) {
+        header('X-Error-State: address not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['address2'])) {
-        header('Form-Error: address2', false);
+    $addr2 = $_POST['address2'];
+    if (!isset($addr2) || strlen(trim($addr2)) === 0) {
+        header('X-Error-State: address2 not found or empty!', false);
         $valid = false;
     }
-    if (!isset($_POST['message'])) {
-        header('Form-Error: message', false);
-        $valid = false;
-    }
+
     return $valid;
 }
 
-if (!isset($_POST['full-name'])) {
-    header('Location: https://neu.brettspiel-zofingen.ch');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('X-Error-State: Not a POST');
+    http_response_code(405);
     die();
 }
 
 if (!validateForm()) {
-    header('Location: https://neu.brettspiel-zofingen.ch');
+    http_response_code(400);
     die();
 }
 
-try {
-    $transformArray = array("{fullName}" => $_POST["full-name"], "{addr1}" => $_POST["address"],
-        "{addr2}" => $_POST["address2"], "{email}" => $_POST["email"], "{message}" => $_POST["message"]);
-    $templateString =
-        "\n Name: {fullName}\n Adresse: {addr1}\n Plz + Wohnort: {addr2}\nE-Mail: {email}\n\nNachricht\n {message}";
-    $subject = strtr("Registrierung von {fullName}", $transformArray);
-    Mailer::configureMail()->sendMail($subject, strtr($templateString, $transformArray), $_POST["email"]);
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$e}";
+$transformArray = array(
+    "{fullName}" => $_POST["full-name"], "{addr1}" => $_POST["address"],
+    "{addr2}" => $_POST["address2"], "{email}" => $_POST["email"], "{message}" => $_POST["message"]
+);
+$templateString =
+    "\n Name: {fullName}\n Adresse: {addr1}\n Plz + Wohnort: {addr2}\nE-Mail: {email}\n\nNachricht\n {message}";
+$subject = strtr("Registrierung von {fullName}", $transformArray);
+$mail = MailConfigurator::configureMail($subject, strtr($templateString, $transformArray), $_POST["email"]);
+
+$success = $mail->send();
+if (!$success) {
+    // TODO: Logging
+    // echo "Message could not be sent. Mailer Error: {$e}";
+    http_response_code(500);
 }
-header('Location: https://neu.brettspiel-zofingen.ch');
+http_response_code(204);
 die();
