@@ -3,7 +3,6 @@
 ### Required tools
 - docker
 - docker-compose
-- running Linux environment
 
 ### Run the application locally
 First, prepare the `.env` file by copying and renaming the `.env.example` file. To run the website in a local environment, simply run `docker-compose up -d`. This will set up a local PHP server and the SMTP mock server to check the mails.
