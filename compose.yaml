@@ -6,12 +6,12 @@ services:
       - "3000:80"
   server:
     build: .
-    # working_dir: /code
     command: php -S 0.0.0.0:80 -t /code/app
     ports:
       - "80:80"
     volumes:
-      - ./app/:/code/app
-      - vendor:/code/app/vendor
+      - ./app/:/code/app        # For the code
+      - ./dist:/code/dist       # For building the release
+      - vendor:/code/app/vendor # To have correctly built vendor dependencies
 volumes:
   vendor:

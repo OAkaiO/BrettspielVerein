@@ -1,3 +1,4 @@
 app/mailPw.php
 app/vendor
 **/.env
+dist/**.tar
