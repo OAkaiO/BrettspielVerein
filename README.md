@@ -5,11 +5,11 @@
 - docker-compose
 
 ### Run the application locally
-First, prepare the `.env` file by copying and renaming the `.env.example` file. To run the website in a local environment, simply run `docker-compose up -d`. This will set up a local PHP server and the SMTP mock server to check the mails.
+First, prepare the `.env` file by copying and renaming the `.env.example` file. To run the website in a local environment, simply run `docker-compose up -d`. This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. 
 
-The website will be available on 'localhost:80' and the mail server GUI is available on 'localhost:3000'.
+The website will be available on 'localhost:80' and the mail server GUI is available on 'localhost:3000'. The DB can be connected to with any data base viewer under port 3306 with user `root` and password `example`.
 
-## Release the webiste
+## Release the website
 ### Build the release
 To build the release, run the environment locally as described above. Then, run `docker exec brettspielverein_server_1 tar -cf dist/app.tar app/` to bundle the application up.
 

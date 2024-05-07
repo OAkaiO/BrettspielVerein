@@ -5,7 +5,7 @@ services:
       - "55555:25"
       - "3000:80"
   server:
-    build: .
+    build: ./docker/server
     command: php -S 0.0.0.0:80 -t /code/app
     ports:
       - "80:80"
@@ -19,6 +19,7 @@ services:
     ports: 
       - "3306:3306"
     environment:
+      MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - db-volume:/var/lib/mysql
