@@ -5,9 +5,12 @@
 - docker-compose
 
 ### Run the application locally
-First, prepare the `.env` file by copying and renaming the `.env.example` file. To run the website in a local environment, simply run `docker-compose up -d`. This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. 
+First, prepare the `.env` file by copying and renaming the `.env.example` file. Then build the server image by running the `build.sh` in `./docker/server` (This needs to be repeated whenever new PHP dependencies are added to composer.json). Then, to run the website in a local environment, simply run `docker-compose up -d` from within the projects root folder (the one containing folders `app`, `db`, etc.). This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. 
 
 The website will be available on 'localhost:80' and the mail server GUI is available on 'localhost:3000'. The DB can be connected to with any data base viewer under port 3306 with user `root` and password `example`.
+
+### Running liquibase
+[Liquibase](https://docs.liquibase.com/) is used to handle database updates. To work with it
 
 ## Release the website
 ### Build the release

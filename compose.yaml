@@ -4,6 +4,8 @@ services:
     ports:
       - "55555:25"
       - "3000:80"
+    networks:
+      - bvz_network
   server:
     build: ./docker/server
     command: php -S 0.0.0.0:80 -t /code/app
@@ -13,6 +15,8 @@ services:
       - ./app/:/code/app        # For the code
       - ./dist:/code/dist       # For building the release
       - vendor:/code/app/vendor # To have correctly built vendor dependencies
+    networks:
+      - bvz_network
   db:
     image: mysql:5.7
     restart: always
@@ -23,6 +27,11 @@ services:
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - db-volume:/var/lib/mysql
+    networks:
+      - bvz_network
 volumes:
   db-volume:
   vendor:
+networks:
+  bvz_network:
+    driver: bridge
