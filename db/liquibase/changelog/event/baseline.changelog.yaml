@@ -1,0 +1,69 @@
+databaseChangeLog:
+- changeSet:
+    id: "event-0"
+    author: schaerl
+    comment: Baseline for Events
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: id
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: event_type
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+            name: date
+            type: date
+        - column:
+            constraints:
+              nullable: false
+            name: start_time
+            type: time
+        - column:
+            constraints:
+              nullable: false
+            name: location
+            type: VARCHAR(128)
+        tableName: event
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: id
+            type: INT
+        - column:
+            constraints:
+              nullable: false
+              unique: true
+            name: name
+            type: VARCHAR(64)
+        - column:
+            constraints:
+              nullable: false
+            name: price
+            type: INT
+        tableName: event_type
+    - addForeignKeyConstraint:
+        baseColumnNames: event_type
+        baseTableName: event
+        constraintName: event_type_fk
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: RESTRICT
+        onUpdate: RESTRICT
+        referencedColumnNames: id
+        referencedTableName: event_type
+        validate: true
+

@@ -1,0 +1,165 @@
+databaseChangeLog:
+- changeSet:
+    id: 'event-data-0'
+    author: schaerl
+    comment: Baseline data for event_type
+    changes:
+    -  insert:
+        tableName:  event_type
+        columns:
+        -  column:
+            name:  name
+            value:  'Brettspielabend im Spittelhof'
+        -  column:
+            name: price
+            value:  5
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-04-06'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-04-26'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-05-31'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-06-28'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-07-26'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-08-30'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-09-27'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-10-25'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-11-29'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Brettspielabend im Spittelhof')"
+        -  column:
+            name: date
+            value:  '2024-12-27'
+        -  column:
+            name: start_time
+            value:  '19:30:00'
+        - column:
+            name: location
+            value: 'Strengelbacherstrasse 29, 4800 Zofingen'
