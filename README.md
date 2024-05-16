@@ -10,7 +10,7 @@ First, prepare the `.env` file by copying and renaming the `.env.example` file. 
 The website will be available on 'localhost:80' and the mail server GUI is available on 'localhost:3000'. The DB can be connected to with any data base viewer under port 3306 with user `root` and password `example`.
 
 ### Running liquibase
-[Liquibase](https://docs.liquibase.com/) is used to handle database updates. To work with it
+[Liquibase](https://docs.liquibase.com/) is used to handle database updates. To work with it, first build the docker image with the build script in `docker\liquibase`. Thne, use the provided scripts in `db/liquibase`. `runLiquibaseDev.sh` runs against the local DB and is configured completely in the `liquibase.dev.properties`. To run against the PROD DB, use `runLiquibaseProd.sh`. It expects a `liquibase.prod.properties`. Copy and rename the template file and fill it in with the correct values. It is possible to also add the password, but it's recommended to leave that away so you don't accidentally run the script (as you will have to actively include the password in the script call). To connect sucessfully, you also need to add your host to the Remote DB configuration on cPanel (get it from myip.com).
 
 ## Release the website
 ### Build the release

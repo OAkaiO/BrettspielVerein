@@ -1,0 +1,2 @@
+url: jdbc:mysql://<url>:3306/<user_prefix>_bv_zofingen
+username: <user>
