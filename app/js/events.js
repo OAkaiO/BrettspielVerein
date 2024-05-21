@@ -1,10 +1,12 @@
-function buildAndAppendEventBox(eventInfo, idPostfix) {
+function buildAndAppendEventBox(eventInfo) {
 
-    const dateDay = eventInfo.day;
-    const dateMonth = eventInfo.month;
+    const date = new Date(eventInfo.date);
+    const dateDay = date.getDate();
+    const dateMonth = date.toLocaleString('default', { month: 'short' });
+    const dateYear = date.getFullYear();
     const name = eventInfo.name;
     const location = eventInfo.location;
-    const time = eventInfo.time;
+    const time = eventInfo.start_time.substring(0, 5);
     const price = eventInfo.price;
 
     const template = document.querySelector("#eventTemplate");
@@ -12,27 +14,27 @@ function buildAndAppendEventBox(eventInfo, idPostfix) {
 
     const dayField = clone.querySelector("#t_event_day");
     dayField.textContent = dateDay;
-    dayField.id = `event_day_${idPostfix}`;
+    dayField.id = `event_day_${eventInfo}`;
 
     const monthField = clone.querySelector("#t_event_month");
-    monthField.textContent = dateMonth;
-    monthField.id = `event_month_${idPostfix}`;
+    monthField.textContent = `${dateMonth} ${dateYear}`;
+    monthField.id = `event_month_${eventInfo}`;
 
     const nameField = clone.querySelector("#t_event_name");
     nameField.textContent = name;
-    nameField.id = `event_day_${idPostfix}`;
+    nameField.id = `event_day_${eventInfo}`;
 
     const locationField = clone.querySelector("#t_event_location");
     locationField.textContent = location;
-    locationField.id = `event_location_${idPostfix}`;
+    locationField.id = `event_location_${eventInfo}`;
 
     const timeField = clone.querySelector("#t_event_time");
     timeField.textContent = time;
-    timeField.id = `event_time_${idPostfix}`;
+    timeField.id = `event_time_${eventInfo}`;
 
     const prcieField = clone.querySelector("#t_event_price");
-    prcieField.textContent = price;
-    prcieField.id = `event_prcie_${idPostfix}`;
+    prcieField.textContent = `${price}.-`;
+    prcieField.id = `event_prcie_${eventInfo}`;
 
     const events = document.querySelector("#events_container");
 
@@ -40,20 +42,9 @@ function buildAndAppendEventBox(eventInfo, idPostfix) {
 }
 
 function getEvents() {
-    const currentEpoch = Math.floor(Date.now() / 1000)
     $.get("events.php").done(data => {
-        let builtEntries = 0;
         for (const month of data) {
-            if (currentEpoch > month.epoch) {
-                // skip past events
-                continue;
-            } else {
-                buildAndAppendEventBox(month, builtEntries)
-                builtEntries++
-            }
-            if (builtEntries > 2) {
-                break
-            }
+            buildAndAppendEventBox(month);
         }
     }).fail("Something went wrong when fetching the events data!");
 }
