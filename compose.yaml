@@ -13,8 +13,6 @@ services:
       - "80:80"
     volumes:
       - ./app/:/code/app              # For the code
-      - ./dist:/code/dist             # For building the release
-      - ./app/vendor:/code/app/vendor # To have correctly built vendor dependencies
     networks:
       - bvz_network
   db:
@@ -31,7 +29,6 @@ services:
       - bvz_network
 volumes:
   db-volume:
-  vendor:
 networks:
   bvz_network:
     driver: bridge

@@ -3,9 +3,10 @@
 ### Required tools
 - docker
 - docker-compose
+- php composer (assumed to be available from CLI as `composer`)
 
 ### Run the application locally
-First, prepare the `.env` file by copying and renaming the `.env.example` file. Then build the server image by running the `build.sh` in `./docker/server` (This needs to be repeated whenever new PHP dependencies are added to composer.json). Then, to run the website in a local environment, simply run `docker-compose up -d` from within the projects root folder (the one containing folders `app`, `db`, etc.). This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. 
+First, prepare the `.env` file by copying and renaming the `.env.example` file. To build all the dependencies, run php composer inside the app folder (`composer install`). Then, to run the website in a local environment, simply run `docker-compose up -d` from within the projects root folder (the one containing folders `app`, `db`, etc.). This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. The DB will be empty on first creation, to fill it follow the section [Running Liquibase](#Running-Liquibase).
 
 The website will be available on 'localhost:80' and the mail server GUI is available on 'localhost:3000'. The DB can be connected to with any data base viewer under port 3306 with user `root` and password `example`.
 
@@ -14,9 +15,9 @@ The website will be available on 'localhost:80' and the mail server GUI is avail
 
 ## Release the website
 ### Build the release
-To build the release, run the environment locally as described above. Then, run `docker exec brettspielverein_server_1 tar -cf dist/app.tar app/` to bundle the application up.
+To build the release, simply run the `buildDist.sh` script in the root folder. This will update the dependencies as required and zip everything up into a zip in the `dist` directory.
 
 ### Push the release to the host
 **Make sure to not delete the .env file during the installation process!**
 
-To "install" the website on the host, simply upload the created zip, and unzip it into the folder to which the URL is mapped. Then, create a `.env` file in the newly created folder based on the `.env.example` file, and fill in the appropriate values.
+To "install" the website on the host, simply upload the created zip, and unzip it into the folder to which the URL is mapped. Then, create or update an existing `.env` file in the newly created folder based on the `.env.example` file, and fill in the appropriate values.
