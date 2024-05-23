@@ -17,6 +17,7 @@ class EventRepository
             ->from('event AS e')
             ->innerJoin('event_type AS et', 'e.event_type = et.id')
             ->where('e.date >= :current_date')
+            ->orderBy(['e.date ASC'])
             ->bindValue('current_date', date('Y-m-d'))
             ->limit(3);
 
