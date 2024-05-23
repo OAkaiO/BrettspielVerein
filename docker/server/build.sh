@@ -1,1 +1,0 @@
-docker build ../.. -t bvz/server:latest -f ./Dockerfile

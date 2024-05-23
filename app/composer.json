@@ -1,7 +1,7 @@
 {
-    "name": "bvz/bvz",
+  "name": "bvz/bvz",
   "config": {
-    "vendor-dir": "./app/vendor"
+    "vendor-dir": "./vendor"
   },
   "require": {
     "vlucas/phpdotenv": "^5.5",
@@ -10,6 +10,6 @@
     "aura/sqlquery": "^3.0"
   },
   "autoload": {
-    "psr-4": {"BVZ\\" : "app/"}
+    "psr-4": {"BVZ\\" : "."}
   }
 }
