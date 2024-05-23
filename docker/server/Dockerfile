@@ -3,8 +3,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get update
 RUN apt-get install git-all -y
 RUN apt-get install zip -y
-
-WORKDIR /code
-COPY ../../composer.*  ./
-RUN composer install
-RUN composer dump-autoload
+RUN docker-php-ext-install pdo pdo_mysql

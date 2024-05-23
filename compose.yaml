@@ -12,9 +12,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./app/:/code/app        # For the code
-      - ./dist:/code/dist       # For building the release
-      - vendor:/code/app/vendor # To have correctly built vendor dependencies
+      - ./app/:/code/app              # For the code
+      - ./dist:/code/dist             # For building the release
+      - ./app/vendor:/code/app/vendor # To have correctly built vendor dependencies
     networks:
       - bvz_network
   db:

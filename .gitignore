@@ -2,3 +2,4 @@ app/mailPw.php
 app/vendor
 **/.env
 dist/**.tar
+**/liquibase.prod.properties
