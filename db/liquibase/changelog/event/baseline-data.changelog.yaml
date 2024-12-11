@@ -192,3 +192,30 @@ databaseChangeLog:
         - column:
             name: location
             value: 'Altstadt, 4800 Zofingen'
+- changeSet:
+    id: 'event-data-2'
+    author: schaerl
+    comment: Weihnachtsgruss
+    changes:
+    -  insert:
+        tableName: event_type
+        columns:
+        -  column:
+            name:  name
+            value:  'KEIN Brettspielabend! Frohe Festtage :)'
+        -  column:
+            name: price
+            value:  0
+    -  update:
+        tableName: event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'KEIN Brettspielabend! Frohe Festtage :)')"
+        -  column:
+            name: start_time
+            value:  '00:00:00'
+        - column:
+            name: location
+            value: '-'
+        where: date='2024-12-27'
