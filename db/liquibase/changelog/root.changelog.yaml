@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: event/baseline-data.changelog.yaml
       relativeToChangelogFile: true
+  - include:
+      file: event/baseline-2025.changelog.yaml
+      relativeToChangelogFile: true
