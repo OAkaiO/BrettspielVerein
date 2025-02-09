@@ -1,5 +1,5 @@
 <template>
-   <PageLayout title="dubbeli Page">
+  <PageLayout title="dubbeli Page">
     <div>Friiido, dasch en film</div>
-   </PageLayout>
+  </PageLayout>
 </template>

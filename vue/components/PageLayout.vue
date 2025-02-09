@@ -8,20 +8,28 @@ defineProps<{
   <v-app>
     <v-app-bar :elevation="0">
       <template #prepend>
-        <v-app-bar-nav-icon
-          ><img class="h-100 w-100" src="public/logoNoBG.png"
-        /></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon to="/" flat>
+            <img class="h-100 w-100" src="public/logoNoBG.png" />
+        </v-app-bar-nav-icon>
       </template>
 
-      <v-app-bar-title>Brettspielverein Zofingen</v-app-bar-title>
+      <v-app-bar-title>
+        <span class="navbar-brand-text my-auto">
+          Brettspielverein
+          <small>Zofingen</small>
+        </span>
+      </v-app-bar-title>
 
       <template #append>
         <v-btn icon="mdi-heart"></v-btn>
         <v-btn icon="mdi-magnify"></v-btn>
         <v-btn icon="mdi-dots-vertical"></v-btn>
       </template>
+      <template #extension>
+        <!-- This is just required to have the title bar be a bit thicker-->
+      </template>
     </v-app-bar>
-    <v-main class="ma-4">
+    <v-main>
       <v-container>
         <h1>{{ title }}</h1>
         <slot></slot>
@@ -36,3 +44,18 @@ defineProps<{
     </v-footer>
   </v-app>
 </template>
+
+<style>
+.navbar-brand-text {
+  line-height: normal;
+  position: relative;
+  bottom: 5px;
+}
+
+.navbar-brand-text small {
+  display: block;
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+</style>
