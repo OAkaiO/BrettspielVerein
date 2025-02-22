@@ -1,5 +1,52 @@
 <template>
-  <div>
-    <NuxtPage/>
-  </div>
+  <v-app>
+    <v-app-bar :elevation="0" color="success">
+      <template #prepend>
+        <v-app-bar-nav-icon to="/" >
+          <img class="h-100 w-100" src="public/logoNoBG.png" />
+        </v-app-bar-nav-icon>
+      </template>
+
+      <VAppBarTitle>
+        <span class="navbar-brand-text my-auto">
+          Brettspielverein
+          <small>Zofingen</small>
+        </span>
+      </VAppBarTitle>
+
+      <template #append>
+        <slot name="titlebar"></slot>
+      </template>
+      <template #extension>
+        <!-- This is just required to have the title bar be a bit thicker-->
+      </template>
+    </v-app-bar>
+    <v-container>
+      <v-main>
+        <NuxtPage></NuxtPage>
+      </v-main>
+    </v-container>
+    <v-footer class="bg-error">
+      <v-row justify="center" no-gutters>
+        <v-col class="text-center mt-4" cols="12">
+          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        </v-col>
+      </v-row>
+    </v-footer>
+  </v-app>
 </template>
+
+<style>
+.navbar-brand-text {
+  line-height: normal;
+  position: relative;
+  bottom: 5px;
+}
+
+.navbar-brand-text small {
+  display: block;
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+</style>
