@@ -1,3 +1,6 @@
+<script setup lang="ts">
+const theme = useTheme();
+</script>
 <template>
   <v-app>
     <v-app-bar :elevation="0" color="header">
@@ -21,6 +24,10 @@
     <v-main>
       <NuxtPage></NuxtPage>
     </v-main>
+    <WaveVariant1
+      lower
+      :color="theme.current.value.colors.footer"
+    ></WaveVariant1>
     <v-footer class="bg-footer">
       <v-row justify="center" no-gutters>
         <v-col class="text-center mt-4" cols="12">
