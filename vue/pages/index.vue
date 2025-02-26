@@ -1,7 +1,4 @@
 <template>
-  <p>
-    <NuxtLink to="tryhard">Try this!</NuxtLink>
-  </p>
   <ImageContainer :variant="1">
     <p>
       ptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
