@@ -53,7 +53,7 @@ const myCustomLightTheme : ThemeDefinition = {
     surfaceContainerHigh: "#F0E7D9",
     surfaceContainerHighest: "#EAE1D4",
     header: "#3D405B",
-    lower: "#81B29A"
+    footer: "#81B29A"
   }
 };
 

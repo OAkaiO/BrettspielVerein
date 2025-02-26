@@ -21,7 +21,7 @@
     <v-main>
       <NuxtPage></NuxtPage>
     </v-main>
-    <v-footer class="bg-lower">
+    <v-footer class="bg-footer">
       <v-row justify="center" no-gutters>
         <v-col class="text-center mt-4" cols="12">
           {{ new Date().getFullYear() }} — <strong>Vuetify</strong>

@@ -2,17 +2,19 @@
 const props = defineProps<{
   variant?: Number;
 }>();
+
+const theme = useTheme();
 </script>
 
 <template>
   <div :class="[variant === 1 ? 'img1' : 'img2']">
-    <WaveVariant1 v-if="variant === 1"></WaveVariant1>
-    <WaveVariant2 v-else-if="variant === 2"></WaveVariant2>
+    <WaveVariant1 v-if="variant === 1" :color="theme.current.value.colors.header"></WaveVariant1>
+    <WaveVariant2 v-else-if="variant === 2" :color="theme.current.value.colors.background"></WaveVariant2>
     <v-container>
       <slot></slot>
     </v-container>
-    <WaveVariant1 v-if="variant === 1" lower></WaveVariant1>
-    <WaveVariant2 v-else-if="variant === 2" lower></WaveVariant2>
+    <WaveVariant1 v-if="variant === 1" lower :color="theme.current.value.colors.background"></WaveVariant1>
+    <WaveVariant2 v-else-if="variant === 2" lower :color="theme.current.value.colors.background"></WaveVariant2>
   </div>
 </template>
 <style>
