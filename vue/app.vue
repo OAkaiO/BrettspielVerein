@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar :elevation="0" color="success">
       <template #prepend>
-        <v-app-bar-nav-icon to="/" >
+        <v-app-bar-nav-icon to="/">
           <img class="h-100 w-100" src="public/logoNoBG.png" />
         </v-app-bar-nav-icon>
       </template>
@@ -21,11 +21,9 @@
         <!-- This is just required to have the title bar be a bit thicker-->
       </template>
     </v-app-bar>
-    <v-container>
-      <v-main>
-        <NuxtPage></NuxtPage>
-      </v-main>
-    </v-container>
+    <v-main class="bg-primary">
+      <NuxtPage></NuxtPage>
+    </v-main>
     <v-footer class="bg-error">
       <v-row justify="center" no-gutters>
         <v-col class="text-center mt-4" cols="12">
