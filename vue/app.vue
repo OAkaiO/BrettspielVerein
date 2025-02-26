@@ -17,9 +17,6 @@
       <template #append>
         <slot name="titlebar"></slot>
       </template>
-      <template #extension>
-        <!-- This is just required to have the title bar be a bit thicker-->
-      </template>
     </v-app-bar>
     <v-main>
       <NuxtPage></NuxtPage>
