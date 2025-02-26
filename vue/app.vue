@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar :elevation="0" color="success">
+    <v-app-bar :elevation="0" color="header">
       <template #prepend>
         <v-app-bar-nav-icon to="/">
           <img class="h-100 w-100" src="public/logoNoBG.png" />
@@ -21,10 +21,10 @@
         <!-- This is just required to have the title bar be a bit thicker-->
       </template>
     </v-app-bar>
-    <v-main class="bg-primary">
+    <v-main>
       <NuxtPage></NuxtPage>
     </v-main>
-    <v-footer class="bg-error">
+    <v-footer class="bg-lower">
       <v-row justify="center" no-gutters>
         <v-col class="text-center mt-4" cols="12">
           {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
@@ -34,7 +34,7 @@
   </v-app>
 </template>
 
-<style>
+<style scoped>
 .navbar-brand-text {
   line-height: normal;
   position: relative;
