@@ -3,7 +3,7 @@ import { type ThemeDefinition } from 'vuetify'
 const myCustomLightTheme : ThemeDefinition = {
   dark: false,
   colors: {
-    primary: "#745B0C",
+    primary: "#F2CC8F",
     surfaceTint: "#745B0C",
     onPrimary: "#FFFFFF",
     primaryContainer: "#FFDF91",
@@ -72,6 +72,11 @@ export default defineNuxtConfig({
   },
   vuetify: {
     vuetifyOptions: {
+      defaults: {
+        global: {
+          ripple: false,
+        }
+      },
       theme: {
         defaultTheme: "myCustomLightTheme",
         themes: {

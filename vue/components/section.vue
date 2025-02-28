@@ -13,7 +13,7 @@ const props = defineProps<{
   </div>
 </template>
 
-<style>
+<style scoped>
 h1 {
   text-align: center;
 }
