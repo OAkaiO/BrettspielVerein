@@ -24,16 +24,16 @@ const theme = useTheme();
     <v-main>
       <NuxtPage></NuxtPage>
     </v-main>
-    <WaveVariant1
-      lower
-      :color="theme.current.value.colors.footer"
-    ></WaveVariant1>
-    <v-footer class="bg-footer">
-      <v-row justify="center" no-gutters>
-        <v-col class="text-center mt-4" cols="12">
-          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-        </v-col>
-      </v-row>
+    <v-footer class="pa-0 footer">
+      <v-container class="footer-content">
+        <div>{{ new Date().getFullYear() }} — <strong>Vuetify</strong></div>
+      </v-container>
+      <WaveVariant1
+        lower
+        :color="theme.current.value.colors.footer"
+        class="w-100"
+        style="position: absolute; bottom: 0px"
+      ></WaveVariant1>
     </v-footer>
   </v-app>
 </template>
@@ -50,5 +50,15 @@ const theme = useTheme();
   font-size: 10px;
   line-height: 1;
   text-transform: uppercase;
+}
+
+.footer {
+  height: 100%;
+  min-height: 240px;
+  display: relative;
+}
+
+.footer-content {
+  z-index: 1;
 }
 </style>

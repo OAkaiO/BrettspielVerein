@@ -7,7 +7,13 @@ const { lower = false } = defineProps<{
 
 <template>
   <div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 230" v-if="lower">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 229"
+      v-if="lower"
+      preserveAspectRatio="none"
+      style="height: 230px; width: 100%"
+    >
       <path
         :fill="color"
         fill-opacity="1"
