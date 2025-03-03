@@ -4,22 +4,21 @@ const theme = useTheme();
 <template>
   <v-app>
     <v-app-bar :elevation="0" color="header">
-      <template #prepend>
-        <v-app-bar-nav-icon to="/">
-          <img class="h-100 w-100" src="public/logoNoBG.png" />
-        </v-app-bar-nav-icon>
-      </template>
-
-      <VAppBarTitle>
-        <span class="navbar-brand-text my-auto">
-          Brettspielverein
-          <small>Zofingen</small>
-        </span>
-      </VAppBarTitle>
-
-      <template #append>
-        <slot name="titlebar"></slot>
-      </template>
+      <VContainer>
+        <VRow>
+          <VCol class="d-flex align-center justify-start">
+            <VAppBarNavIcon to="/" class="invert">
+              <img class="h-100 w-100" src="public/logoNoBG.png" />
+            </VAppBarNavIcon>
+            <VAppBarTitle class="ml-2">
+              <span class="navbar-brand-text">
+                Brettspielverein
+                <small>Zofingen</small>
+              </span>
+            </VAppBarTitle>
+          </VCol>
+        </VRow>
+      </VContainer>
     </v-app-bar>
     <v-main>
       <NuxtPage></NuxtPage>
@@ -43,6 +42,7 @@ const theme = useTheme();
   line-height: normal;
   position: relative;
   bottom: 5px;
+  font-weight: bold;
 }
 
 .navbar-brand-text small {
@@ -60,5 +60,9 @@ const theme = useTheme();
 
 .footer-content {
   z-index: 1;
+}
+
+.invert {
+  filter: brightness(0) invert(1);
 }
 </style>

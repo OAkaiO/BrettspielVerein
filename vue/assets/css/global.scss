@@ -1,8 +1,8 @@
-@use 'sass:meta';
+@use "sass:meta";
 
-$my-body-font-family: 'DM Sans', sans-serif !default;
+$my-body-font-family: "DM Sans", sans-serif !default;
 
-@use 'vuetify' with (
+@use "vuetify" with (
     $body-font-family: meta.inspect($my-body-font-family)
 );
 

@@ -54,6 +54,9 @@ const myCustomLightTheme : ThemeDefinition = {
     surfaceContainerHighest: "#EAE1D4",
     header: "#3D405B",
     footer: "#81B29A"
+  },
+  variables: {
+    'activated-opacity': 0
   }
 };
 
