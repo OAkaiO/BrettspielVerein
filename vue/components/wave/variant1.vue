@@ -20,7 +20,7 @@ const { lower = false } = defineProps<{
         d="M0 134 34.3 102C68.6 70 137 6 206 .7 274.3-5 343 49 411 54 480 59 549 17 617 32.7 685.7 49 754 123 823 150 891.4 177 960 155 1029 134 1097.1 113 1166 91 1234 70 1302.9 49 1371 27 1406 16.7L1440 6 1440 230 0 230Z"
       ></path>
     </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" v-else>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none" style="height:320px; width: 100%;" v-else>
       <path
         :fill="color"
         fill-opacity="1"
