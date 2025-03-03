@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const activeIndex = ref(0);
 
-const { xs } = useDisplay();
-
 function updateActiveIndex(event: any) {
   activeIndex.value = event;
 }
@@ -14,36 +12,32 @@ const isFirstElementActive = computed(() => {
 </script>
 
 <template>
-  <v-container>
-    <v-row>
-      <v-col :cols="xs ? 12 : 6">
-        <h1 class="text-white">Willkommen beim Brettspielverein Zofingen</h1>
-        <h2 class="text-white">
-          <span>Brettspiele</span>
-          <v-carousel
-            cycle
-            continuous
-            :direction="'vertical'"
-            hide-delimiter-background
-            hide-delimiters
-            :interval="4500"
-            :show-arrows="false"
-            :height="60"
-            :reverse="isFirstElementActive"
-            @update:model-value="updateActiveIndex"
-          >
-            <div class="title-color-wrapper">
-              <v-carousel-item>machen Spass</v-carousel-item>
-              <v-carousel-item>verbinden uns</v-carousel-item>
-            </div>
-          </v-carousel>
-        </h2>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <h1>Willkommen beim Brettspielverein Zofingen</h1>
+    <h2>
+      <span>Brettspiele</span>
+      <v-carousel
+        cycle
+        continuous
+        :direction="'vertical'"
+        hide-delimiter-background
+        hide-delimiters
+        :interval="4500"
+        :show-arrows="false"
+        :height="31"
+        :reverse="isFirstElementActive"
+        @update:model-value="updateActiveIndex"
+      >
+        <div class="title-color-wrapper">
+          <v-carousel-item>machen Spass</v-carousel-item>
+          <v-carousel-item>verbinden uns</v-carousel-item>
+        </div>
+      </v-carousel>
+    </h2>
+  </div>
 </template>
 <style scoped>
 .title-color-wrapper {
-  color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-primary-darken-1));
 }
 </style>

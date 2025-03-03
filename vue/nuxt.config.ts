@@ -93,6 +93,11 @@ export default defineNuxtConfig({
         themes: {
           myCustomLightTheme
         },
+        variations: {
+          colors: ['primary', 'secondary'],
+          lighten: 0,
+          darken: 1
+        }
       },
     },
   },
