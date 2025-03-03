@@ -59,8 +59,10 @@ const myCustomLightTheme : ThemeDefinition = {
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
-  css: ["./assets/main.css"],
-  devtools: { enabled: true },
+  css: ["./assets/css/global.scss"],
+  devtools: {
+    enabled: true
+  },
   experimental: {
     payloadExtraction: false,
   },
@@ -71,6 +73,12 @@ export default defineNuxtConfig({
     },
   },
   vuetify: {
+    moduleOptions:{
+      disableVuetifyStyles: true,
+      styles: {
+        configFile: 'assets/css/components.scss'
+      }
+    },
     vuetifyOptions: {
       defaults: {
         global: {
