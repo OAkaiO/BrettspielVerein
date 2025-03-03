@@ -34,6 +34,17 @@
     </p>
   </ImageContainer>
   <v-container>
+    <Section title="Vereinsmitgliedschaft">
+      <VRow>
+        <VCol>
+          <h2>Mitglieschaftsvorteile</h2>
+          <MembershipTable></MembershipTable>
+        </VCol>
+        <VCol>
+          <h2>Anmeldung Mitgliedschaft</h2>
+        </VCol>
+      </VRow>
+    </Section>
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
     eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
     voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet

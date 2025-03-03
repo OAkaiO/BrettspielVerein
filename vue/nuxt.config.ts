@@ -8,7 +8,7 @@ const myCustomLightTheme : ThemeDefinition = {
     onPrimary: "#FFFFFF",
     primaryContainer: "#FFDF91",
     onPrimaryContainer: "#594400",
-    secondary: "#6A5D3F",
+    secondary: "#F4F1DE",
     onSecondary: "#FFFFFF",
     secondaryContainer: "#F2E1BB",
     onSecondaryContainer: "#51462A",
