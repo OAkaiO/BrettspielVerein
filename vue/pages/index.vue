@@ -37,11 +37,11 @@
     <Section title="Vereinsmitgliedschaft">
       <VRow>
         <VCol>
-          <h2>Mitglieschaftsvorteile</h2>
+          <h2 class="mb-4">Mitglieschaftsvorteile</h2>
           <MembershipTable></MembershipTable>
         </VCol>
         <VCol>
-          <h2>Anmeldung Mitgliedschaft</h2>
+          <h2 class="mb-4">Anmeldung Mitgliedschaft</h2>
           <SignUpForm></SignUpForm>
         </VCol>
       </VRow>

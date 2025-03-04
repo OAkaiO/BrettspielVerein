@@ -7,7 +7,7 @@ const props = defineProps<{
 <template>
   <div>
       <v-container>
-        <h1>{{ title }}</h1>
+        <h1 class="mb-6">{{ title }}</h1>
         <slot></slot>
       </v-container>
   </div>
