@@ -12,11 +12,11 @@
       <tbody>
         <tr>
           <td>1 Jahr Gratiseintritt</td>
-          <td><VIcon icon="mdi-check" size="small"></VIcon></td>
+          <td><VIcon icon="mdi-check-circle" color="green" size="small"></VIcon></td>
         </tr>
         <tr>
           <td>Verleih der Vereinsspiele</td>
-          <td><VIcon icon="mdi-check" size="small"></VIcon></td>
+          <td><VIcon icon="mdi-check-circle" color="green" size="small"></VIcon></td>
         </tr>
       </tbody>
     </VTable>
