@@ -42,6 +42,7 @@
         </VCol>
         <VCol>
           <h2>Anmeldung Mitgliedschaft</h2>
+          <SignUpForm></SignUpForm>
         </VCol>
       </VRow>
     </Section>

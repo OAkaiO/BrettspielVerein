@@ -16,7 +16,7 @@ const myCustomLightTheme : ThemeDefinition = {
     onTertiary: "#FFFFFF",
     tertiaryContainer: "#C9ECC8",
     onTertiaryContainer: "#304D33",
-    error: "#BA1A1A",
+    error: "#E56666",
     onError: "#FFFFFF",
     errorContainer: "#FFDAD6",
     onErrorContainer: "#93000A",
