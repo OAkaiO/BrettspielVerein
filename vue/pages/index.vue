@@ -24,6 +24,9 @@
       <p>Sei stets informiert über die nächsten Events!</p>
       <NewsletterForm class="mt-4"></NewsletterForm>
     </div>
+    <template #right>
+      <WhatsappCode></WhatsappCode>
+    </template>
   </ImageContainer>
   <v-container>
     <Section title="Vereinsmitgliedschaft">

@@ -5,6 +5,7 @@ const props = defineProps<{
 
 const { xs } = useDisplay();
 
+const slots = useSlots();
 const theme = useTheme();
 </script>
 
@@ -20,9 +21,14 @@ const theme = useTheme();
     ></WaveVariant2>
     <VContainer>
       <VRow>
-        <VCol :cols="xs ? 12 : 6">
+          <VCol :cols="xs ? 12 : 6">
           <VSheet rounded="xl" class="semi-transparent pa-8">
             <slot></slot>
+          </VSheet>
+        </VCol>
+        <VCol :cols="xs ? 12 : 6" v-if="!!slots.right">
+          <VSheet rounded="xl" class="semi-transparent pa-8">
+            <slot name="right"></slot>
           </VSheet>
         </VCol>
       </VRow>
