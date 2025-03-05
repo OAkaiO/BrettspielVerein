@@ -7,7 +7,7 @@
   <img
     class="rounded-xl mt-4"
     style="width: 300px"
-    src="../public/join_QR_code.png"
+    src="../public/join_qr_code.svg"
   />
   <p>
     <a href="https://chat.whatsapp.com/Cex49CsoYXwLd4sSMmCPNU">
