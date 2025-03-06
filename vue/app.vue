@@ -26,7 +26,9 @@ const theme = useTheme();
     <v-footer class="pa-0 footer">
       <v-container class="footer-content">
         <div>{{ new Date().getFullYear() }} — <strong>Vuetify</strong></div>
+        <LogoTextWrapper></LogoTextWrapper>
       </v-container>
+
       <WaveVariant1
         lower
         :color="theme.current.value.colors.footer"
