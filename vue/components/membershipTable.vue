@@ -38,13 +38,11 @@ table {
       background-color: rgb(var(--v-theme-secondary));
     }
   }
-  td {
+  td, th {
     padding: var(--table-padding);
     font-weight: bold;
   }
   th {
-    padding: var(--table-padding);
-    font-weight: bold !important;
     justify-self: center;
   }
 }
