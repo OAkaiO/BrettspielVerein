@@ -13,15 +13,26 @@ const theme = useTheme();
     </v-main>
     <v-footer class="pa-0 footer">
       <v-container class="footer-content">
-        <LogoTextWrapper></LogoTextWrapper>
+        <VRow>
+          <VCol>
+            <LogoTextWrapper></LogoTextWrapper>
+          </VCol>
+          <VCol>
+            <a href="/privacy">Datenschutzerklärung</a>
+          </VCol>
+          <VCol>
+            <VContainer>
+              <VRow class="justify-end">
+                <VBtn class="ma-2" color="header" elevation="0" icon="mdi-instagram"
+                  href="https://www.instagram.com/BrettspielZofingen" target="_blank"></VBtn>
+              </VRow>
+            </VContainer>
+          </VCol>
+        </VRow>
       </v-container>
 
-      <WaveVariant1
-        lower
-        :color="theme.current.value.colors.footer"
-        class="w-100"
-        style="position: absolute; bottom: 0px"
-      ></WaveVariant1>
+      <WaveVariant1 lower :color="theme.current.value.colors.footer" class="w-100"
+        style="position: absolute; bottom: 0px"></WaveVariant1>
     </v-footer>
   </v-app>
 </template>
