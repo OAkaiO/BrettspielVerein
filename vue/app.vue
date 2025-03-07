@@ -5,19 +5,7 @@ const theme = useTheme();
   <v-app>
     <v-app-bar :elevation="0" color="header">
       <VContainer>
-        <VRow>
-          <VCol class="d-flex align-center justify-start">
-            <VAppBarNavIcon to="/" class="invert">
-              <img class="h-100 w-100" src="public/logoNoBG.png" />
-            </VAppBarNavIcon>
-            <VAppBarTitle class="ml-2">
-              <span class="navbar-brand-text">
-                Brettspielverein
-                <small>Zofingen</small>
-              </span>
-            </VAppBarTitle>
-          </VCol>
-        </VRow>
+        <LogoTextWrapper onPrimary></LogoTextWrapper>
       </VContainer>
     </v-app-bar>
     <v-main>
@@ -25,7 +13,6 @@ const theme = useTheme();
     </v-main>
     <v-footer class="pa-0 footer">
       <v-container class="footer-content">
-        <div>{{ new Date().getFullYear() }} — <strong>Vuetify</strong></div>
         <LogoTextWrapper></LogoTextWrapper>
       </v-container>
 
@@ -40,20 +27,6 @@ const theme = useTheme();
 </template>
 
 <style scoped>
-.navbar-brand-text {
-  line-height: normal;
-  position: relative;
-  bottom: 5px;
-  font-weight: bold;
-}
-
-.navbar-brand-text small {
-  display: block;
-  font-size: 10px;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
 .footer {
   height: 100%;
   min-height: 240px;
@@ -62,9 +35,5 @@ const theme = useTheme();
 
 .footer-content {
   z-index: 1;
-}
-
-.invert {
-  filter: brightness(0) invert(1);
 }
 </style>

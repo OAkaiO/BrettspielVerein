@@ -1,10 +1,12 @@
 <script setup lang="ts">
-const { size = 50 } = defineProps<{ size?: number }>();
+const { size = 50, onPrimary = false } = defineProps<{ size?: number; onPrimary?: boolean }>();
+const theme = useTheme();
+const calculatedColor = computed(() => { return onPrimary ? theme.current.value.colors.onPrimary : 'black'; })
 </script>
 <template>
   <a href="/">
     <VRow class="d-inline-flex align-center grow-link">
-      <VCol><img :style="`width: ${size}px`" src="public/logoNoBG.png" /></VCol>
+      <VCol><img :class="{ invert: onPrimary }" :style="`width: ${size}px`" src="public/logoNoBG.png" /></VCol>
       <VCol>
         <span class="navbar-brand-text">
           Brettspielverein
@@ -25,12 +27,13 @@ const { size = 50 } = defineProps<{ size?: number }>();
 }
 
 a {
+
   &,
   &.visited,
   &:hover,
   &:active,
   &:link {
-    color: inherit;
+    color: v-bind(calculatedColor);
   }
 }
 
