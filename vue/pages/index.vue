@@ -288,5 +288,16 @@
     amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
     nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
     diam voluptua.
+    <Section title="Kontakt">
+      <VRow>
+        <VCol>
+          <h2 class="mb-2">Fragen?</h2>
+        </VCol>
+        <VCol>
+          <h2 class="mb-2">Wo spielen wir?</h2>
+          <MapWrapper></MapWrapper>
+        </VCol>
+      </VRow>
+    </Section>
   </v-container>
 </template>
