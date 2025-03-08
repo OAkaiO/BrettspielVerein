@@ -1,12 +1,22 @@
 <script setup lang="ts">
-const { size = 50, onPrimary = false } = defineProps<{ size?: number; onPrimary?: boolean }>();
+const { size = 50, onPrimary = false } = defineProps<{
+  size?: number;
+  onPrimary?: boolean;
+}>();
 const theme = useTheme();
-const calculatedColor = computed(() => { return onPrimary ? theme.current.value.colors.onPrimary : 'black'; })
+const calculatedColor = computed(() => {
+  return onPrimary ? theme.current.value.colors.onPrimary : "black";
+});
 </script>
 <template>
   <a href="/">
     <VRow class="d-inline-flex align-center grow-link">
-      <VCol><img :class="{ invert: onPrimary }" :style="`width: ${size}px`" src="public/logoNoBG.png" /></VCol>
+      <VCol
+        ><img
+          :class="{ invert: onPrimary }"
+          :style="`width: ${size}px; display: inline;`"
+          src="public/logoNoBG.png"
+      /></VCol>
       <VCol>
         <span class="navbar-brand-text">
           Brettspielverein
@@ -27,7 +37,6 @@ const calculatedColor = computed(() => { return onPrimary ? theme.current.value.
 }
 
 a {
-
   &,
   &.visited,
   &:hover,

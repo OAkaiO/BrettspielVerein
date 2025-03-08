@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const theme = useTheme();
+const { xs } = useDisplay();
 </script>
 <template>
   <v-app>
@@ -12,27 +13,41 @@ const theme = useTheme();
       <NuxtPage></NuxtPage>
     </v-main>
     <v-footer class="pa-0 footer">
-      <v-container class="footer-content">
+      <VContainer class="footer-content">
         <VRow>
-          <VCol>
-            <LogoTextWrapper></LogoTextWrapper>
+          <VCol :cols="xs ? 8 : ''">
+            <VContainer>
+              <VRow>
+                <LogoTextWrapper></LogoTextWrapper>
+              </VRow>
+              <VRow>
+                <a href="/privacy">Datenschutzerklärung</a>
+              </VRow>
+            </VContainer>
           </VCol>
-          <VCol>
-            <a href="/privacy">Datenschutzerklärung</a>
-          </VCol>
-          <VCol>
+          <VCol :cols="xs ? 4 : ''">
             <VContainer>
               <VRow class="justify-end">
-                <VBtn class="ma-2" color="header" elevation="0" icon="mdi-instagram"
-                  href="https://www.instagram.com/BrettspielZofingen" target="_blank"></VBtn>
+                <VBtn
+                  class="ma-2"
+                  color="header"
+                  elevation="0"
+                  icon="mdi-instagram"
+                  href="https://www.instagram.com/BrettspielZofingen"
+                  target="_blank"
+                ></VBtn>
               </VRow>
             </VContainer>
           </VCol>
         </VRow>
-      </v-container>
+      </VContainer>
 
-      <WaveVariant1 lower :color="theme.current.value.colors.footer" class="w-100"
-        style="position: absolute; bottom: 0px"></WaveVariant1>
+      <WaveVariant1
+        lower
+        :color="theme.current.value.colors.footer"
+        class="w-100"
+        style="position: absolute; bottom: 0px"
+      ></WaveVariant1>
     </v-footer>
   </v-app>
 </template>
