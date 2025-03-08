@@ -1,6 +1,6 @@
-import { type ThemeDefinition } from 'vuetify'
+import { type ThemeDefinition } from "vuetify";
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const myCustomLightTheme : ThemeDefinition = {
+const myCustomLightTheme: ThemeDefinition = {
   dark: false,
   colors: {
     primary: "#F2CC8F",
@@ -53,51 +53,67 @@ const myCustomLightTheme : ThemeDefinition = {
     surfaceContainerHigh: "#F0E7D9",
     surfaceContainerHighest: "#EAE1D4",
     header: "#3D405B",
-    footer: "#81B29A"
+    footer: "#81B29A",
   },
   variables: {
-    'activated-opacity': 0
-  }
+    "activated-opacity": 0,
+  },
 };
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   css: ["./assets/css/global.scss"],
   devtools: {
-    enabled: true
+    enabled: true,
   },
   experimental: {
     payloadExtraction: false,
   },
-  modules: ["vuetify-nuxt-module"],
+  fonts: {
+    defaults: {
+      weights: [400],
+      styles: ["normal", "italic"],
+      subsets: [
+        "cyrillic-ext",
+        "cyrillic",
+        "greek-ext",
+        "greek",
+        "vietnamese",
+        "latin-ext",
+        "latin",
+      ],
+    },
+    families: [{ name: "DM Sans" }],
+  },
+  modules: ["vuetify-nuxt-module", "@nuxt/fonts"],
   nitro: {
     prerender: {
       ignore: ["/200.html", "/404.html"],
     },
   },
   vuetify: {
-    moduleOptions:{
+    moduleOptions: {
       disableVuetifyStyles: true,
       styles: {
-        configFile: 'assets/css/components.scss'
-      }
+        configFile: "assets/css/components.scss",
+      },
     },
     vuetifyOptions: {
       defaults: {
         global: {
           ripple: false,
-        }
+        },
       },
       theme: {
         defaultTheme: "myCustomLightTheme",
         themes: {
-          myCustomLightTheme
+          myCustomLightTheme,
         },
         variations: {
-          colors: ['primary', 'secondary'],
+          colors: ["primary", "secondary"],
           lighten: 0,
-          darken: 1
-        }
+          darken: 1,
+        },
       },
     },
   },
