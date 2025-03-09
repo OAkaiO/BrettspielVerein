@@ -292,6 +292,7 @@
       <VRow>
         <VCol>
           <h2 class="mb-2">Fragen?</h2>
+          <QuestionForm></QuestionForm>
         </VCol>
         <VCol>
           <h2 class="mb-2">Wo spielen wir?</h2>
