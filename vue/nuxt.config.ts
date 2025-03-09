@@ -85,6 +85,9 @@ export default defineNuxtConfig({
     },
     families: [{ name: "DM Sans" }],
   },
+  imports: {
+    dirs: ['types/*.ts'],
+  },
   modules: ["vuetify-nuxt-module", "@nuxt/fonts"],
   nitro: {
     prerender: {
