@@ -1,13 +1,37 @@
 <script setup lang="ts">
 const upcomingEvents = getEventData();
+
+const sectionUs = useTemplateRef("section_us");
+const sectionMembership = useTemplateRef("section_membership");
+const goTo = useGoTo();
 </script>
 
 <template>
   <ImageContainer :variant="1">
-    <WelcomeBanner></WelcomeBanner>
+    <VContainer>
+      <VRow><WelcomeBanner></WelcomeBanner></VRow>
+      <VRow class="ga-4 mt-6">
+        <VBtn
+          color="primary"
+          elevation="0"
+          variant="flat"
+          rounded="pill"
+          @click="goTo(sectionUs!.$el)"
+          >Über uns
+        </VBtn>
+        <VBtn
+          color="black"
+          elevation="0"
+          variant="text"
+          rounded="pill"
+          @click="goTo(sectionMembership!.$el)"
+          >Werde Mitglied</VBtn
+        >
+      </VRow>
+    </VContainer>
   </ImageContainer>
 
-  <Section :title="'Über uns'">
+  <Section ref="section_us" :title="'Über uns'">
     <div>
       Wir treffen uns 1x im Monat jeweils an einem Freitagabend im Spittelhof
       Zofingen und spielen Brettspiele jeder Art. Von gehobenen Familienspielen,
@@ -33,7 +57,7 @@ const upcomingEvents = getEventData();
     </template>
   </ImageContainer>
   <v-container>
-    <Section title="Vereinsmitgliedschaft">
+    <Section ref="section_membership" title="Vereinsmitgliedschaft">
       <VRow>
         <VCol>
           <h2 class="mb-4">Mitglieschaftsvorteile</h2>
@@ -45,14 +69,14 @@ const upcomingEvents = getEventData();
         </VCol>
       </VRow>
     </Section>
-    <Section title="Die nächsten Veranstaltungen">
+    <Section ref="section_events" title="Die nächsten Veranstaltungen">
       <VRow class="flex-column">
         <VCol v-for="eventData in upcomingEvents">
           <EventCard :data="eventData"> </EventCard>
         </VCol>
       </VRow>
     </Section>
-    <Section title="Kontakt">
+    <Section ref="section_contact" title="Kontakt">
       <VRow>
         <VCol>
           <h2 class="mb-2">Fragen?</h2>

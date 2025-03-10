@@ -22,12 +22,12 @@ const theme = useTheme();
     <VContainer>
       <VRow>
           <VCol :cols="xs ? 12 : 6">
-          <VSheet rounded="xl" class="semi-transparent pa-8">
+          <VSheet rounded="xl" class="semi-transparent pa-4">
             <slot></slot>
           </VSheet>
         </VCol>
         <VCol :cols="xs ? 12 : 6" v-if="!!slots.right">
-          <VSheet rounded="xl" class="semi-transparent pa-8">
+          <VSheet rounded="xl" class="semi-transparent pa-4">
             <slot name="right"></slot>
           </VSheet>
         </VCol>
