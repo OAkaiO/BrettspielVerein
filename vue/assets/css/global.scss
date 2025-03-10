@@ -9,3 +9,11 @@ $my-body-font-family: "DM Sans", sans-serif !default;
 html {
     overflow-y: auto;
 }
+
+.hover-link {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: rgb(var(--v-theme-primary));
+    }
+}
