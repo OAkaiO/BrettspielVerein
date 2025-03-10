@@ -3,7 +3,10 @@ const upcomingEvents = getEventData();
 
 const sectionUs = useTemplateRef("section_us");
 const sectionMembership = useTemplateRef("section_membership");
-const goTo = useGoTo();
+const sections = computed(() => {return [sectionUs.value, sectionMembership.value]})
+defineExpose({sections: sections});
+
+const goTo = useOffsetGoTo();
 </script>
 
 <template>
@@ -16,7 +19,7 @@ const goTo = useGoTo();
           elevation="0"
           variant="flat"
           rounded="pill"
-          @click="goTo(sectionUs!.$el)"
+          @click="goTo(sectionUs?.$el)"
           >Über uns
         </VBtn>
         <VBtn
@@ -24,7 +27,7 @@ const goTo = useGoTo();
           elevation="0"
           variant="text"
           rounded="pill"
-          @click="goTo(sectionMembership!.$el)"
+          @click="goTo(sectionMembership?.$el)"
           >Werde Mitglied</VBtn
         >
       </VRow>
