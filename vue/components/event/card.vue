@@ -6,7 +6,7 @@ const props = defineProps<{ data: EventData }>()
 <template>
     <VCard class="rounded-xl">
         <div class="d-flex flex-wrap">
-            <VChip color="footer" variant="flat" class="ma-4" size="x-large">
+            <VChip color="footer" variant="flat" class="ma-4" size="x-large" style="width: 100px;">
                 {{ data.date }}
             </VChip>
             <VAvatar class="ma-3" rounded="0" size="250">

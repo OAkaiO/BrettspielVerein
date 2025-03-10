@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const upcomingEvents = getEventData();
+</script>
+
 <template>
   <ImageContainer :variant="1">
     <WelcomeBanner></WelcomeBanner>
@@ -42,15 +46,11 @@
       </VRow>
     </Section>
     <Section title="Die nächsten Veranstaltungen">
-      <EventCard
-        :data="{
-          title: 'Brettspielabend im Spittelhof',
-          date: '05 April',
-          time: '19:00',
-          location: 'Spittelhof',
-          price: '5.-',
-        }"
-      ></EventCard>
+      <VRow class="flex-column">
+        <VCol v-for="eventData in upcomingEvents">
+          <EventCard :data="eventData"> </EventCard>
+        </VCol>
+      </VRow>
     </Section>
     <Section title="Kontakt">
       <VRow>

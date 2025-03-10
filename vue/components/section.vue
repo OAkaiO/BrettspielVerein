@@ -5,12 +5,10 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div>
-      <v-container>
-        <h1 class="mb-6">{{ title }}</h1>
-        <slot></slot>
-      </v-container>
-  </div>
+  <VContainer>
+    <h1 class="mb-6">{{ title }}</h1>
+    <slot></slot>
+  </VContainer>
 </template>
 
 <style scoped>
