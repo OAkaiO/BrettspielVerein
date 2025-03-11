@@ -88,7 +88,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['types/*.ts'],
   },
-  modules: ["vuetify-nuxt-module", "@nuxt/fonts"],
+  modules: ["vuetify-nuxt-module", "@nuxt/fonts", "@vueuse/nuxt"],
   nitro: {
     prerender: {
       ignore: ["/200.html", "/404.html"],
