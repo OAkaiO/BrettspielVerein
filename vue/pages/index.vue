@@ -5,12 +5,12 @@ const sectionUs = useTemplateRef("section_us");
 const sectionMembership = useTemplateRef("section_membership");
 const sectionEvents = useTemplateRef("section_events");
 const sectionContact = useTemplateRef("section_contact");
-const sections = computed(() => {
+const sections : ComputedRef<Array<HeaderSpec>>  = computed(() => {
   return [
-    sectionUs.value,
-    sectionMembership.value,
-    sectionEvents.value,
-    sectionContact.value,
+    { displayName: "Über uns", ref: sectionUs.value },
+    { displayName: "Mitgliedschaft", ref: sectionMembership.value },
+    { displayName: "Events", ref: sectionEvents.value },
+    { displayName: "Kontakt", ref: sectionContact.value },
   ];
 });
 defineExpose({ sections: sections });
@@ -28,7 +28,7 @@ const goTo = useOffsetGoTo();
           elevation="0"
           variant="flat"
           rounded="pill"
-          @click="goTo(sectionUs?.$el)"
+          @click="goTo(sectionUs!)"
           >Über uns
         </VBtn>
         <VBtn
@@ -36,7 +36,7 @@ const goTo = useOffsetGoTo();
           elevation="0"
           variant="text"
           rounded="pill"
-          @click="goTo(sectionMembership?.$el)"
+          @click="goTo(sectionMembership!)"
           >Werde Mitglied</VBtn
         >
       </VRow>

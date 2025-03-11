@@ -2,13 +2,13 @@
 const goTo = useOffsetGoTo();
 
 const page = ref();
-const sections = computed(() => page.value?.pageRef.sections);
+const sections : ComputedRef<Array<HeaderSpec>> = computed(() => page.value?.pageRef.sections);
 
 const { arrivedState } = useWindowScroll();
 const scrolledOverState = computed(() => {
   return sections.value?.map(
-    (element: any, index: number) =>
-      element.top < 51 ||
+    (element: HeaderSpec, index: number) =>
+      element.ref.top < 51 ||
       (index == Object.keys(sections.value).length - 1 && arrivedState.bottom)
   );
 });
@@ -30,10 +30,10 @@ const scrolledOverState = computed(() => {
             <div
               v-for="(sec, index) in sections"
               class="hover-link d-inline mx-2"
-              @click="goTo(sec)"
+              @click="goTo(sec.ref)"
               :class="{ 'scrolled-over': scrolledOverState[index] }"
             >
-              {{ sec?.$props.title }}
+              {{ sec?.displayName }}
             </div>
           </div>
         </VRow>
