@@ -15,5 +15,6 @@ html {
 
     &:hover {
         color: rgb(var(--v-theme-primary));
+        cursor: pointer;
     }
 }
