@@ -8,8 +8,8 @@ const { arrivedState } = useWindowScroll();
 const scrolledOverState = computed(() => {
   return sections.value?.map(
     (element: any, index: number) =>
-      element.bottom < 51 ||
-      (index != Object.keys(sections.value).length - 1 && arrivedState.bottom)
+      element.top < 51 ||
+      (index == Object.keys(sections.value).length - 1 && arrivedState.bottom)
   );
 });
 </script>
@@ -22,9 +22,8 @@ const scrolledOverState = computed(() => {
             <LogoTextWrapper onPrimary></LogoTextWrapper>
           <div class="nav-container" v-if="!!sections">
             <div
-              class="hover-link d-inline mx-2"
+              class="hover-link scrolled-over d-inline mx-2"
               @click="goTo(0)"
-              :class="{ 'scrolled-over': sections[0].top < 51 }"
             >
               Home
             </div>
@@ -55,7 +54,7 @@ const scrolledOverState = computed(() => {
   display: relative;
 }
 
-.nav-container :nth-child(1 of :not(.scrolled-over)) {
+.nav-container :nth-last-child(1 of .scrolled-over) {
   color: rgb(var(--v-theme-primary));
 }
 </style>
