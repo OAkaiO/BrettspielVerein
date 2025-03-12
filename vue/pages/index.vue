@@ -5,7 +5,7 @@ const sectionUs = useTemplateRef("section_us");
 const sectionMembership = useTemplateRef("section_membership");
 const sectionEvents = useTemplateRef("section_events");
 const sectionContact = useTemplateRef("section_contact");
-const sections : ComputedRef<Array<HeaderSpec>>  = computed(() => {
+const sections: ComputedRef<Array<HeaderSpec>> = computed(() => {
   return [
     { displayName: "Über uns", ref: sectionUs.value },
     { displayName: "Mitgliedschaft", ref: sectionMembership.value },
@@ -82,17 +82,21 @@ const goTo = useOffsetGoTo();
       </VRow>
     </Section>
     <Section ref="section_events" title="Die nächsten Veranstaltungen">
-      <VRow class="flex-column">
-        <VCol v-for="eventData in upcomingEvents">
-          <EventCard :data="eventData"> </EventCard>
-        </VCol>
-      </VRow>
+      <VSheet color="secondary" class="pa-4" rounded="xl">
+        <VRow class="flex-column">
+          <VCol v-for="eventData in upcomingEvents">
+            <EventCard :data="eventData"> </EventCard>
+          </VCol>
+        </VRow>
+      </VSheet>
     </Section>
     <Section ref="section_contact" title="Kontakt">
       <VRow>
         <VCol>
           <h2 class="mb-2">Fragen?</h2>
-          <QuestionForm></QuestionForm>
+          <VSheet color="secondary" class="pa-4" rounded="xl">
+            <QuestionForm></QuestionForm>
+          </VSheet>
         </VCol>
         <VCol>
           <h2 class="mb-2">Wo spielen wir?</h2>
@@ -102,3 +106,4 @@ const goTo = useOffsetGoTo();
     </Section>
   </v-container>
 </template>
+
