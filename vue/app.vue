@@ -3,15 +3,6 @@ const goTo = useOffsetGoTo();
 
 const { headers, registrator } = useNavHeaderList();
 
-const { arrivedState } = useWindowScroll();
-const scrolledOverState = computed(() => {
-  return headers.value?.map(
-    (element: HeaderSpec, index: number) =>
-      index === 0 || 
-      element.ref.top < 51 ||
-      (index == Object.keys(headers.value).length - 1 && arrivedState.bottom)
-  );
-});
 const drawerVisibility = ref(false);
 const { mdAndUp } = useDisplay();
 </script>
@@ -25,10 +16,10 @@ const { mdAndUp } = useDisplay();
           <div class="nav-container" v-if="headers?.length !== 0">
             <template v-if="mdAndUp">
               <div
-                v-for="(sec, index) in headers"
+                v-for="sec in headers"
                 class="hover-link d-inline mx-2"
-                @click="goTo(sec.ref)"
-                :class="{ 'scrolled-over': scrolledOverState[index] }"
+                @click="goTo(sec.goal.ref)"
+                :class="{ 'scrolled-over': sec.goal.isScrolledOver() }"
               >
                 {{ sec?.displayName }}
               </div>
@@ -45,12 +36,12 @@ const { mdAndUp } = useDisplay();
     <VNavigationDrawer v-model="drawerVisibility" location="right" temporary>
       <VList class="nav-container">
         <VListItem
-          v-for="(section, index) in headers"
-          @click="goTo(section.ref)"
+          v-for="sec in headers"
+          @click="goTo(sec.goal.ref)"
           class="hover-link"
-          :class="{ 'scrolled-over': scrolledOverState[index] }"
+          :class="{ 'scrolled-over': sec.goal.isScrolledOver() }"
         >
-          {{ section.displayName }}
+          {{ sec.displayName }}
         </VListItem>
       </VList>
     </VNavigationDrawer>

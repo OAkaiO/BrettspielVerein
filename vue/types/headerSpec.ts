@@ -1,4 +1,8 @@
+type ScrollGoal = {
+  ref: Ref<string | number | HTMLElement | ComponentPublicInstance | null>;
+  isScrolledOver: () => boolean;
+};
 export type HeaderSpec = {
-    displayName: string,
-    ref: any
-}
+  displayName: string;
+  goal: ScrollGoal;
+};
