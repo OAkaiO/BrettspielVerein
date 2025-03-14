@@ -1,1 +1,7 @@
-export type HeaderReigstrator = (getter: () => HeaderSpec[]) => void
+export type HeaderReigstrator = (getter: () => {
+    displayName: string;
+    goal: {
+      ref: HTMLElement | ComponentPublicInstance | null;
+      isScrolledOver: () => boolean;
+    }
+  }[]) => void

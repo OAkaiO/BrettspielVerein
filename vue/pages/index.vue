@@ -12,18 +12,18 @@ const { arrivedState } = useWindowScroll();
 const atBottom = computed(() => arrivedState.bottom);
 
 const getter = () => [
-  { displayName: "Home", goal: { ref: home, isScrolledOver: () => true } },
+  { displayName: "Home", goal: { ref: home.value, isScrolledOver: () => true } },
   {
     displayName: "Über uns",
     goal: {
-      ref: sectionUs,
+      ref: sectionUs.value,
       isScrolledOver: () => !!sectionUs.value && sectionUs.value.top < 51,
     },
   },
   {
     displayName: "Mitgliedschaft",
     goal: {
-      ref: sectionMembership,
+      ref: sectionMembership.value,
       isScrolledOver: () =>
         !!sectionMembership.value && sectionMembership.value.top < 51,
     },
@@ -31,7 +31,7 @@ const getter = () => [
   {
     displayName: "Events",
     goal: {
-      ref: sectionEvents,
+      ref: sectionEvents.value,
       isScrolledOver: () =>
         !!sectionEvents.value && sectionEvents.value.top < 51,
     },
@@ -39,7 +39,7 @@ const getter = () => [
   {
     displayName: "Kontakt",
     goal: {
-      ref: sectionContact,
+      ref: sectionContact.value,
       isScrolledOver: () =>
         (!!sectionContact.value && sectionContact.value.top < 51) ||
         arrivedState.bottom,

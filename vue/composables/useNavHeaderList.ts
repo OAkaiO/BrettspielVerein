@@ -3,7 +3,7 @@ export default function (): {
   registrator: HeaderReigstrator;
 } {
   const headers: Ref<HeaderSpec[]> = ref([]);
-  const registrator = (getter: () => HeaderSpec[]) => {
+  const registrator = (getter : () => HeaderSpec[]) => {
     onMounted(() => (headers.value = getter()));
     onUnmounted(() => (headers.value = []));
   };

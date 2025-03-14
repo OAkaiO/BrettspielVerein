@@ -11,14 +11,14 @@ const { mdAndUp } = useDisplay();
   <VApp>
     <VAppBar :elevation="0" color="header">
       <VContainer>
-        <VRow class="align-center justify-space-between px-4">
+        <VRow  class="align-center justify-space-between px-4">
           <LogoTextWrapper onPrimary></LogoTextWrapper>
-          <div class="nav-container" v-if="headers?.length !== 0">
+          <div ref="test" class="nav-container" v-if="headers?.length !== 0">
             <template v-if="mdAndUp">
               <div
                 v-for="sec in headers"
                 class="hover-link d-inline mx-2"
-                @click="goTo(sec.goal.ref)"
+                @click="goTo(sec.goal.ref!)"
                 :class="{ 'scrolled-over': sec.goal.isScrolledOver() }"
               >
                 {{ sec?.displayName }}
@@ -37,7 +37,7 @@ const { mdAndUp } = useDisplay();
       <VList class="nav-container">
         <VListItem
           v-for="sec in headers"
-          @click="goTo(sec.goal.ref)"
+          @click="goTo(sec.goal.ref!)"
           class="hover-link"
           :class="{ 'scrolled-over': sec.goal.isScrolledOver() }"
         >
