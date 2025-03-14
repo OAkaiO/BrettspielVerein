@@ -8,14 +8,14 @@ const sectionMembership = useTemplateRef("section_membership");
 const sectionEvents = useTemplateRef("section_events");
 const sectionContact = useTemplateRef("section_contact");
 
-const getter = () => {
-  return [
-    { displayName: "Über uns", ref: sectionUs.value },
-    { displayName: "Mitgliedschaft", ref: sectionMembership.value },
-    { displayName: "Events", ref: sectionEvents.value },
-    { displayName: "Kontakt", ref: sectionContact.value },
-  ];
-};
+const getter = () => [
+  { displayName: "Home", ref: 0 },
+  { displayName: "Über uns", ref: sectionUs.value },
+  { displayName: "Mitgliedschaft", ref: sectionMembership.value },
+  { displayName: "Events", ref: sectionEvents.value },
+  { displayName: "Kontakt", ref: sectionContact.value },
+];
+
 props.navRegistrator(getter);
 
 const sections: ComputedRef<Array<HeaderSpec>> = computed(() => getter());

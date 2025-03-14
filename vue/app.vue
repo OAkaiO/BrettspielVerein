@@ -7,6 +7,7 @@ const { arrivedState } = useWindowScroll();
 const scrolledOverState = computed(() => {
   return headers.value?.map(
     (element: HeaderSpec, index: number) =>
+      index === 0 || 
       element.ref.top < 51 ||
       (index == Object.keys(headers.value).length - 1 && arrivedState.bottom)
   );
@@ -23,12 +24,6 @@ const { mdAndUp } = useDisplay();
           <LogoTextWrapper onPrimary></LogoTextWrapper>
           <div class="nav-container" v-if="headers?.length !== 0">
             <template v-if="mdAndUp">
-              <div
-                class="hover-link scrolled-over d-inline mx-2"
-                @click="goTo(0)"
-              >
-                Home
-              </div>
               <div
                 v-for="(sec, index) in headers"
                 class="hover-link d-inline mx-2"
@@ -49,9 +44,6 @@ const { mdAndUp } = useDisplay();
     </VAppBar>
     <VNavigationDrawer v-model="drawerVisibility" location="right" temporary>
       <VList class="nav-container">
-        <VListItem class="hover-link scrolled-over" @click="goTo(0)">
-          Home
-        </VListItem>
         <VListItem
           v-for="(section, index) in headers"
           @click="goTo(section.ref)"
