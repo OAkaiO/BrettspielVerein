@@ -1,20 +1,25 @@
 <script setup lang="ts">
+const props = defineProps<{ navRegistrator: HeaderReigstrator }>();
+
 const upcomingEvents = getEventData();
 
 const sectionUs = useTemplateRef("section_us");
 const sectionMembership = useTemplateRef("section_membership");
 const sectionEvents = useTemplateRef("section_events");
 const sectionContact = useTemplateRef("section_contact");
-const sections: ComputedRef<Array<HeaderSpec>> = computed(() => {
+
+const getter = () => {
   return [
     { displayName: "Über uns", ref: sectionUs.value },
     { displayName: "Mitgliedschaft", ref: sectionMembership.value },
     { displayName: "Events", ref: sectionEvents.value },
     { displayName: "Kontakt", ref: sectionContact.value },
   ];
-});
-defineExpose({ sections: sections });
+};
+props.navRegistrator(getter);
 
+const sections: ComputedRef<Array<HeaderSpec>> = computed(() => getter());
+defineExpose({ sections: sections });
 const goTo = useOffsetGoTo();
 </script>
 
@@ -106,4 +111,3 @@ const goTo = useOffsetGoTo();
     </Section>
   </v-container>
 </template>
-
