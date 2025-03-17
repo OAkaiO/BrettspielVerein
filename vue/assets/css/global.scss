@@ -9,6 +9,9 @@ $my-body-font-family: "DM Sans", sans-serif !default;
 .hover-link {
     transition: all 0.3s ease-in-out;
 
+    & {
+        text-decoration: none;
+    }
     &:hover {
         color: rgb(var(--v-theme-primary));
         cursor: pointer;

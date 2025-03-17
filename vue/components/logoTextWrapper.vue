@@ -9,7 +9,7 @@ const calculatedColor = computed(() => {
 });
 </script>
 <template>
-  <a href="/">
+  <NuxtLink to="/">
     <VRow class="d-inline-flex align-center grow-link">
       <VCol
         ><img
@@ -24,7 +24,7 @@ const calculatedColor = computed(() => {
         </span>
       </VCol>
     </VRow>
-  </a>
+  </NuxtLink>
 </template>
 
 <style scoped>

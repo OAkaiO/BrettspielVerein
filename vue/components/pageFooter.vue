@@ -12,7 +12,7 @@ const { xs } = useDisplay();
             <LogoTextWrapper></LogoTextWrapper>
           </VRow>
           <VRow class="mt-4">
-            <a class="hover-link" href="/privacy">Datenschutzerklärung</a>
+            <NuxtLink class="hover-link" to="/privacy">Datenschutzerklärung</NuxtLink>
           </VRow>
         </VContainer>
       </VCol>
