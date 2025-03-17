@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const goTo = useOffsetGoTo();
 
-const { headers, registrator } = useNavHeaderList();
+const { headers, receiver } = useNavHeaderReceiver();
 
 const drawerVisibility = ref(false);
 const { mdAndUp } = useDisplay();
@@ -46,7 +46,7 @@ const { mdAndUp } = useDisplay();
       </VList>
     </VNavigationDrawer>
     <VMain ref="myself">
-      <NuxtPage :navRegistrator="registrator"></NuxtPage>
+      <NuxtPage :navReceiver="receiver"></NuxtPage>
     </VMain>
     <VFooter class="footer pa-0">
       <PageFooter></PageFooter>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ navRegistrator: HeaderReigstrator }>();
+const { navReceiver } = defineProps<{ navReceiver: HeaderReceiver }>();
 
 const upcomingEvents = getEventData();
 
@@ -46,8 +46,7 @@ const getter = () => [
     },
   },
 ];
-
-props.navRegistrator(getter);
+navReceiver(getter);
 const goTo = useOffsetGoTo();
 </script>
 

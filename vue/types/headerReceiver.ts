@@ -1,4 +1,4 @@
-export type HeaderReigstrator = (getter: () => {
+export type HeaderReceiver = (getter: () => {
     displayName: string;
     goal: {
       ref: HTMLElement | ComponentPublicInstance | null;
