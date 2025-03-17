@@ -3,9 +3,13 @@ export default function (): {
   receiver: HeaderReceiver;
 } {
   const headers: Ref<HeaderSpec[]> = ref([]);
-  const receiver = (getter : () => HeaderSpec[]) => {
-    onMounted(() => (headers.value = getter()));
-    onUnmounted(() => (headers.value = []));
+  const receiver = (getter: ComputedRef<HeaderSpec[]>) => {
+    onMounted(() => {
+      headers.value = getter.value;
+    });
+    onUnmounted(() => {
+      headers.value = [];
+    });
   };
   return { headers, receiver };
 }

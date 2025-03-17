@@ -1,53 +1,21 @@
 <script setup lang="ts">
-const { navReceiver } = defineProps<{ navReceiver: HeaderReceiver }>();
+const goTo = useOffsetGoTo();
 
 const upcomingEvents = getEventData();
 
+const { navReceiver } = defineProps<{ navReceiver: HeaderReceiver }>();
 const home = useTemplateRef("home");
 const sectionUs = useTemplateRef("section_us");
 const sectionMembership = useTemplateRef("section_membership");
 const sectionEvents = useTemplateRef("section_events");
 const sectionContact = useTemplateRef("section_contact");
-const { arrivedState } = useWindowScroll();
-const atBottom = computed(() => arrivedState.bottom);
 
-const getter = () => [
-  { displayName: "Home", goal: { ref: home.value, isScrolledOver: () => true } },
-  {
-    displayName: "Über uns",
-    goal: {
-      ref: sectionUs.value,
-      isScrolledOver: () => !!sectionUs.value && sectionUs.value.top < 51,
-    },
-  },
-  {
-    displayName: "Mitgliedschaft",
-    goal: {
-      ref: sectionMembership.value,
-      isScrolledOver: () =>
-        !!sectionMembership.value && sectionMembership.value.top < 51,
-    },
-  },
-  {
-    displayName: "Events",
-    goal: {
-      ref: sectionEvents.value,
-      isScrolledOver: () =>
-        !!sectionEvents.value && sectionEvents.value.top < 51,
-    },
-  },
-  {
-    displayName: "Kontakt",
-    goal: {
-      ref: sectionContact.value,
-      isScrolledOver: () =>
-        (!!sectionContact.value && sectionContact.value.top < 51) ||
-        arrivedState.bottom,
-    },
-  },
-];
-navReceiver(getter);
-const goTo = useOffsetGoTo();
+const { addAHeader } = useNavHeaderProvider(navReceiver);
+addAHeader("Home", home);
+addAHeader("Über uns", sectionUs);
+addAHeader("Mitgliedschaft", sectionMembership)
+addAHeader("Events", sectionEvents)
+addAHeader("Kontakt", sectionContact)
 </script>
 
 <template>
