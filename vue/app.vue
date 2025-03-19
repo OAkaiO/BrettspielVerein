@@ -18,7 +18,7 @@ const { mdAndUp } = useDisplay();
               <div
                 v-for="sec in headers"
                 class="hover-link d-inline mx-2"
-                @click="goTo(unref(sec.goal.ref)!);"
+                @click="goTo(unref(sec.goal.ref)!)"
                 :class="{ 'scrolled-over': sec.goal.isScrolledOver }"
               >
                 {{ sec?.displayName }}
@@ -37,7 +37,7 @@ const { mdAndUp } = useDisplay();
       <VList class="nav-container">
         <VListItem
           v-for="sec in headers"
-          @click="goTo(unref(sec.goal.ref)!);"
+          @click="goTo(unref(sec.goal.ref)!)"
           class="hover-link"
           :class="{ 'scrolled-over': sec.goal.isScrolledOver }"
         >
