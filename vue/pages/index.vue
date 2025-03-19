@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const goTo = useOffsetGoTo();
 
-const upcomingEvents = getEventData();
+const eventRepository = repository();
+const { data, status, error } = await useLazyAsyncData(() => eventRepository.getEventData(), {
+    server: false,
+});
 
 const { navReceiver } = defineProps<{ navReceiver: HeaderReceiver }>();
 const home = useTemplateRef("home");
@@ -13,9 +16,9 @@ const sectionContact = useTemplateRef("section_contact");
 const { addAHeader } = useNavHeaderProvider(navReceiver);
 addAHeader("Home", home);
 addAHeader("Über uns", sectionUs);
-addAHeader("Mitgliedschaft", sectionMembership)
-addAHeader("Events", sectionEvents)
-addAHeader("Kontakt", sectionContact)
+addAHeader("Mitgliedschaft", sectionMembership);
+addAHeader("Events", sectionEvents);
+addAHeader("Kontakt", sectionContact);
 </script>
 
 <template>
@@ -86,7 +89,7 @@ addAHeader("Kontakt", sectionContact)
       <Section ref="section_events" title="Die nächsten Veranstaltungen">
         <VSheet color="secondary" class="pa-4" rounded="xl">
           <VRow class="flex-column">
-            <VCol v-for="eventData in upcomingEvents">
+            <VCol v-for="eventData in data" :key="eventData.id">
               <EventCard :data="eventData"> </EventCard>
             </VCol>
           </VRow>

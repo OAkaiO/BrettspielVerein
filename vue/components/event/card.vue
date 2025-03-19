@@ -14,7 +14,7 @@ const props = defineProps<{ data: EventData }>()
             </VAvatar>
             <div>
                 <VCardTitle class="text-h5" style="white-space: normal;">
-                    {{ data.title }}
+                    {{ data.name }}
                 </VCardTitle>
                 <EventDetails :data>
                 </EventDetails>

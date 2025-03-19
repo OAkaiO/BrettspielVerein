@@ -1,7 +1,8 @@
 export type EventData = {
-  title: string;
+  id: string;
   date: string;
-  time: string;
+  start_time: string;
+  name: string;
   location: string;
   price: string;
 };
