@@ -63,6 +63,9 @@ const myCustomLightTheme: ThemeDefinition = {
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   css: ["./assets/css/global.scss"],
+  devServer: {
+    port: 8000
+  },
   devtools: {
     enabled: true,
   },

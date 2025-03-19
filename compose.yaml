@@ -8,11 +8,10 @@ services:
       - bvz_network
   server:
     build: ./docker/server
-    command: php -S 0.0.0.0:80 -t /code/app
     ports:
       - "80:80"
     volumes:
-      - ./app/:/code/app              # For the code
+      - ./app/:/var/www/html              # For the code
     networks:
       - bvz_network
   db:
