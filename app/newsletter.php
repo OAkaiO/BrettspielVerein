@@ -10,7 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die();
 }
 
-$emailAddr = $_POST['email'];
+$postBody = json_decode(file_get_contents("php://input"));
+$emailAddr = $postBody->{'email'};
 if (!isset($emailAddr) || filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false) {
     header('X-Error-State: Email address not found or invalid!');
     http_response_code(400);

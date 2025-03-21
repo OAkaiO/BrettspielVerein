@@ -89,12 +89,17 @@ export default defineNuxtConfig({
     families: [{ name: "DM Sans" }],
   },
   imports: {
-    dirs: ['types/*.ts'],
+    dirs: ["types/*.ts"],
   },
   modules: ["vuetify-nuxt-module", "@nuxt/fonts", "@vueuse/nuxt"],
   nitro: {
     prerender: {
       ignore: ["/200.html", "/404.html"],
+    },
+  },
+  runtimeConfig: {
+    public: {
+      apiUrl: "http://localhost:80",
     },
   },
   vuetify: {

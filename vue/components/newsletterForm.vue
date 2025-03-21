@@ -1,9 +1,12 @@
 <script setup lang="ts">
 const isFormValid = ref(false);
-const email = ref("");
+const data = ref({ email: "" });
+
+const { post } = usePhpBackend("newsletter.php");
+
 function submit(event: SubmitEvent) {
   if (isFormValid.value) {
-    alert(`This needs to be implemented! | Email=${email.value}`);
+    post(data.value).catch((err) => console.error(err));
   }
 }
 </script>
@@ -17,7 +20,7 @@ function submit(event: SubmitEvent) {
       :rules="[required, validEmail]"
       type="email"
       variant="solo"
-      v-model="email"
+      v-model="data.email"
     >
       <template #append-inner>
         <VBtn
