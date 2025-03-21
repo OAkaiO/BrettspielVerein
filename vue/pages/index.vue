@@ -2,9 +2,12 @@
 const goTo = useOffsetGoTo();
 
 const eventRepository = repository();
-const { data, status, error } = await useLazyAsyncData(() => eventRepository.getEventData(), {
+const { data, status, error } = await useLazyAsyncData(
+  () => eventRepository.getEventData(),
+  {
     server: false,
-});
+  }
+);
 
 const { navReceiver } = defineProps<{ navReceiver: HeaderReceiver }>();
 const home = useTemplateRef("home");
@@ -19,10 +22,13 @@ addAHeader("Über uns", sectionUs);
 addAHeader("Mitgliedschaft", sectionMembership);
 addAHeader("Events", sectionEvents);
 addAHeader("Kontakt", sectionContact);
+
+const { alertData, triggerAlert } = useAlert();
 </script>
 
 <template>
   <div ref="home">
+    <AlertContainer :alertData="alertData"></AlertContainer>
     <ImageContainer :variant="1">
       <VContainer>
         <VRow><WelcomeBanner></WelcomeBanner></VRow>
@@ -67,7 +73,11 @@ addAHeader("Kontakt", sectionContact);
       <div>
         <h1>Abonniere unseren Newsletter</h1>
         <p>Sei stets informiert über die nächsten Events!</p>
-        <NewsletterForm class="mt-4"></NewsletterForm>
+        <NewsletterForm
+          class="mt-4"
+          @on-submission="(event: AlertStatus) => triggerAlert(event)"
+        >
+        </NewsletterForm>
       </div>
       <template #right>
         <WhatsappCode></WhatsappCode>

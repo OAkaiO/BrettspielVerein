@@ -4,9 +4,22 @@ const data = ref({ email: "" });
 
 const { post } = usePhpBackend("newsletter.php");
 
+const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 function submit(event: SubmitEvent) {
   if (isFormValid.value) {
-    post(data.value).catch((err) => console.error(err));
+    post(data.value)
+      .then(() => {
+        emit("onSubmission", {
+          message: "Erfolgreich für den Newsletter registriert",
+          type: "success",
+        });
+      })
+      .catch((err) => {console.error(err);
+        emit("onSubmission", {
+          message: "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
+          type: "warning",
+        })
+      });
   }
 }
 </script>
