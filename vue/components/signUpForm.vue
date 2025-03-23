@@ -1,17 +1,33 @@
 <script setup lang="ts">
-const formData = reactive({
+const formData = ref<RegistrationData>({
   firstName: "",
   lastName: "",
   address: "",
-  city: "",
+  address2: "",
   email: "",
-  comment: "",
+  message: "",
 });
 const isFormValid = ref(false);
 
+const { post } = usePhpBackend("register.php");
+const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 function submit(event: SubmitEvent) {
   if (isFormValid.value) {
-    alert(`This needs to be implemented!\n${JSON.stringify(formData)}`);
+    post(formData.value)
+      .then(() => {
+        emit("onSubmission", {
+          message: "Erfolgreich als Mitglied angemeldet",
+          type: "success",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        emit("onSubmission", {
+          message:
+            "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
+          type: "warning",
+        });
+      });
   }
 }
 </script>
@@ -50,7 +66,7 @@ function submit(event: SubmitEvent) {
       <VTextField
         bg-color="background"
         label="PLZ + Wohnort"
-        v-model="formData.city"
+        v-model="formData.address2"
         rounded="xl"
         :rules="[required]"
         validate-on="blur"
@@ -69,7 +85,7 @@ function submit(event: SubmitEvent) {
       <VTextarea
         bg-color="background"
         label="Kommentar"
-        v-model="formData.comment"
+        v-model="formData.message"
         rounded="xl"
         variant="solo"
       ></VTextarea>

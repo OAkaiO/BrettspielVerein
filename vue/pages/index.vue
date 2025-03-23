@@ -80,7 +80,7 @@ const { alertData, triggerAlert } = useAlert();
         <WhatsappCode></WhatsappCode>
       </template>
     </ImageContainer>
-    <v-container>
+    <VContainer>
       <Section ref="section_membership" title="Vereinsmitgliedschaft">
         <VRow>
           <VCol>
@@ -89,7 +89,7 @@ const { alertData, triggerAlert } = useAlert();
           </VCol>
           <VCol>
             <h2 class="mb-4">Anmeldung Mitgliedschaft</h2>
-            <SignUpForm></SignUpForm>
+            <SignUpForm @on-submission="(event: AlertStatus) => triggerAlert(event)"></SignUpForm>
           </VCol>
         </VRow>
       </Section>
@@ -118,6 +118,6 @@ const { alertData, triggerAlert } = useAlert();
           </VCol>
         </VRow>
       </Section>
-    </v-container>
+    </VContainer>
   </div>
 </template>
