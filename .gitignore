@@ -1,5 +1,5 @@
-app/mailPw.php
-app/vendor
+backend/mailPw.php
+backend/vendor
 **/.env
 dist/**.tar
 dist/**.tar.gz

@@ -2,7 +2,7 @@
 
 DIR=$(pwd)
 
-cd app
+cd backend
 composer install --prefer-dist --no-dev --optimize-autoloader
 zip -rD9 ../dist/app.zip . -x ".env*"
 

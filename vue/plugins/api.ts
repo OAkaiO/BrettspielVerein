@@ -2,7 +2,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig();
 
   const api = $fetch.create({
-    baseURL: runtimeConfig.public.apiUrl,
+    baseURL: runtimeConfig.public.apiUrl + "/api/",
   });
 
   return {
