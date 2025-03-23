@@ -14,11 +14,13 @@ function submit(event: SubmitEvent) {
           type: "success",
         });
       })
-      .catch((err) => {console.error(err);
+      .catch((err) => {
+        console.error(err);
         emit("onSubmission", {
-          message: "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
+          message:
+            "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
           type: "warning",
-        })
+        });
       });
   }
 }

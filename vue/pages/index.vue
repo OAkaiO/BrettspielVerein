@@ -2,12 +2,9 @@
 const goTo = useOffsetGoTo();
 
 const { repository: eventRepository } = useEventRepository();
-const { data } = useLazyAsyncData(
-  () => eventRepository.getEventData(),
-  {
-    server: false,
-  }
-);
+const { data } = useLazyAsyncData(() => eventRepository.getEventData(), {
+  server: false,
+});
 
 const { navReceiver } = defineProps<{ navReceiver: HeaderReceiver }>();
 const home = useTemplateRef("home");

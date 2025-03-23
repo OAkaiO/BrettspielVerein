@@ -10,7 +10,11 @@
     src="../public/join_qr_code.svg"
   />
   <p>
-    <NuxtLink class="hover-link" href="https://chat.whatsapp.com/Cex49CsoYXwLd4sSMmCPNU" external>
+    <NuxtLink
+      class="hover-link"
+      href="https://chat.whatsapp.com/Cex49CsoYXwLd4sSMmCPNU"
+      external
+    >
       https://chat.whatsapp.com/Cex49CsoYXwLd4sSMmCPNU
     </NuxtLink>
   </p>

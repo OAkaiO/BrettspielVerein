@@ -35,7 +35,6 @@ const isFirstElementActive = computed(() => {
       </v-carousel>
     </h2>
   </div>
-
 </template>
 <style scoped>
 .title-color-wrapper {

@@ -11,9 +11,10 @@ const { lower = false } = defineProps<{
       viewBox="0 0 1265 144"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      :class="{lower : lower}"
+      :class="{ lower: lower }"
       class="w-100"
-      preserveAspectRatio="none" style="height:144px;"
+      preserveAspectRatio="none"
+      style="height: 144px"
     >
       <path
         :fill="color"

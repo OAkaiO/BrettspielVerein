@@ -1,19 +1,18 @@
 <script setup lang="ts">
-
 const formData = reactive({
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    email: '',
-    comment: ''
+  firstName: "",
+  lastName: "",
+  address: "",
+  city: "",
+  email: "",
+  comment: "",
 });
 const isFormValid = ref(false);
 
 function submit(event: SubmitEvent) {
-    if (isFormValid.value){
-        alert(`This needs to be implemented!\n${JSON.stringify(formData)}`);
-    }
+  if (isFormValid.value) {
+    alert(`This needs to be implemented!\n${JSON.stringify(formData)}`);
+  }
 }
 </script>
 
@@ -74,7 +73,13 @@ function submit(event: SubmitEvent) {
         rounded="xl"
         variant="solo"
       ></VTextarea>
-      <VBtn type="submit" class="w-100 text-onPrimary" color="primary" rounded="pill">Anmelden</VBtn>
+      <VBtn
+        type="submit"
+        class="w-100 text-onPrimary"
+        color="primary"
+        rounded="pill"
+        >Anmelden</VBtn
+      >
     </VForm>
   </VSheet>
 </template>

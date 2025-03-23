@@ -21,7 +21,7 @@ const theme = useTheme();
     ></WaveVariant2>
     <VContainer>
       <VRow>
-          <VCol :cols="xs ? 12 : 6">
+        <VCol :cols="xs ? 12 : 6">
           <VSheet rounded="xl" class="semi-transparent pa-4">
             <slot></slot>
           </VSheet>
