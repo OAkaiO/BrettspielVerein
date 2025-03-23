@@ -11,13 +11,13 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./app/:/var/www/html              # For the code
+      - ./app/:/var/www/html # For the code
     networks:
       - bvz_network
   db:
     image: mysql:5.7
     restart: always
-    ports: 
+    ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_USER: root
@@ -26,6 +26,15 @@ services:
       - db-volume:/var/lib/mysql
     networks:
       - bvz_network
+  frontend:
+    image: "node:22.14.0-alpine"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./vue/:/home/node/app
+    ports:
+      - "8000:8000"
+    command: "npm run dev"
 volumes:
   db-volume:
 networks:
