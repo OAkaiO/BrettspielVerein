@@ -1,4 +1,4 @@
-export default function (url: string) {
+export default function<TYPE> (url: string) {
   const { $api } = useNuxtApp();
 
   return {
