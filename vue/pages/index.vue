@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const goTo = useOffsetGoTo();
 
-const eventRepository = repository();
-const { data, status, error } = await useLazyAsyncData(
+const { repository: eventRepository } = useEventRepository();
+const { data } = useLazyAsyncData(
   () => eventRepository.getEventData(),
   {
     server: false,
