@@ -107,7 +107,9 @@ const { alertData, triggerAlert } = useAlert();
           <VCol>
             <h2 class="mb-2">Fragen?</h2>
             <VSheet color="secondary" class="pa-4" rounded="xl">
-              <QuestionForm></QuestionForm>
+              <QuestionForm
+                @on-submission="(event: AlertStatus) => triggerAlert(event)"
+              ></QuestionForm>
             </VSheet>
           </VCol>
           <VCol>

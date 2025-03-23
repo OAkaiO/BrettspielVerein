@@ -1,14 +1,32 @@
 <script setup lang="ts">
-const formData = reactive({
-  name: "",
+const formData = ref<QuestionType>({
+  "full-name": "",
   email: "",
   message: "",
 });
+
+const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
+
 const isFormValid = ref(false);
+const { post } = usePhpBackend("question.php");
 
 function submit(event: SubmitEvent) {
   if (isFormValid.value) {
-    alert(`This needs to be implemented!\n${JSON.stringify(formData)}`);
+    post(formData.value)
+      .then(() => {
+        emit("onSubmission", {
+          message: "Deine Frage wurde geschickt. Wir melden uns bei dir!",
+          type: "success",
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        emit("onSubmission", {
+          message:
+            "Frage konnte nicht geschickt werden. Bitte versuche es später erneut",
+          type: "warning",
+        });
+      });
   }
 }
 </script>
@@ -20,7 +38,7 @@ function submit(event: SubmitEvent) {
         <VTextField
           bg-color="background"
           label="Name"
-          v-model="formData.name"
+          v-model="formData['full-name']"
           rounded="xl"
           :rules="[required]"
           validate-on="blur"
@@ -54,7 +72,7 @@ function submit(event: SubmitEvent) {
           class="w-100 text-onPrimary"
           color="primary"
           rounded="pill"
-          >Anmelden</VBtn
+          >Absenden</VBtn
         >
       </VRow>
     </VContainer>
