@@ -1,7 +1,6 @@
 backend/mailPw.php
 backend/vendor
 **/.env
-dist/**.tar
-dist/**.tar.gz
-dist/**.zip
+dist/*
+!dist/.gitkeep
 **/liquibase.prod.properties

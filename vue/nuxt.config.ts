@@ -64,13 +64,31 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   css: ["./assets/css/global.scss"],
   devServer: {
-    port: 8000
+    port: 8000,
   },
   devtools: {
     enabled: true,
   },
   experimental: {
     payloadExtraction: false,
+  },
+  features: {
+    inlineStyles: false,
+  },
+  webpack: {
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
+    }
   },
   fonts: {
     defaults: {
