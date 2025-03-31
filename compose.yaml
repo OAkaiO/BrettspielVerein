@@ -27,6 +27,8 @@ services:
     networks:
       - bvz_network
   frontend:
+    environment:
+      - NUXT_PUBLIC_API_URL="http://localhost:80"
     image: "node:22.14.0-alpine"
     user: "node"
     working_dir: /home/node/app

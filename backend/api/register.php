@@ -62,6 +62,7 @@ if (!$success) {
     // TODO: Logging
     // echo "Message could not be sent. Mailer Error: {$e}";
     http_response_code(500);
+    die();
 }
 http_response_code(204);
 die();
