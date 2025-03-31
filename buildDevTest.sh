@@ -8,6 +8,9 @@ cp backend/.env ./dist/app
 cp backend/composer.json ./dist/app
 cp backend/composer.lock ./dist/app
 
+cd vue
+npm run generate
+cd ..
 cp -r vue/.output/public/* ./dist/app
 
 cd dist/app
