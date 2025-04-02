@@ -64,6 +64,19 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Brettspielverein Zofingen",
+      meta: [
+        {
+          name: "description",
+          content: "Die Website des Brettspielverein Zofingens.",
+        },
+        {
+          name: "og:description",
+          content: "Die Website des Brettspielverein Zofingens.",
+        },
+        { name: "og:title", content: "Brettspielverein Zofingen" },
+        { name: "og:type", content: "Website" },
+        { name: "og:image", content: "./original_logo.png" },
+      ],
       link: [
         { rel: "icon", type: "image/png", href: "./favicon.ico" },
         {
