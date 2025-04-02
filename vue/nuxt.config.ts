@@ -61,6 +61,32 @@ const myCustomLightTheme: ThemeDefinition = {
 };
 
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: "Brettspielverein Zofingen",
+      link: [
+        { rel: "icon", type: "image/png", href: "./favicon.ico" },
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/apple-touch-icon.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicon-32x32.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicon-16x16.png",
+        },
+        { rel: "manifest", href: "/site.webmanifest" },
+      ],
+    },
+  },
   compatibilityDate: "2024-11-01",
   css: ["./assets/css/global.scss"],
   devServer: {
@@ -81,14 +107,14 @@ export default defineNuxtConfig({
       splitChunks: {
         cacheGroups: {
           styles: {
-            name: 'styles',
+            name: "styles",
             test: /\.(css|vue)$/,
-            chunks: 'all',
-            enforce: true
-          }
-        }
-      }
-    }
+            chunks: "all",
+            enforce: true,
+          },
+        },
+      },
+    },
   },
   fonts: {
     defaults: {
