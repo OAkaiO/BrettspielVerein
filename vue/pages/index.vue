@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { xs } = useDisplay();
+
 const goTo = useOffsetGoTo();
 
 const { repository: eventRepository } = useEventRepository();
@@ -104,7 +106,7 @@ const { alertData, triggerAlert } = useAlert();
       </Section>
       <Section ref="section_contact" title="Kontakt">
         <VRow>
-          <VCol>
+          <VCol :cols="xs ? 12 : 6">
             <h2 class="mb-2">Fragen?</h2>
             <VSheet color="secondary" class="pa-4" rounded="xl">
               <QuestionForm
