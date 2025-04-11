@@ -2,11 +2,10 @@
 ## Setting up dev env
 ### Required tools
 - docker
-- docker-compose
 - php composer (assumed to be available from CLI as `composer`)
 
 ### Run the application locally
-First, prepare the `.env` file by copying and renaming the `.env.example` file. To build all the dependencies, run php composer inside the app folder (`composer install`). Then, to run the website in a local environment, simply run `docker-compose up -d` from within the projects root folder (the one containing folders `app`, `db`, etc.). This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. The DB will be empty on first creation, to fill it follow the section [Running Liquibase](#Running-Liquibase). The frontend is running in a Vue dev Server that is also booted up with the docker compose command.
+First, prepare the `.env` file by copying and renaming the `.env.example` file. To build all the dependencies, run php composer inside the app folder (`composer install`). Then, to run the website in a local environment, simply run `docker compose up -d` from within the projects root folder (the one containing folders `app`, `db`, etc.). This will set up a local PHP server and the SMTP mock server to check the mails, as well as the MySQL DB. The DB will be empty on first creation, to fill it follow the section [Running Liquibase](#Running-Liquibase). The frontend is running in a Vue dev Server that is also booted up with the docker compose command.
 
 The website will be available on 'localhost:8000' and the mail server GUI is available on 'localhost:3000'. The DB can be connected to with any data base viewer under port 3306 with user `root` and password `example`.
 
