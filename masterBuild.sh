@@ -1,9 +1,18 @@
 #!/bin/bash
-set -x
+
+# =============================================================
+# Constants
+# =============================================================
+
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
 DIST_DIR=./dist/app
 
+# =============================================================
+# Helpers
+# =============================================================
+
 buildBackendForDev() {
+    echo "Calling PHP composer for Dev environment"
     docker run --rm \
         --volume ./backend:/app \
         --user $(id -u):$(id -g) \
@@ -15,6 +24,7 @@ buildBackendForDev() {
 }
 
 buildBackendForIT() {
+    echo "Calling PHP composer for IntegrationTest environment"
     cp -r backend/api $DIST_DIR
     cp backend/.env $DIST_DIR
     cp backend/composer.json $DIST_DIR
@@ -31,11 +41,13 @@ buildBackendForIT() {
 }
 
 buildFrontend() {
+    echo "Generating the static frontend content."
     npm run --prefix vue generate
     cp -r vue/.output/public/* $DIST_DIR
 }
 
 buildDbDockerImage() {
+    echo "Building the liquibase image for DB Migration"
     docker build --build-arg USER_ID=$(id -u) docker/liquibase -t $LIQUIBASE_DOCKER_IMAGE
 }
 
@@ -46,11 +58,13 @@ buildDist() {
     buildFrontend
     buildBackendForIT
 
+    echo "Optimizing backend imports for Production"
     docker run --rm \
         --volume $DIST_DIR:/app \
         --user $(id -u):$(id -g) \
         composer/composer install --prefer-dist --no-dev --optimize-autoloader
 
+    echo "Building distribution"
     zip -rD9 ./dist/app.zip ./dist/app -x "./dist/app/.env*"
 }
 
@@ -89,6 +103,7 @@ awaitDbAlive() {
 }
 
 migrateDb() {
+    echo "Running DB Migration"
     docker compose --profile db up -d
     awaitDbAlive
     docker run --network=brettspielverein_bvz_network \
@@ -125,14 +140,19 @@ Description:
   testing and running the website.
 
   TARGET is a required argument and must be one of the following values:
+    - buildDist: Builds the application production ready
     - dev: Starts backend, frontend, DB and mail server in their own containers
-    - inttest: Builds the frontend and backend, and deploys them together
-    - setup: Prepares the project for development.
+    - inttest: Builds the frontend and backend, and deploys them together for testing
+    - setup: Prepares the project for development, by building required docker images, filling the DB and installing NPM dependencies
     - stop: Stops any running instances.
 
   You can combine any options in any order before specifying TARGET.
 EOF
 }
+
+# =============================================================
+# Main part
+# =============================================================
 
 target=""
 
