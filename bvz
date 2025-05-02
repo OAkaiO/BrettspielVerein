@@ -5,7 +5,8 @@
 # =============================================================
 
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
-DIST_DIR=./dist/app
+DIST_DIR=./dist
+DIST_APP_DIR=./dist/app
 
 # =============================================================
 # Variables
@@ -30,17 +31,17 @@ buildBackendForDev() {
 
 buildBackendForIT() {
     echo "Calling PHP composer for IntegrationTest environment"
-    cp -r backend/api $DIST_DIR
-    cp backend/.env $DIST_DIR
-    cp backend/composer.json $DIST_DIR
-    cp backend/composer.lock $DIST_DIR
+    cp -r backend/api $DIST_APP_DIR
+    cp backend/.env $DIST_APP_DIR
+    cp backend/composer.json $DIST_APP_DIR
+    cp backend/composer.lock $DIST_APP_DIR
 
     docker run --rm \
-        --volume $DIST_DIR:/app \
+        --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
         composer/composer install
     docker run --rm \
-        --volume $DIST_DIR:/app \
+        --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
         composer/composer dump-autoload
 }
@@ -48,7 +49,7 @@ buildBackendForIT() {
 buildFrontend() {
     echo "Generating the static frontend content."
     npm run --prefix vue generate
-    cp -r vue/.output/public/* $DIST_DIR
+    cp -r vue/.output/public/* $DIST_APP_DIR
 }
 
 buildDbDockerImage() {
@@ -65,9 +66,14 @@ buildDist() {
 
     echo "Optimizing backend imports for Production"
     docker run --rm \
-        --volume $DIST_DIR:/app \
+        --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
         composer/composer install --prefer-dist --no-dev --optimize-autoloader
+
+    echo "Prettify: Extract theme into its own file"
+    docker run --rm \
+        --volume $DIST_APP_DIR:/opt/app \
+        bvz/prettifier:latest
 
     echo "Building distribution"
     zip -rD9 ./dist/app.zip ./dist/app -x "./dist/app/.env*"
@@ -75,7 +81,7 @@ buildDist() {
 
 clean() {
     echo "Cleaning up built files"
-    rm -rf $DIST_DIR/app
+    rm -rf $DIST_APP_DIR
     rm $DIST_DIR/app.zip
 }
 
