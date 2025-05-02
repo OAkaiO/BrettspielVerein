@@ -1,0 +1,19 @@
+@use "sass:meta";
+
+$my-body-font-family: "DM Sans", sans-serif !default;
+
+@use "vuetify" with (
+    $body-font-family: meta.inspect($my-body-font-family)
+);
+
+.hover-link {
+    transition: all 0.3s ease-in-out;
+
+    & {
+        text-decoration: none;
+    }
+    &:hover {
+        color: rgb(var(--v-theme-primary));
+        cursor: pointer;
+    }
+}

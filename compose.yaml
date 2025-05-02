@@ -6,27 +6,64 @@ services:
       - "3000:80"
     networks:
       - bvz_network
+    profiles:
+      - dev
+      - inttest
   server:
     build: ./docker/server
-    command: php -S 0.0.0.0:80 -t /code/app
     ports:
       - "80:80"
     volumes:
-      - ./app/:/code/app              # For the code
+      - ./backend/:/var/www/html # For the code
     networks:
       - bvz_network
+    profiles:
+      - dev
   db:
     image: mysql:5.7
     restart: always
-    ports: 
+    ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: bv_zofingen
     volumes:
       - db-volume:/var/lib/mysql
     networks:
       - bvz_network
+    profiles:
+      - dev
+      - inttest
+      - db
+  frontend:
+    environment:
+      - NUXT_PUBLIC_API_URL="http://localhost:80"
+    image: "node:22.14.0-alpine"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./vue/:/home/node/app
+    ports:
+      - "8000:8000"
+    command: "npm run dev"
+    profiles:
+      - dev
+  inttest:
+    build: ./docker/intTest
+    ports:
+      - "80:80"
+    networks:
+      - bvz_network
+    volumes:
+      - ./dist/app:/opt/app
+    command:
+      - -S
+      - 0.0.0.0:80
+      - -t
+      - /opt/app
+    profiles:
+      - inttest
 volumes:
   db-volume:
 networks:

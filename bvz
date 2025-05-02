@@ -1,0 +1,257 @@
+#!/bin/bash
+
+# =============================================================
+# Constants
+# =============================================================
+
+LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
+DIST_DIR=./dist
+DIST_APP_DIR=./dist/app
+
+# =============================================================
+# Variables
+# =============================================================
+PASSWORD=""
+
+# =============================================================
+# Helpers
+# =============================================================
+
+buildBackendForDev() {
+    echo "Calling PHP composer for Dev environment"
+    docker run --rm \
+        --volume ./backend:/app \
+        --user $(id -u):$(id -g) \
+        composer/composer install
+    docker run --rm \
+        --volume ./backend:/app \
+        --user $(id -u):$(id -g) \
+        composer/composer dump-autoload
+}
+
+buildBackendForIT() {
+    echo "Calling PHP composer for IntegrationTest environment"
+    cp -r backend/api $DIST_APP_DIR
+    cp backend/.env $DIST_APP_DIR
+    cp backend/composer.json $DIST_APP_DIR
+    cp backend/composer.lock $DIST_APP_DIR
+
+    docker run --rm \
+        --volume $DIST_APP_DIR:/app \
+        --user $(id -u):$(id -g) \
+        composer/composer install
+    docker run --rm \
+        --volume $DIST_APP_DIR:/app \
+        --user $(id -u):$(id -g) \
+        composer/composer dump-autoload
+}
+
+buildFrontend() {
+    echo "Generating the static frontend content."
+    npm run --prefix vue generate
+    cp -r vue/.output/public/* $DIST_APP_DIR
+}
+
+buildDbDockerImage() {
+    echo "Building the liquibase image for DB Migration"
+    docker build --build-arg USER_ID=$(id -u) docker/liquibase -t $LIQUIBASE_DOCKER_IMAGE
+}
+
+buildDist() {
+    clean
+    mkdir -p ./dist/app
+
+    buildFrontend
+    buildBackendForIT
+
+    echo "Optimizing backend imports for Production"
+    docker run --rm \
+        --volume $DIST_APP_DIR:/app \
+        --user $(id -u):$(id -g) \
+        composer/composer install --prefer-dist --no-dev --optimize-autoloader
+
+    echo "Prettify: Extract theme into its own file"
+    docker run --rm \
+        --volume $DIST_APP_DIR:/opt/app \
+        bvz/prettifier:latest
+
+    echo "Building distribution"
+    zip -rD9 ./dist/app.zip ./dist/app -x "./dist/app/.env*"
+}
+
+clean() {
+    echo "Cleaning up built files"
+    rm -rf $DIST_APP_DIR
+    rm $DIST_DIR/app.zip
+}
+
+dev() {
+    echo "Starting local dev environment"
+    docker compose --profile dev up -d
+}
+
+installFrontend() {
+    echo "Setup frontend npm environment"
+    docker run -v ./vue:/home/node/app -w /home/node/app -u node node:22.14.0-alpine npm install --silent
+}
+
+inttest() {
+    buildDist
+
+    docker compose --profile inttest up -d
+}
+
+awaitDbAlive() {
+    i=0
+    while [[ $i -lt 10 ]]; do
+        echo "------ Log check #$((i + 1))/10 ($(date)) ------"
+        sleep 30
+        docker logs --tail 10 brettspielverein-db-1 2>&1 | grep "mysqld: ready for connections."
+	if [[ $? -eq 0 ]]; then
+	       return
+        fi	       
+        ((i++))
+    done
+    echo "DB was not ready within 5 minutes!"
+    exit 1
+}
+
+migrateDevDb() {
+    echo "Running DB Migration"
+    docker compose --profile db up -d
+    awaitDbAlive
+    docker run --network=brettspielverein_bvz_network \
+        --rm -v ./db/liquibase/changelog:/liquibase/changelog $LIQUIBASE_DOCKER_IMAGE \
+        --defaults-file=/liquibase/changelog/liquibase.dev.properties update --changelogFile changelog/root.changelog.yaml
+}
+
+migrateProdDb() {
+    echo "Running DB PROD Migration"
+    docker run --rm -v ./db/liquibase/changelog:/liquibase/changelog $LIQUIBASE_DOCKER_IMAGE \
+        --defaults-file=/liquibase/changelog/liquibase.prod.properties update --changelogFile changelog/root.changelog.yaml
+}
+
+init() {
+    echo "Setup for development"
+    buildDbDockerImage
+    migrateDevDb
+
+    installFrontend
+
+    buildBackendForDev
+    cp ./backend/.env.example ./backend/.env
+}
+
+stop() {
+    docker compose --profile "*" down
+}
+
+usage() {
+    cat <<EOF
+Usage: $0 [OPTION]... TARGET
+
+Options:
+  -h, --help                Show this help message and exit
+  -p <pw>, --password <pw>  Set a password for the prod DB to <pw>
+
+Arguments:
+  TARGET                    The task to execute
+
+Description:
+  This script can be used to execute all relevant task related to building,
+  testing and running the website.
+
+  TARGET is a required argument and must be one of the following values:
+    - buildDist: Builds the application production ready
+    - dev: Starts backend, frontend, DB and mail server in their own containers
+    - init: Prepares the project for development, by building required docker images, filling the DB and installing NPM dependencies
+    - inttest: Builds the frontend and backend, and deploys them together for testing
+    - stop: Stops any running instances.
+    - migrateDevDb: Apply the current changelog to the Dev DB.
+    - migrateProdDb: Apply the current changelog to the PROD DB, requires -p option
+
+  You can combine any options in any order before specifying TARGET.
+EOF
+}
+
+# =============================================================
+# Main part
+# =============================================================
+
+target=""
+
+POSITIONAL_ARGS=()
+
+# Parse flags and collect the rest
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -p | --password)
+        shift
+        if [[ $# -lt 1 ]]; then
+            echo "Error: No password to parse."
+            exit 1
+        fi
+        PASSWORD=$1
+        ;;
+    -*)
+        echo "Unknown option: $1"
+        usage
+        exit 1
+        ;;
+    *)
+        POSITIONAL_ARGS+=("$1")
+        shift
+        ;;
+    esac
+done
+
+# Restore positional parameters
+set -- "${POSITIONAL_ARGS[@]}"
+
+# Check if final positional argument exists
+if [[ $# -lt 1 ]]; then
+    echo "Error: Missing mandatory TARGET argument."
+    usage
+    exit 1
+fi
+
+# Assign final argument as target
+target="$1"
+
+# Validate TARGET
+case "$target" in
+buildDist)
+    buildDist
+    ;;
+dev)
+    dev
+    ;;
+inttest)
+    inttest
+    ;;
+init)
+    init
+    ;;
+migrateDevDb)
+    migrateDevDb
+    ;;
+migrateProdDb)
+    if [[ -z $PASSWORD ]]; then
+        echo "Password required!"
+        exit 1
+    fi
+    migrateProdDb
+    ;;
+stop)
+    stop
+    ;;
+*)
+    echo "Error: Invalid TARGET value '$target'. Must be one of: buildDist, dev, inttest, init, stop"
+    usage
+    exit 1
+    ;;
+esac
