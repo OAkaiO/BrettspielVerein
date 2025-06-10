@@ -105,12 +105,14 @@ awaitDbAlive() {
     i=0
     while [[ $i -lt 10 ]]; do
         echo "------ Log check #$((i + 1))/10 ($(date)) ------"
-        sleep 30
         docker logs --tail 10 brettspielverein-db-1 2>&1 | grep "mysqld: ready for connections."
-	if [[ $? -eq 0 ]]; then
-	       return
-        fi	       
+	    if [[ $? -eq 0 ]]; then
+            echo "DB Ready!"
+	        return
+        fi
         ((i++))
+        echo "DB seems to not be ready, will try again in 30 seconds"
+        sleep 30
     done
     echo "DB was not ready within 5 minutes!"
     exit 1
