@@ -184,3 +184,23 @@ databaseChangeLog:
         - column:
             name: location
             value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+- changeSet:
+    id: 'event-data-4'
+    author: schaerl
+    comment: Vereinsmarkt
+    changes:
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Vereinsmarkt')"
+        -  column:
+            name: date
+            value:  '2025-06-14'
+        -  column:
+            name: start_time
+            value:  '08:30:00'
+        - column:
+            name: location
+            value: 'Altstadt, 4800 Zofingen'
