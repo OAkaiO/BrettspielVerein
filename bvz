@@ -130,7 +130,7 @@ migrateDevDb() {
 migrateProdDb() {
     echo "Running DB PROD Migration"
     docker run --rm -v ./db/liquibase/changelog:/liquibase/changelog $LIQUIBASE_DOCKER_IMAGE \
-        --defaults-file=/liquibase/changelog/liquibase.prod.properties update --changelogFile changelog/root.changelog.yaml
+        --defaults-file=/liquibase/changelog/liquibase.prod.properties update --changelogFile changelog/root.changelog.yaml --password $PASSWORD
 }
 
 init() {
