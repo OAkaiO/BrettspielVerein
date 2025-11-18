@@ -24,6 +24,7 @@
     "globals": "^16.5.0",
     "live-server": "^1.2.2",
     "sass-embedded": "^1.85.1",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.3"
   }
 }
