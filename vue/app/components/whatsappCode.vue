@@ -7,7 +7,7 @@
   <img
     class="rounded-xl mt-4"
     style="width: 300px"
-    src="../public/join_qr_code.svg"
+    src="/join_qr_code.svg"
   />
   <p>
     <NuxtLink

@@ -15,7 +15,7 @@ const props = defineProps<{ data: EventData }>();
         {{ data.date }}
       </VChip>
       <VAvatar class="ma-3" rounded="0" size="250">
-        <VImg src="../../public/Logo1.png"></VImg>
+        <VImg src="/Logo1.png"></VImg>
       </VAvatar>
       <div>
         <VCardTitle class="text-h5" style="white-space: normal">

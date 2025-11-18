@@ -47,13 +47,13 @@ const theme = useTheme();
 </template>
 <style scoped>
 .img1 {
-  background-image: url("../public/img1.jpeg");
+  background-image: url("/img1.jpeg");
   background-size: cover;
   background-position: center;
 }
 
 .img2 {
-  background-image: url("../public/img2.jpeg");
+  background-image: url("/img2.jpeg");
   background-size: cover;
   background-position: center;
 }

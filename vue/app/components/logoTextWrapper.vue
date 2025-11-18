@@ -15,7 +15,7 @@ const calculatedColor = computed(() => {
         ><img
           :class="{ invert: onPrimary }"
           :style="`width: ${size}px; display: inline;`"
-          src="public/logoNoBG.png"
+          src="/logoNoBG.png"
       /></VCol>
       <VCol>
         <span class="navbar-brand-text">
