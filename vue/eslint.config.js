@@ -20,5 +20,8 @@ export default typescriptEslint.config(
         parser: typescriptEslint.parser,
       },
     },
+    rules: {
+      "vue/multi-word-component-names": "off"
+    }
   },
 );

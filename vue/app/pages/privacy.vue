@@ -1,5 +1,5 @@
 <template>
-  <VContainer>
+  <UContainer>
     <div class="numbered-titles-container">
       <h1>Datenschutzerklärung</h1>
       <h2>Datenschutzerklärung</h2>
@@ -14,7 +14,7 @@
       <h2>Verantwortlicher und Kontakt zu Datenschutzfragen</h2>
       <div>
         Ansprechpartner für Datenschutzanliegen ist:
-        <ul class="indent-list">
+        <ul>
           <li>Brettspielverein Zofingen</li>
           <li>info@brettspiel-zofingen.ch</li>
         </ul>
@@ -28,7 +28,7 @@
         allenfalls auftreten. Ferner werden bei der Nutzung dieser Website
         automatisch Informationen erhoben, die der Browser Ihres Endgeräts an
         unseren Host-Provider übermittelt. Dies sind:
-        <ul>
+        <ul class="list-disc">
           <li>IP-Adresse und Betriebssystem Ihres Endgeräts,</li>
           <li>Browsertyp, Version, Sprache</li>
           <li>Datum und Uhrzeit der Serveranfrage,</li>
@@ -40,7 +40,7 @@
         Diese Daten werden von unserem Host-Provider erhoben und gespeichert, um
         Prozesse und Abläufe insbesondere in Zusammenhang mit der Nutzung
         unserer Website und der Sicherheit und Stabilität des Computersystems
-        optimieren zu können. Weitere Informationen finden Sie in der
+        optimieren zu können. Weitere lnformationen finden Sie in der
         Datenschutzerklärung der "Swizzonic AG" unter
         "https://www.swizzonic.ch/company/legal/privacy-richtlinien/".
       </div>
@@ -50,7 +50,7 @@
         Anfrageformular zur Bearbeitung der Anfrage und für den Fall von
         Anschlussfragen von uns bearbeitet. In der Regel benötigen wir folgende
         Angaben:
-        <ul>
+        <ul class="list-disc">
           <li>Name</li>
           <li>E-Mail-Adresse</li>
           <li>Nachrichteninhalt</li>
@@ -72,7 +72,7 @@
         Wenn Sie sich auf unserer Webseite für den Verein registrieren, werden
         die von Ihnen eingegebenen Informationen gespeichert. Wir erfassen
         folgende Angaben:
-        <ul>
+        <ul class="list-disc">
           <li>Vor- und Nachname</li>
           <li>E-Mail-Adresse</li>
           <li>Adresse</li>
@@ -107,7 +107,8 @@
         berechtigt, Ihre Ansprüche gerichtlich durchzusetzen oder eine
         Beschwerde bei der zuständigen Datenschutzbehörde einzureichen. Für die
         Schweiz ist der Eidgenössische Datenschutz- und
-        Öffentlichkeitsbeauftragte zuständig (http://www.edoeb.admin.ch).
+        Öffentlichkeitsbeauftragte zuständig 
+        <span style="white-space: nowrap;">(http://www.edoeb.admin.ch).</span>
       </div>
       <h2>Aktualität der Datenschutzerklärung</h2>
       <div>
@@ -116,7 +117,7 @@
         "www.brettspiel-zofingen.ch/privacy.html" abgerufen werden.
       </div>
     </div>
-  </VContainer>
+  </UContainer>
 </template>
 
 <style scoped>

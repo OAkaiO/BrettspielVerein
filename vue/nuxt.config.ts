@@ -39,7 +39,7 @@ export default defineNuxtConfig({
     },
   },
   compatibilityDate: "2024-11-01",
-  css: ["~/assets/css/global.scss"],
+  css: ["~/assets/css/global.css"],
   devServer: {
     port: 8000,
   },
@@ -71,7 +71,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["types/*.ts"],
   },
-  modules: ["@nuxt/ui", "@nuxt/fonts", "@vueuse/nuxt"],
+  modules: ["@nuxt/ui", "@nuxt/fonts", "@vueuse/nuxt", "@nuxt/test-utils/module"],
   nitro: {
     prerender: {
       ignore: ["/200.html", "/404.html"],
@@ -81,6 +81,27 @@ export default defineNuxtConfig({
     public: {
       apiUrl: "",
     },
+  },
+  typescript: {
+    tsConfig: {
+      include: ["../test/nuxt/*"]
+    }
+  },
+  ui: {
+    colorMode: false,
+    theme: {
+      colors: [
+        'primary',
+        'secondary',
+        'tertiary',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'header',
+        'footer'
+      ]
+    }
   },
   vite: {
     build: {

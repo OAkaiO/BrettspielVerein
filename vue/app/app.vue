@@ -1,63 +1,47 @@
 <script setup lang="ts">
-const goTo = useOffsetGoTo();
-
-const { headers, receiver } = useNavHeaderReceiver();
-
-const drawerVisibility = ref(false);
-const { mdAndUp } = useDisplay();
 </script>
 
 <template>
-  <VApp>
-    <VAppBar :elevation="0" color="header">
-      <VContainer>
-        <VRow class="align-center justify-space-between px-4">
-          <LogoTextWrapper onPrimary></LogoTextWrapper>
-          <div ref="test" class="nav-container" v-if="headers?.length !== 0">
-            <template v-if="mdAndUp">
-              <div
-                v-for="sec in headers"
-                class="hover-link d-inline mx-2"
-                @click="goTo(unref(sec.goal.ref)!)"
-                :class="{ 'scrolled-over': sec.goal.isScrolledOver }"
-              >
-                {{ sec?.displayName }}
-              </div>
-            </template>
-            <VBtn
-              v-else
-              @click.stop="drawerVisibility = !drawerVisibility"
-              icon="mdi-menu"
-            ></VBtn>
-          </div>
-        </VRow>
-      </VContainer>
-    </VAppBar>
-    <VNavigationDrawer v-model="drawerVisibility" location="right" temporary>
-      <VList class="nav-container">
-        <VListItem
-          v-for="sec in headers"
-          @click="goTo(unref(sec.goal.ref)!)"
-          class="hover-link"
-          :class="{ 'scrolled-over': sec.goal.isScrolledOver }"
-        >
-          {{ sec.displayName }}
-        </VListItem>
-      </VList>
-    </VNavigationDrawer>
-    <VMain ref="myself">
-      <NuxtPage :navReceiver="receiver"></NuxtPage>
-    </VMain>
-    <VFooter class="footer pa-0">
-      <PageFooter></PageFooter>
-    </VFooter>
-  </VApp>
+  <UApp>
+    <UHeader class="bg-header">
+      <template #title>
+        <LogoTextWrapper
+          light
+          class="no-react-link grow-link"
+        />
+      </template>
+    </UHeader>
+    <UMain>
+      <NuxtPage/>
+    </UMain>
+    <UFooter>
+    </UFooter>
+  </UApp>
 </template>
-<style scoped>
+
+<style scoped lang="scss">
 .footer {
   height: 100%;
   min-height: 240px;
   display: relative;
+}
+
+.no-react-link {
+  &,
+  &.visited,
+  &:hover,
+  &:active,
+  &:link {
+    color: black;
+  }
+}
+
+.grow-link {
+  transition: all 0.07s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .nav-container :nth-last-child(1 of .scrolled-over) {
