@@ -148,16 +148,31 @@ stop() {
     docker compose --profile "*" down
 }
 
+__hookNodeDockerContainerWithCommand() {
+  docker run --rm -v ./vue/:/home/node/app -w /home/node/app node:22.14.0-alpine $@
+}
+
+npm() {
+    __hookNodeDockerContainerWithCommand npm "$1"
+}
+
+npx() {
+    __hookNodeDockerContainerWithCommand npx "$1"
+}
+
 usage() {
     cat <<EOF
-Usage: $0 [OPTION]... TARGET
+Usage: $0 [OPTION]... TARGET <sub-command>
 
 Options:
   -h, --help                Show this help message and exit
   -p <pw>, --password <pw>  Set a password for the prod DB to <pw>
 
 Arguments:
-  TARGET                    The task to execute
+  TARGET                    The task to execute<F53>
+
+sub-command:
+  Any valid command line that could be given to `npm` or `npx` (e.g. 'install -D sass')
 
 Description:
   This script can be used to execute all relevant task related to building,
@@ -168,9 +183,11 @@ Description:
     - dev: Starts backend, frontend, DB and mail server in their own containers
     - init: Prepares the project for development, by building required docker images, filling the DB and installing NPM dependencies
     - inttest: Builds the frontend and backend, and deploys them together for testing
-    - stop: Stops any running instances.
+    - npm <sub-command>: Executes the given <sub-command> for npm
+    - npx <sub-command>: Executes the given <sub-command> for npx
     - migrateDevDb: Apply the current changelog to the Dev DB.
     - migrateProdDb: Apply the current changelog to the PROD DB, requires -p option
+    - stop: Stops any running instances.
 
   You can combine any options in any order before specifying TARGET.
 EOF
@@ -238,6 +255,14 @@ inttest)
 init)
     init
     ;;
+npm)
+    shift
+    npm "$1"
+    ;;
+npx)
+    shift
+    npx "$1"
+    ;;
 migrateDevDb)
     migrateDevDb
     ;;
@@ -252,7 +277,7 @@ stop)
     stop
     ;;
 *)
-    echo "Error: Invalid TARGET value '$target'. Must be one of: buildDist, dev, inttest, init, stop"
+    echo "Error: Invalid TARGET value '$target'. Must be one of: buildDist, dev, inttest, init, npm, npx, migrateDevDb, migrateProdDb, stop"
     usage
     exit 1
     ;;
