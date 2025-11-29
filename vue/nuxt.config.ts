@@ -71,7 +71,13 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["types/*.ts"],
   },
-  modules: ["@nuxt/ui", "@nuxt/fonts", "@vueuse/nuxt", "@nuxt/test-utils/module"],
+  modules: [
+    "@nuxt/ui",
+    "@nuxt/fonts",
+    "@vueuse/nuxt",
+    "@nuxt/test-utils/module",
+    "@nuxt/eslint"
+  ],
   nitro: {
     prerender: {
       ignore: ["/200.html", "/404.html"],
