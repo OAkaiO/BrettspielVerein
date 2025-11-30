@@ -46,6 +46,17 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  eslint: {
+    config: {
+      nuxt: {
+        sortConfigKeys: false,
+      },
+      stylistic: {
+        semi: true,
+        quotes: "double",
+      },
+    },
+  },
   experimental: {
     payloadExtraction: false,
   },
@@ -69,14 +80,14 @@ export default defineNuxtConfig({
     families: [{ name: "DM Sans" }],
   },
   imports: {
-    dirs: ["types/*.ts"],
+    dirs: ["~/types/*.ts"],
   },
   modules: [
     "@nuxt/ui",
     "@nuxt/fonts",
     "@vueuse/nuxt",
     "@nuxt/test-utils/module",
-    "@nuxt/eslint"
+    "@nuxt/eslint",
   ],
   nitro: {
     prerender: {
@@ -90,28 +101,28 @@ export default defineNuxtConfig({
   },
   typescript: {
     tsConfig: {
-      include: ["../test/nuxt/*"]
-    }
+      include: ["../test/nuxt/*"],
+    },
   },
   ui: {
     colorMode: false,
     theme: {
       colors: [
-        'primary',
-        'secondary',
-        'tertiary',
-        'info',
-        'success',
-        'warning',
-        'error',
-        'header',
-        'footer'
-      ]
-    }
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "error",
+        "header",
+        "footer",
+      ],
+    },
   },
   vite: {
     build: {
-      cssCodeSplit: false
-    }
-  }
+      cssCodeSplit: false,
+    },
+  },
 });
