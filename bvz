@@ -149,7 +149,7 @@ stop() {
 }
 
 __hookNodeDockerContainerWithCommand() {
-  docker run --rm -v ./vue/:/home/node/app -w /home/node/app node:22.14.0-alpine $@
+  docker run --rm -v ./vue/:/home/node/app -w /home/node/app -u node node:22.14.0-alpine $@
 }
 
 npm() {
