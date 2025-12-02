@@ -12,10 +12,18 @@
       </template>
     </UHeader>
     <UMain>
-      <NuxtPage/>
+      <NuxtPage />
     </UMain>
-    <UFooter>
-    </UFooter>
+    <footer>
+      <WaveVariant1
+        lower
+        color="--ui-footer"
+        class="absolute w-full -z-1"
+      />
+      <UContainer class="pt-10">
+        <FooterLinks />
+      </UContainer>
+    </footer>
   </UApp>
 </template>
 
