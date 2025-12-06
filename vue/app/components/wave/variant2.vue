@@ -5,12 +5,7 @@ const { lower = false, color } = defineProps<{
 }>();
 
 const calculatedColor = computed(() => {
-  if (color.startsWith("--")) {
-    return `var(${color})`;
-  }
-  else {
-    return color;
-  }
+  return wrapColorForTailwind(color);
 });
 </script>
 

@@ -101,7 +101,7 @@ export default defineNuxtConfig({
   },
   typescript: {
     tsConfig: {
-      include: ["../test/nuxt/*"],
+      include: ["../test/**/*"],
     },
   },
   ui: {

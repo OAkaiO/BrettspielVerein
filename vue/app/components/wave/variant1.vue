@@ -1,16 +1,12 @@
 <script setup lang="ts">
+
 const { lower = false, color } = defineProps<{
   lower?: boolean;
   color: string;
 }>();
 
 const calculatedColor = computed(() => {
-  if (color.startsWith("--")) {
-    return `var(${color})`;
-  }
-  else {
-    return color;
-  }
+  return wrapColorForTailwind(color);
 });
 </script>
 
