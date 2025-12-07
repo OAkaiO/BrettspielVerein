@@ -5,7 +5,7 @@ import { LogoTextWrapper } from "#components";
 describe("LogoTextWrapper", () => {
   it("has correct text", async () => {
     const component = await mountSuspended(LogoTextWrapper);
-    expect(component.text()).toMatchInlineSnapshot("'Brettspielverein Zofingen'");
+    expect(component.text()).toMatchInlineSnapshot(`"Brettspielverein Zofingen"`);
   });
 
   it("respects light setting", async () => {
