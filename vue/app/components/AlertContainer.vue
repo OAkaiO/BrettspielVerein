@@ -6,7 +6,7 @@ const { alertData } = defineProps<{
 
 <template>
   <UContainer
-    class="fixed top-30 z-20"
+    class="fixed top-30 z-20 w-screen lg:left-1/2 lg:-translate-x-1/2"
   >
     <UAlert
       v-for="alert in alertData"
