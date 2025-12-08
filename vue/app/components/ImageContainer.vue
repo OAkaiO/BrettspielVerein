@@ -57,10 +57,5 @@ const slots = useSlots();
 
 .sheet{
   @apply bg-(--ui-bg)/85 backdrop-blur-[5px] backdrop-saturate-180 rounded-xl;
-  color: black;
-}
-
-::slotted() {
-  color: black;
 }
 </style>
