@@ -7,5 +7,14 @@ export default defineAppConfig({
       header: "header",
       footer: "footer",
     },
+    input: {
+      variants: {
+        size: {
+          xl: {
+            base: "text-lg p-3",
+          },
+        },
+      },
+    },
   },
 });
