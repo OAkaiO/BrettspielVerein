@@ -3,6 +3,8 @@
 
 @theme {
   --font-sans: "DM Sans", sans-serif;
+
+  --breakpoint-sm: 32rem;
 }
 
 @layer base {
