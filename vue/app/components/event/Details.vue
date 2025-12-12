@@ -6,22 +6,36 @@ const formattedPrice = computed(() => {
 </script>
 
 <template>
-  <table>
-    <tbody>
-      <tr>
-        <td>Ort:</td>
-        <td>{{ data.location }}</td>
-      </tr>
-      <tr>
-        <td>Zeit:</td>
-        <td>{{ data.start_time }}</td>
-      </tr>
-      <tr>
-        <td>Eintritt:</td>
-        <td>{{ formattedPrice }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <div class="flex flex-wrap gap-2 mb-2">
+      <UBadge
+        :label="data.date"
+        class="rounded-full min-w-[8rem] text-center"
+        size="xl"
+        color="footer"
+        :ui="{
+          base: 'justify-center',
+        }"
+      />
+      <h2>{{ data.name }}</h2>
+    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td>Ort:</td>
+          <td>{{ data.location }}</td>
+        </tr>
+        <tr>
+          <td>Zeit:</td>
+          <td>{{ data.start_time }}</td>
+        </tr>
+        <tr>
+          <td>Eintritt:</td>
+          <td>{{ formattedPrice }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style scoped>

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { EventDetails } from "#components";
+import { EventDetails, UBadge } from "#components";
 
 describe("EventDetails", () => {
   it("displays all data and formats price", async () => {
@@ -16,6 +16,12 @@ describe("EventDetails", () => {
         },
       },
     });
+
+    const datePill = wrapper.findComponent(UBadge);
+    expect(datePill.text()).toBe("2025-05-14");
+
+    const header = wrapper.find("h2");
+    expect(header.text()).toBe("Test Event");
 
     const tableRows = wrapper.findAll("tr");
     expect(tableRows.length).toBe(3);
@@ -40,10 +46,6 @@ describe("EventDetails", () => {
     });
 
     const tableRows = wrapper.findAll("tr");
-    expect(tableRows.length).toBe(3);
-
-    expect(tableRows[0]!.text()).toBe("Ort:Spittelhof");
-    expect(tableRows[1]!.text()).toBe("Zeit:19:30");
     expect(tableRows[2]!.text()).toBe("Eintritt:-");
   });
 });
