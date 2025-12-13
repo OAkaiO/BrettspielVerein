@@ -88,6 +88,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/test-utils/module",
     "@nuxt/eslint",
+    "@nuxtjs/leaflet",
   ],
   nitro: {
     prerender: {
