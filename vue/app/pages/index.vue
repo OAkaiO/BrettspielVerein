@@ -17,15 +17,8 @@ const alertData: Ref<AlertStatus[]> = ref([
     type: "error",
   },
 ]);
-
-const dummyEvent = {
-  id: "1",
-  date: "Jan 30 2026",
-  location: "Spittelhof",
-  price: "5",
-  start_time: "19:30",
-  name: "Brettspielabend im Spittelhof",
-};
+const { repository: eventRepository } = useEventRepository();
+const { data } = useLazyAsyncData(() => eventRepository.getEventData(), { server: false });
 </script>
 
 <template>
@@ -66,9 +59,13 @@ const dummyEvent = {
         </div>
       </Section>
       <Section title="Die nächsten Veranstaltungen">
-        <BVZSheet class="bg-secondary rounded-xl">
+        <BVZSheet
+          class="bg-secondary rounded-xl flex flex-col gap-2"
+        >
           <EventCard
-            :data="dummyEvent"
+            v-for="eventData in data"
+            :key="eventData.id"
+            :data="eventData"
             class="bg-white rounded-xl"
           />
         </BVZSheet>
@@ -77,7 +74,9 @@ const dummyEvent = {
         <div class="dual-slot-container">
           <div class="dual-container-item">
             <h2>Fragen?</h2>
-            <BVZSheet class="bg-secondary rounded-xl">
+            <BVZSheet
+              class="bg-secondary rounded-xl"
+            >
               <QuestionForm />
             </BVZSheet>
           </div>
