@@ -3,7 +3,10 @@
 
 <template>
   <UApp>
-    <UHeader class="bg-header">
+    <UHeader
+      class="bg-header border-0"
+      :toggle="false"
+    >
       <template #title>
         <LogoTextWrapper
           light
