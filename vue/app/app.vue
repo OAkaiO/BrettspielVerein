@@ -4,7 +4,7 @@
 <template>
   <UApp>
     <UHeader
-      class="bg-header border-0"
+      class="bg-header border-0 z-1100"
       :toggle="false"
     >
       <template #title>
