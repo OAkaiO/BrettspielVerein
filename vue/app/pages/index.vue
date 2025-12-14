@@ -31,7 +31,7 @@ const { alertData, triggerAlert } = useAlert();
       </ImageContainer>
       <Section title="Vereinsmitgliedschaft">
         <div class="dual-slot-container">
-          <div class="grow basis-0">
+          <div class="dual-container-item">
             <MembershipTable />
           </div>
           <BVZSheet class="dual-container-item bg-header rounded-xl">
@@ -81,7 +81,7 @@ const { alertData, triggerAlert } = useAlert();
   @apply flex flex-col md:flex-row gap-2;
 
   .dual-container-item {
-    @apply basis-0 grow max-w-[calc(50%-var(--spacing))];
+    @apply basis-0 grow md:max-w-[calc(50%-var(--spacing))];
   }
 }
 </style>
