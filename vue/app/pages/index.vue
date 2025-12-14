@@ -1,29 +1,13 @@
 <script setup lang="ts">
-const alertData: Ref<AlertStatus[]> = ref([
-  {
-    message: "Hello There",
-    type: "success",
-  },
-  {
-    message: "Hello There",
-    type: "warning",
-  },
-  {
-    message: "Hello There",
-    type: "info",
-  },
-  {
-    message: "Hello There",
-    type: "error",
-  },
-]);
 const { repository: eventRepository } = useEventRepository();
 const { data } = useLazyAsyncData(() => eventRepository.getEventData(), { server: false });
+
+const { alertData, triggerAlert } = useAlert();
 </script>
 
 <template>
   <div>
-    <AlertContainer :alert-data />
+    <AlertContainer :alertData="alertData" />
     <div ref="home">
       <ImageContainer :variant="1">
         <WelcomeBanner />
@@ -39,7 +23,7 @@ const { data } = useLazyAsyncData(() => eventRepository.getEventData(), { server
           <div class="pb-4">
             Sei stets informiert über die nächsten Events!
           </div>
-          <NewsletterForm />
+          <NewsletterForm @on-submission="(event: AlertStatus) => triggerAlert(event)" />
         </div>
         <template #right>
           <WhatsappCode />
@@ -54,7 +38,7 @@ const { data } = useLazyAsyncData(() => eventRepository.getEventData(), { server
             <h2 class="text-white mb-3">
               Anmeldung Mitgliedschaft
             </h2>
-            <SignUpForm />
+            <SignUpForm @on-submission="(event: AlertStatus) => triggerAlert(event)" />
           </BVZSheet>
         </div>
       </Section>
@@ -77,7 +61,7 @@ const { data } = useLazyAsyncData(() => eventRepository.getEventData(), { server
             <BVZSheet
               class="bg-secondary rounded-xl"
             >
-              <QuestionForm />
+              <QuestionForm @on-submission="(event: AlertStatus) => triggerAlert(event)" />
             </BVZSheet>
           </div>
           <div class="dual-container-item">
