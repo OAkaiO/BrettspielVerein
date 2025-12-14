@@ -2,10 +2,10 @@
 import * as z from "zod";
 
 const schema = z.object({
-  firstName: z.string("Bitte Vornamen angeben"),
-  lastName: z.string("Bitte Nachnamen angeben"),
-  address: z.string("Bitte Strasse angeben"),
-  address2: z.string("Bitte Ort angeben"),
+  firstName: zodRequiredString("Vornamen"),
+  lastName: zodRequiredString("Nachnamen"),
+  address: zodRequiredString("Strasse"),
+  address2: zodRequiredString("Ort"),
   email: z.email("Ungültige E-Mail"),
   message: z.string().optional(),
 });

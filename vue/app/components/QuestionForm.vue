@@ -2,9 +2,9 @@
 import * as z from "zod";
 
 const schema = z.object({
-  "full-name": z.string("Bitte Namen angeben"),
+  "full-name": zodRequiredString("Namen"),
   "email": z.email("Ungültige E-Mail"),
-  "message": z.string("Bitte eine Nachricht mitschicken"),
+  "message": zodRequiredString("Nachricht"),
 });
 type Schema = z.output<typeof schema>;
 const state = reactive<Partial<Schema>>({

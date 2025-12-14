@@ -83,7 +83,7 @@ describe("QuestionForm", () => {
       await flushPromises();
 
       const error = wrapper.find(`[data-slot="error"]`);
-      expect(error.text()).toBe("Bitte eine Nachricht mitschicken");
+      expect(error.text()).toBe("Bitte Nachricht angeben");
     });
   });
 
