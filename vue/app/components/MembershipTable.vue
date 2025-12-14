@@ -36,7 +36,7 @@
 <style scoped lang="scss">
 table {
   --table-padding: 15px;
-  --table-radius: var(--radius-3xl);
+  --table-radius: var(--radius-xl);
   border-collapse: separate;
   border-spacing: 0;
 
