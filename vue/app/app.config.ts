@@ -7,6 +7,11 @@ export default defineAppConfig({
       header: "header",
       footer: "footer",
     },
+    button: {
+      slots: {
+        base: "cursor-pointer",
+      },
+    },
     input: {
       variants: {
         size: {
