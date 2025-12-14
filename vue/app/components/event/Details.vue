@@ -46,4 +46,8 @@ tr td:nth-child(1) {
 tr td:nth-child(2) {
   padding-left: 12px;
 }
+
+td {
+  vertical-align: top;
+}
 </style>
