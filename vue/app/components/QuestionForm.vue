@@ -36,12 +36,12 @@ function onSubmit() {
 
 <template>
   <UForm
-    class="flex gap-2 flex-col"
+    class="flex gap-4 flex-col"
     :schema="schema"
     :state="state"
     @submit="onSubmit"
   >
-    <div class="flex flex-col lg:flex-row justify-stretch gap-2">
+    <div class="flex flex-col lg:flex-row justify-stretch gap-4">
       <UFormField
         name="full-name"
         class="grow"

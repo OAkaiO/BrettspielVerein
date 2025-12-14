@@ -42,7 +42,7 @@ function onSubmit() {
 
 <template>
   <UForm
-    class="flex gap-2 flex-col"
+    class="flex gap-4 flex-col"
     :schema="schema"
     :state="state"
     @submit="onSubmit"

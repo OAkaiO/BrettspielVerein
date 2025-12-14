@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Willkommen beim Brettspielverein Zofingen</h1>
-    <h2 class="flex gap-2">
+    <h2 class="flex gap-4">
       <div>Brettspiele</div>
       <TextScroller
         class="text-(--color-primary-600)"

@@ -44,7 +44,7 @@ const { alertData, triggerAlert } = useAlert();
       </Section>
       <Section title="Die nächsten Veranstaltungen">
         <BVZSheet
-          class="bg-secondary rounded-xl flex flex-col gap-2"
+          class="bg-secondary rounded-xl flex flex-col gap-4"
         >
           <EventCard
             v-for="eventData in data"
@@ -78,7 +78,7 @@ const { alertData, triggerAlert } = useAlert();
 @reference "tailwindcss";
 
 .dual-slot-container {
-  @apply flex flex-col md:flex-row gap-2;
+  @apply flex flex-col md:flex-row gap-4;
 
   .dual-container-item {
     @apply basis-0 grow md:max-w-[calc(50%-var(--spacing))];
