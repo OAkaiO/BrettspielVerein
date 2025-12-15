@@ -6,11 +6,11 @@
   <div class="flex justify-between items-end">
     <div>
       <LogoTextWrapper />
-      <a
+      <NuxtLink
         class="hover-link"
         href="/privacy"
       >Datenschutzerklärung
-      </a>
+      </NuxtLink>
     </div>
     <UButton
       icon="mdi-instagram"

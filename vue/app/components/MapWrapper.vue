@@ -20,12 +20,12 @@
             <div>Strengelbacherstrasse 29</div>
             <div>4800 Zofingen</div>
           </div>
-          <a
+          <NuxtLink
             class="cursor-pointer"
             href="https://www.google.ch/maps/dir//Freizeitverein+Spittelhof,+Strengelbacherstrasse+29,+4800+Zofingen/@47.282451,7.8668482,13z"
           >
             Route in Google Maps öffnen
-          </a>
+          </NuxtLink>
         </div>
       </LControl>
       <LMarker
