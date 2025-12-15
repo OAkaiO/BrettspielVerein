@@ -2,7 +2,7 @@ export default function<TYPE> (url: string) {
   const { $api } = useNuxtApp();
 
   return {
-    get: () => $api(url),
+    get: () => $api(url) as Promise<TYPE[]>,
     post: (body: TYPE) => {
       let t: keyof TYPE;
       for (t in body) {
