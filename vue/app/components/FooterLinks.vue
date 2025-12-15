@@ -16,7 +16,8 @@
       icon="mdi-instagram"
       color="header"
       size="xl"
-      class="rounded-3xl"
+      to="https://www.instagram.com/BrettspielZofingen"
+      class="rounded-full"
     />
   </div>
 </template>
