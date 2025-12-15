@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "test": "nuxt test"
+    "test": "nuxt test",
+    "lint": "eslint"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.11.0",

@@ -107,7 +107,7 @@
         berechtigt, Ihre Ansprüche gerichtlich durchzusetzen oder eine
         Beschwerde bei der zuständigen Datenschutzbehörde einzureichen. Für die
         Schweiz ist der Eidgenössische Datenschutz- und
-        Öffentlichkeitsbeauftragte zuständig 
+        Öffentlichkeitsbeauftragte zuständig
         <span style="white-space: nowrap;">(http://www.edoeb.admin.ch).</span>
       </div>
       <h2>Aktualität der Datenschutzerklärung</h2>

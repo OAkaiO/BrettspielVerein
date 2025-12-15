@@ -5,6 +5,6 @@ const integrationTest = false;
 
 export async function e2eSetup() {
   setup({
-    host: integrationTest ? INTEGRATIONTEST_HOST : undefined
-  })
+    host: integrationTest ? INTEGRATIONTEST_HOST : undefined,
+  });
 }

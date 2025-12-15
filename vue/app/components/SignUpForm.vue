@@ -10,16 +10,16 @@ const schema = z.object({
   message: z.string().optional(),
 });
 type Schema = z.output<typeof schema>;
-const state = reactive<Partial<Schema>>({
-  firstName: undefined,
-  lastName: undefined,
-  address: undefined,
-  address2: undefined,
-  email: undefined,
+const state = reactive<Schema>({
+  firstName: "",
+  lastName: "",
+  address: "",
+  address2: "",
+  email: "",
   message: undefined,
 });
 
-const { post } = usePhpBackend("register.php");
+const { post } = usePhpBackend<RegistrationData>("register.php");
 const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 
 function onSubmit() {

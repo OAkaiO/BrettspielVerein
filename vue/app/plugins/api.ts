@@ -1,4 +1,4 @@
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((_) => {
   const runtimeConfig = useRuntimeConfig();
 
   const api = $fetch.create({

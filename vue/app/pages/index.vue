@@ -7,7 +7,7 @@ const { alertData, triggerAlert } = useAlert();
 
 <template>
   <div>
-    <AlertContainer :alertData="alertData" />
+    <AlertContainer :alert-data="alertData" />
     <div ref="home">
       <ImageContainer :variant="1">
         <WelcomeBanner />

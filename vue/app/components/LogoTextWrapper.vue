@@ -11,7 +11,7 @@ const { light = false } = defineProps<{
       :style="`width: 50px; display: inline;`"
       src="/logoNoBG.png"
     >
-    <span 
+    <span
       class="navbar-brand-text"
       :class="light ? 'text-white' : 'text-black'"
     >

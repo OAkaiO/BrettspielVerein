@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const { lower = false, color } = defineProps<{
   lower?: boolean;
   color: string;
