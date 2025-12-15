@@ -5,8 +5,8 @@ const { title } = defineProps<{
 </script>
 
 <template>
-  <UContainer>
-    <h1 class="mb-6">
+  <UContainer class="my-4">
+    <h1 class="mb-4">
       {{ title }}
     </h1>
     <slot />

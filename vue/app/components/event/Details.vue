@@ -7,7 +7,7 @@ const formattedPrice = computed(() => {
 
 <template>
   <div>
-    <div class="flex flex-wrap gap-2 mb-2">
+    <div class="flex flex-wrap gap-2 mb-4">
       <UBadge
         :label="data.date"
         class="rounded-full min-w-[8rem] text-center"

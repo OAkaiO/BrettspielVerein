@@ -35,7 +35,7 @@ const { alertData, triggerAlert } = useAlert();
             <MembershipTable />
           </div>
           <BVZSheet class="dual-container-item bg-header rounded-xl">
-            <h2 class="text-white mb-3">
+            <h2 class="text-white mb-4">
               Anmeldung Mitgliedschaft
             </h2>
             <SignUpForm @on-submission="(event: AlertStatus) => triggerAlert(event)" />

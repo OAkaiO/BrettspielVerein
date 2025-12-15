@@ -16,7 +16,7 @@ export default defineAppConfig({
       variants: {
         size: {
           xl: {
-            base: "text-lg p-3",
+            base: "text-lg p-4",
           },
         },
       },
