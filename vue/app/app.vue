@@ -1,4 +1,17 @@
 <script setup lang="ts">
+const goToTargets = ref<HeaderSpec[]>([]);
+
+function handleNavigation(event: HeaderSpec[]) {
+  goToTargets.value = event;
+}
+
+const router = useRouter();
+router.beforeResolve(() => {
+  resetNavigation();
+});
+function resetNavigation() {
+  goToTargets.value = [];
+}
 </script>
 
 <template>
@@ -13,9 +26,22 @@
           class="no-react-link grow-link"
         />
       </template>
+      <div class="nav-container">
+        <UButton
+          v-for="target in goToTargets"
+          :key="target.displayName"
+          variant="link"
+          color="neutral"
+          @click="target.goTo()"
+        >
+          {{ target.displayName }}
+        </UButton>
+      </div>
     </UHeader>
     <UMain>
-      <NuxtPage />
+      <NuxtPage
+        @provide-navigation="handleNavigation"
+      />
     </UMain>
     <footer>
       <WaveVariant1
@@ -56,6 +82,6 @@
 }
 
 .nav-container :nth-last-child(1 of .scrolled-over) {
-  color: rgb(var(--v-theme-primary));
+  color: rgb(var(--ui-primary));
 }
 </style>
