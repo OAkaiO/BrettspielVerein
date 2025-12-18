@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import "leaflet/dist/leaflet.css";
+import { LMap, LTileLayer, LControl, LMarker } from "@maxel01/vue-leaflet";
+</script>
+
 <template>
   <div class="map_canvas rounded-xl">
     <LMap
