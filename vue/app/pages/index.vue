@@ -28,9 +28,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div ref="home">
     <AlertContainer :alert-data="alertData" />
-    <div ref="home">
+    <div>
       <ImageContainer :variant="1">
         <WelcomeBanner />
       </ImageContainer>
