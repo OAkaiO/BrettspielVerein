@@ -5,6 +5,8 @@
 # =============================================================
 
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
+NODE_DOCKER_IMAGE=node:24.12-alpine
+COMPOSER_DOCKER_IMAGE=composer/composer
 DIST_DIR=./dist
 DIST_APP_DIR=./dist/app
 
@@ -12,6 +14,7 @@ DIST_APP_DIR=./dist/app
 # Variables
 # =============================================================
 PASSWORD=""
+NPMX_COMMAND=""
 
 # =============================================================
 # Helpers
@@ -22,11 +25,11 @@ buildBackendForDev() {
     docker run --rm \
         --volume ./backend:/app \
         --user $(id -u):$(id -g) \
-        composer/composer install
+        $COMPOSER_DOCKER_IMAGE install
     docker run --rm \
         --volume ./backend:/app \
         --user $(id -u):$(id -g) \
-        composer/composer dump-autoload
+        $COMPOSER_DOCKER_IMAGE dump-autoload
 }
 
 buildBackendForIT() {
@@ -39,16 +42,16 @@ buildBackendForIT() {
     docker run --rm \
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
-        composer/composer install
+        $COMPOSER_DOCKER_IMAGE install
     docker run --rm \
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
-        composer/composer dump-autoload
+        $COMPOSER_DOCKER_IMAGE dump-autoload
 }
 
 buildFrontend() {
     echo "Generating the static frontend content."
-    npm run --prefix vue generate
+    npm run --prefix nuxt generate
     cp -r vue/.output/public/* $DIST_APP_DIR
 }
 
@@ -68,12 +71,7 @@ buildDist() {
     docker run --rm \
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
-        composer/composer install --prefer-dist --no-dev --optimize-autoloader
-
-    echo "Prettify: Extract theme into its own file"
-    docker run --rm \
-        --volume $DIST_APP_DIR:/opt/app \
-        bvz/prettifier:latest
+        $COMPOSER_DOCKER_IMAGE install --prefer-dist --no-dev --optimize-autoloader
 
     echo "Building distribution"
     zip -rD9 ./dist/app.zip ./dist/app -x "./dist/app/.env*"
@@ -92,7 +90,7 @@ dev() {
 
 installFrontend() {
     echo "Setup frontend npm environment"
-    docker run -v ./vue:/home/node/app -w /home/node/app -u node node:22.14.0-alpine npm install --silent
+    docker run -v ./vue:/home/node/app -w /home/node/app -u node $NODE_DOCKER_IMAGE npm install --silent
 }
 
 inttest() {
@@ -148,9 +146,25 @@ stop() {
     docker compose --profile "*" down
 }
 
+__hookNodeDockerContainerWithCommand() {
+  docker run --rm -v ./vue/:/home/node/app \
+    -w /home/node/app \
+    -u node \
+    -e NPM_CONFIG_UPDATE_NOTIFIER=false \
+    $NODE_DOCKER_IMAGE $@
+}
+
+npm() {
+    __hookNodeDockerContainerWithCommand npm "$1"
+}
+
+npx() {
+    __hookNodeDockerContainerWithCommand npx "$1"
+}
+
 usage() {
     cat <<EOF
-Usage: $0 [OPTION]... TARGET
+Usage: $0 [OPTION]... TARGET <sub-command>
 
 Options:
   -h, --help                Show this help message and exit
@@ -158,6 +172,9 @@ Options:
 
 Arguments:
   TARGET                    The task to execute
+
+sub-command:
+  Any valid command line that could be given to `npm` or `npx` (e.g. 'install -D sass')
 
 Description:
   This script can be used to execute all relevant task related to building,
@@ -168,9 +185,11 @@ Description:
     - dev: Starts backend, frontend, DB and mail server in their own containers
     - init: Prepares the project for development, by building required docker images, filling the DB and installing NPM dependencies
     - inttest: Builds the frontend and backend, and deploys them together for testing
-    - stop: Stops any running instances.
+    - npm -- <sub-command>: Executes the given <sub-command> for npm, e.g. install -D dependency
+    - npx -- <sub-command>: Executes the given <sub-command> for npx, e.g. nuxt prepare
     - migrateDevDb: Apply the current changelog to the Dev DB.
     - migrateProdDb: Apply the current changelog to the PROD DB, requires -p option
+    - stop: Stops any running instances.
 
   You can combine any options in any order before specifying TARGET.
 EOF
@@ -199,6 +218,11 @@ while [[ $# -gt 0 ]]; do
         fi
         PASSWORD=$1
         ;;
+    --)
+        # ${*:2} selects all arguments as a single string, not as multiple arguments
+        NPMX_COMMAND="${*:2}"
+        break
+        ;;
     -*)
         echo "Unknown option: $1"
         usage
@@ -221,9 +245,7 @@ if [[ $# -lt 1 ]]; then
     exit 1
 fi
 
-# Assign final argument as target
 target="$1"
-
 # Validate TARGET
 case "$target" in
 buildDist)
@@ -237,6 +259,12 @@ inttest)
     ;;
 init)
     init
+    ;;
+npm)
+    npm "$NPMX_COMMAND"
+    ;;
+npx)
+    npx "$NPMX_COMMAND"
     ;;
 migrateDevDb)
     migrateDevDb
@@ -252,7 +280,7 @@ stop)
     stop
     ;;
 *)
-    echo "Error: Invalid TARGET value '$target'. Must be one of: buildDist, dev, inttest, init, stop"
+    echo "Error: Invalid TARGET value '$target'. Must be one of: buildDist, dev, inttest, init, npm, npx, migrateDevDb, migrateProdDb, stop"
     usage
     exit 1
     ;;
