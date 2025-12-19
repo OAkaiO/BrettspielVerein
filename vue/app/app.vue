@@ -19,7 +19,47 @@ function resetNavigation() {
     <UHeader
       class="bg-header border-0 z-1100"
       :toggle="false"
+      :ui="{
+        center: 'md:flex',
+      }"
     >
+      <template #right>
+        <USlideover
+          :close="{
+            color: 'secondary',
+            variant: 'ghost',
+          }"
+          :ui="{
+            content: 'bg-header text-secondary max-w-3xs',
+          }"
+        >
+          <UButton
+            icon="mdi-menu"
+            variant="ghost"
+            color="secondary"
+            class="md:hidden rounded-full"
+          />
+          <template #title>
+            <h2 class="text-secondary">
+              Sektionen
+            </h2>
+          </template>
+          <template #body>
+            <div class="nav-container flex flex-col">
+              <UButton
+                v-for="target in goToTargets"
+                :key="target.displayName"
+                variant="link"
+                color="neutral"
+                :class="{ 'scrolled-over': target.scrolledBeginningToTop }"
+                @click="target.goTo()"
+              >
+                {{ target.displayName }}
+              </UButton>
+            </div>
+          </template>
+        </USlideover>
+      </template>
       <template #title>
         <LogoTextWrapper
           light
@@ -76,7 +116,12 @@ function resetNavigation() {
   }
 }
 
-.nav-container :nth-last-child(1 of .scrolled-over) {
-  color: var(--ui-primary);
+.nav-container {
+  *:hover{
+    color: var(--ui-bg);
+  }
+  & :nth-last-child(1 of .scrolled-over) {
+    color: var(--ui-primary);
+  }
 }
 </style>
