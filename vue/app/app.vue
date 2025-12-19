@@ -32,6 +32,7 @@ function resetNavigation() {
           :key="target.displayName"
           variant="link"
           color="neutral"
+          :class="{ 'scrolled-over': target.scrolledBeginningToTop }"
           @click="target.goTo()"
         >
           {{ target.displayName }}
@@ -57,12 +58,6 @@ function resetNavigation() {
 </template>
 
 <style scoped lang="scss">
-.footer {
-  height: 100%;
-  min-height: 240px;
-  display: relative;
-}
-
 .no-react-link {
   &,
   &.visited,
@@ -82,6 +77,6 @@ function resetNavigation() {
 }
 
 .nav-container :nth-last-child(1 of .scrolled-over) {
-  color: rgb(var(--ui-primary));
+  color: var(--ui-primary);
 }
 </style>

@@ -18,7 +18,7 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 describe("index", () => {
-  it("displays contents in slot", async () => {
+  it("emits event with scroll information", async () => {
     const component = await mountSuspended(Index);
 
     const emitted = component.emitted("provideNavigation");
@@ -31,5 +31,6 @@ describe("index", () => {
       "Events",
       "Kontakt",
     ]);
+    expect((emitted![0]![0]! as HeaderSpec[])![0]!.scrolledBeginningToTop.value).toBe(true);
   });
 });
