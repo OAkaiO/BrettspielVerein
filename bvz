@@ -5,6 +5,8 @@
 # =============================================================
 
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
+NODE_DOCKER_IMAGE=node:24.12-alpine
+COMPOSER_DOCKER_IMAGE=composer/composer
 DIST_DIR=./dist
 DIST_APP_DIR=./dist/app
 
@@ -22,11 +24,11 @@ buildBackendForDev() {
     docker run --rm \
         --volume ./backend:/app \
         --user $(id -u):$(id -g) \
-        composer/composer install
+        $COMPOSER_DOCKER_IMAGE install
     docker run --rm \
         --volume ./backend:/app \
         --user $(id -u):$(id -g) \
-        composer/composer dump-autoload
+        $COMPOSER_DOCKER_IMAGE dump-autoload
 }
 
 buildBackendForIT() {
@@ -39,16 +41,16 @@ buildBackendForIT() {
     docker run --rm \
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
-        composer/composer install
+        $COMPOSER_DOCKER_IMAGE install
     docker run --rm \
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
-        composer/composer dump-autoload
+        $COMPOSER_DOCKER_IMAGE dump-autoload
 }
 
 buildFrontend() {
     echo "Generating the static frontend content."
-    npm run --prefix vue generate
+    npm run --prefix nuxt generate
     cp -r vue/.output/public/* $DIST_APP_DIR
 }
 
@@ -68,12 +70,7 @@ buildDist() {
     docker run --rm \
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
-        composer/composer install --prefer-dist --no-dev --optimize-autoloader
-
-    echo "Prettify: Extract theme into its own file"
-    docker run --rm \
-        --volume $DIST_APP_DIR:/opt/app \
-        bvz/prettifier:latest
+        $COMPOSER_DOCKER_IMAGE install --prefer-dist --no-dev --optimize-autoloader
 
     echo "Building distribution"
     zip -rD9 ./dist/app.zip ./dist/app -x "./dist/app/.env*"
@@ -92,7 +89,7 @@ dev() {
 
 installFrontend() {
     echo "Setup frontend npm environment"
-    docker run -v ./vue:/home/node/app -w /home/node/app -u node node:22.14.0-alpine npm install --silent
+    docker run -v ./vue:/home/node/app -w /home/node/app -u node $NODE_DOCKER_IMAGE npm install --silent
 }
 
 inttest() {
@@ -149,7 +146,7 @@ stop() {
 }
 
 __hookNodeDockerContainerWithCommand() {
-  docker run --rm -v ./vue/:/home/node/app -w /home/node/app -u node node:22.14.0-alpine $@
+  docker run --rm -v ./vue/:/home/node/app -w /home/node/app -u node $NODE_DOCKER_IMAGE $@
 }
 
 npm() {
