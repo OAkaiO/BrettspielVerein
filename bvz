@@ -14,6 +14,7 @@ DIST_APP_DIR=./dist/app
 # Variables
 # =============================================================
 PASSWORD=""
+NPMX_COMMAND=""
 
 # =============================================================
 # Helpers
@@ -166,7 +167,7 @@ Options:
   -p <pw>, --password <pw>  Set a password for the prod DB to <pw>
 
 Arguments:
-  TARGET                    The task to execute<F53>
+  TARGET                    The task to execute
 
 sub-command:
   Any valid command line that could be given to `npm` or `npx` (e.g. 'install -D sass')
@@ -180,8 +181,8 @@ Description:
     - dev: Starts backend, frontend, DB and mail server in their own containers
     - init: Prepares the project for development, by building required docker images, filling the DB and installing NPM dependencies
     - inttest: Builds the frontend and backend, and deploys them together for testing
-    - npm <sub-command>: Executes the given <sub-command> for npm
-    - npx <sub-command>: Executes the given <sub-command> for npx
+    - npm -- <sub-command>: Executes the given <sub-command> for npm, e.g. install -D dependency
+    - npx -- <sub-command>: Executes the given <sub-command> for npx, e.g. nuxt prepare
     - migrateDevDb: Apply the current changelog to the Dev DB.
     - migrateProdDb: Apply the current changelog to the PROD DB, requires -p option
     - stop: Stops any running instances.
@@ -213,6 +214,11 @@ while [[ $# -gt 0 ]]; do
         fi
         PASSWORD=$1
         ;;
+    --)
+        # ${*:2} selects all arguments as a single string, not as multiple arguments
+        NPMX_COMMAND="${*:2}"
+        break
+        ;;
     -*)
         echo "Unknown option: $1"
         usage
@@ -235,9 +241,7 @@ if [[ $# -lt 1 ]]; then
     exit 1
 fi
 
-# Assign final argument as target
 target="$1"
-
 # Validate TARGET
 case "$target" in
 buildDist)
@@ -253,12 +257,10 @@ init)
     init
     ;;
 npm)
-    shift
-    npm "$1"
+    npm "$NPMX_COMMAND"
     ;;
 npx)
-    shift
-    npx "$1"
+    npx "$NPMX_COMMAND"
     ;;
 migrateDevDb)
     migrateDevDb
