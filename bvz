@@ -147,7 +147,11 @@ stop() {
 }
 
 __hookNodeDockerContainerWithCommand() {
-  docker run --rm -v ./vue/:/home/node/app -w /home/node/app -u node $NODE_DOCKER_IMAGE $@
+  docker run --rm -v ./vue/:/home/node/app \
+    -w /home/node/app \
+    -u node \
+    -e NPM_CONFIG_UPDATE_NOTIFIER=false \
+    $NODE_DOCKER_IMAGE $@
 }
 
 npm() {
