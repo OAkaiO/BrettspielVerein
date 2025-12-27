@@ -43,7 +43,7 @@ class MailConfigurator
         return $mail;
     }
 
-    private static     function configureDummy($mail)
+    private static function configureDummy($mail)
     {
         // $mail->SMTPDebug = SMTP::DEBUG_CONNECTION; //TODO: Need to figure out how to not print this to browser
         $mail->SMTPDebug = SMTP::DEBUG_OFF;
