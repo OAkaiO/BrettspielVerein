@@ -11,7 +11,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 class MailConfigurator
 {
 
-    private static function baseConfigure()
+    private function baseConfigure()
     {
         $mail = new PHPMailer();
         $mail->isSmtp();
@@ -24,16 +24,16 @@ class MailConfigurator
     }
 
 
-    static function configureMail($subject, $message, $from): PHPMailer
+    function configureMail($subject, $message, $from): PHPMailer
     {
         $mail = MailConfigurator::baseConfigure();
         $profile = Env::get(Env::PROFILE);
         if ($profile == Env::DEV_PROFILE) {
-            MailConfigurator::configureDummy($mail);
+            $this->configureDummy($mail);
         } else if ($profile == Env::PRODUCTION_PROFILE) {
-            MailConfigurator::configureProduction($mail);
+            $this->configureProduction($mail);
         } else {
-            throw new \Exception("Unexpected profile: " . $profile . "");
+            throw new \Exception("Unexpected profile: $profile");
         }
         //Recipients
         $mail->setFrom($from, 'BVZ Mailer');
@@ -43,13 +43,13 @@ class MailConfigurator
         return $mail;
     }
 
-    private static function configureDummy($mail)
+    private function configureDummy($mail)
     {
         // $mail->SMTPDebug = SMTP::DEBUG_CONNECTION; //TODO: Need to figure out how to not print this to browser
         $mail->SMTPDebug = SMTP::DEBUG_OFF;
     }
 
-    private static function configureProduction($mail)
+    private function configureProduction($mail)
     {
         $mail->SMTPDebug = SMTP::DEBUG_OFF;
         $mail->SMTPAuth = true; // Enable SMTP authentication
