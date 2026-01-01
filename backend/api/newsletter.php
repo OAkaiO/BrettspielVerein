@@ -12,4 +12,4 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $postBody = file_get_contents("php://input");
 
-(new NewsletterService())->process($postBody);
+(new NewsletterService())->subscribe($postBody);

@@ -4,6 +4,8 @@ namespace BVZ\Newsletter;
 
 use BVZ\ParserException;
 
+require_once __DIR__ . "/../../vendor/autoload.php";
+
 class NewsletterParser
 {
     /**

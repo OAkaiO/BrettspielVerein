@@ -6,15 +6,16 @@ use BVZ\MailConfigurator;
 use BVZ\Newsletter\NewsletterParser;
 use BVZ\ParserException;
 
+require_once __DIR__ . "/../../vendor/autoload.php";
+
 class NewsletterService
 {
     function __construct(private NewsletterParser $parser = new NewsletterParser(),
                          private MailConfigurator $mailConfigurator = new MailConfigurator())
     {
-        $this->parser=$parser;
     }
 
-    public function process(string $body)
+    public function subscribe(string $body)
     {
         try {
             $email = $this->parser->parse($body);
