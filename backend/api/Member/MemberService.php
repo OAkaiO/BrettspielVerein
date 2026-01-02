@@ -1,17 +1,17 @@
 <?php
 
-namespace BVZ\Register;
+namespace BVZ\Member;
 
 use BVZ\MailConfigurator;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RegisterService
+class MemberService
 {
     function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator())
     {}
 
-    public function register(RegisterDTO $dto)
+    public function register(MemberDTO $dto)
     {
         $transformArray = array(
             "{fullName}" => $dto->{"firstName"} . ' ' . $dto->{"lastName"}, "{addr1}" => $dto->{"address1"},

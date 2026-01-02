@@ -3,12 +3,12 @@
 use BVZ\FieldValidator;
 use PHPUnit\Framework\TestCase;
 
-use BVZ\Register\RegisterParser;
+use BVZ\Member\MemberParser;
 use BVZ\ValidationResult;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RegisterParserTest extends TestCase
+class MemberParserTest extends TestCase
 {
     public function testFailsWhenFieldValidatorReportsError()
     {
@@ -19,7 +19,7 @@ class RegisterParserTest extends TestCase
                           return ValidationResult::error($field);
                       });
 
-        $parser = new RegisterParser($mockValidator);
+        $parser = new MemberParser($mockValidator);
         $result = $parser->parse(new stdClass());
 
         $this->assertEquals(['Unit Test', 'firstName', 'lastName', 'address1', 'address2'], $result->errors);
@@ -38,7 +38,7 @@ class RegisterParserTest extends TestCase
         $body->address1="Teststreet";
         $body->address2="Testcity";
 
-        $result = (new RegisterParser($mockValidator))->parse($body);
+        $result = (new MemberParser($mockValidator))->parse($body);
 
         $this->assertEquals("unit@test.com", $result->email);
         $this->assertEquals("Unit", $result->firstName);
@@ -61,7 +61,7 @@ class RegisterParserTest extends TestCase
         $body->address1="Teststreet";
         $body->address2="Testcity";
 
-        $result = (new RegisterParser($mockValidator))->parse($body);
+        $result = (new MemberParser($mockValidator))->parse($body);
 
         $this->assertEquals("unit@test.com", $result->email);
         $this->assertEquals("Unit", $result->firstName);

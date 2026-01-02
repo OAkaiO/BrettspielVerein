@@ -1,8 +1,8 @@
 <?php
 
-namespace BVZ\Register;
+namespace BVZ\Member;
 
-class RegisterDTO
+class MemberDTO
 {
     private function __construct(
         public readonly string $email,
@@ -24,11 +24,11 @@ class RegisterDTO
         string $message=""
     )
     {
-        return new RegisterDTO($email, $firstName, $lastName, $address1, $address2, $message);
+        return new MemberDTO($email, $firstName, $lastName, $address1, $address2, $message);
     }
 
     public static function error(array $errors)
     {
-        return new RegisterDTO("", "", "", "", "", "", $errors);
+        return new MemberDTO("", "", "", "", "", "", $errors);
     }
 }

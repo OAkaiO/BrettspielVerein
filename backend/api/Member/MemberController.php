@@ -1,16 +1,16 @@
 <?php
 
-namespace BVZ\Register;
+namespace BVZ\Member;
 
 use BVZ\Request\RequestException;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RegisterController {
+class MemberController {
 
-    function __construct(private RegisterParser $parser = new RegisterParser(),
-        private RegisterService $service = new RegisterService(),
+    function __construct(private MemberParser $parser = new MemberParser(),
+        private MemberService $service = new MemberService(),
         private RequestHandler $request_handler = new RequestHandler())
     {}
 

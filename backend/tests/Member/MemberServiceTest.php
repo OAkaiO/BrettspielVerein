@@ -1,15 +1,15 @@
 <?php
 
 use BVZ\MailConfigurator;
-use BVZ\Register\RegisterDTO;
+use BVZ\Member\MemberDTO;
 use PHPUnit\Framework\TestCase;
 
-use BVZ\Register\RegisterService;
+use BVZ\Member\MemberService;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RegisterServiceTest extends TestCase
+class MemberServiceTest extends TestCase
 {
     public function testReturns500WhenMailingDoesntWork() 
     {
@@ -19,8 +19,8 @@ class RegisterServiceTest extends TestCase
         $mailConfigurator->method('configureMail')
             ->willReturn($mockMail);
 
-        $service = new RegisterService($mailConfigurator);
-        $service->register(RegisterDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
+        $service = new MemberService($mailConfigurator);
+        $service->register(MemberDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains('X-Error-State: Could not process question!', xdebug_get_headers());
@@ -47,8 +47,8 @@ class RegisterServiceTest extends TestCase
         $mailConfigurator->expects($this->once())->method('configureMail')
             ->with('Registrierung von Unit Test', $expectedMessage, 'unit@test.com');
 
-        $service = new RegisterService($mailConfigurator);
-        $service->register(RegisterDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
+        $service = new MemberService($mailConfigurator);
+        $service->register(MemberDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
         $this->assertEquals(204, http_response_code());
     }
 }

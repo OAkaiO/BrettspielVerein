@@ -1,28 +1,28 @@
 <?php
 
-use BVZ\Register\RegisterController;
-use BVZ\Register\RegisterDTO;
-use BVZ\Register\RegisterParser;
-use BVZ\Register\RegisterService;
+use BVZ\Member\MemberController;
+use BVZ\Member\MemberDTO;
+use BVZ\Member\MemberParser;
+use BVZ\Member\MemberService;
 use BVZ\Request\RequestException;
 use BVZ\Request\RequestHandler;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RegisterControllerTest extends TestCase
+class MemberControllerTest extends TestCase
 {
     public function testReturnsWithoutCallingServiceIfRequestHandlerThrows()
     {
-        $mockParser = $this->createStub(RegisterParser::class);
-        $mockService = $this->createMock(RegisterService::class);
+        $mockParser = $this->createStub(MemberParser::class);
+        $mockService = $this->createMock(MemberService::class);
         $mockService->expects($this->never())->method('register');
         $mockRequestHandler = $this->createStub(RequestHandler::class);
 
         $mockRequestHandler->method('extractPostBody')
             ->willThrowException(new RequestException("Dummy"));
 
-        $controller = new RegisterController($mockParser, $mockService, $mockRequestHandler);
+        $controller = new MemberController($mockParser, $mockService, $mockRequestHandler);
 
         $controller->handle();
 
@@ -32,14 +32,14 @@ class RegisterControllerTest extends TestCase
 
     public function testReturnsWithoutCallingServiceIfParserReturnsInvalid()
     {
-        $mockParser = $this->createStub(RegisterParser::class);
-        $mockParser->method('parse')->willReturn(RegisterDTO::error(["Unit Test","Another"]));
-        $mockService = $this->createMock(RegisterService::class);
+        $mockParser = $this->createStub(MemberParser::class);
+        $mockParser->method('parse')->willReturn(MemberDTO::error(["Unit Test","Another"]));
+        $mockService = $this->createMock(MemberService::class);
         $mockService->expects($this->never())->method('register');
         $mockRequestHandler = $this->createStub(RequestHandler::class);
 
 
-        $controller = new RegisterController($mockParser, $mockService, $mockRequestHandler);
+        $controller = new MemberController($mockParser, $mockService, $mockRequestHandler);
 
         $controller->handle();
 
@@ -50,13 +50,13 @@ class RegisterControllerTest extends TestCase
 
     public function testHandleCallsServiceWithResultFromRequestHandler()
     {
-        $mockParser = $this->createStub(RegisterParser::class);
-        $mockParser->method('parse')->willReturn(RegisterDTO::create('unit@test.com', "Unit", "Test", "Teststreet", "Testcity", "Hello there!"));
+        $mockParser = $this->createStub(MemberParser::class);
+        $mockParser->method('parse')->willReturn(MemberDTO::create('unit@test.com', "Unit", "Test", "Teststreet", "Testcity", "Hello there!"));
 
-        $mockService = $this->createMock(RegisterService::class);
+        $mockService = $this->createMock(MemberService::class);
         $mockService->expects($this->once())
                     ->method('register')
-                    ->will($this->returnCallback(function(RegisterDTO $dto){
+                    ->will($this->returnCallback(function(MemberDTO $dto){
                         $this->assertEquals('unit@test.com', $dto->email);
                         $this->assertEquals('Unit', $dto->firstName);
                         $this->assertEquals('Test', $dto->lastName);
@@ -69,7 +69,7 @@ class RegisterControllerTest extends TestCase
         $mockRequestHandler = $this->createStub(RequestHandler::class);
         $mockRequestHandler->method('extractPostBody')->willReturn(new stdClass());
 
-        $controller = new RegisterController($mockParser, $mockService, $mockRequestHandler);
+        $controller = new MemberController($mockParser, $mockService, $mockRequestHandler);
 
         $controller->handle();
     }

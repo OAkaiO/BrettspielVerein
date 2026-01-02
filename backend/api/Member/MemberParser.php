@@ -1,12 +1,12 @@
 <?php
 
-namespace BVZ\Register;
+namespace BVZ\Member;
 
 use BVZ\FieldValidator;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RegisterParser
+class MemberParser
 {
     public function __construct(private readonly FieldValidator $validator = new FieldValidator())
     {}
@@ -17,9 +17,9 @@ class RegisterParser
      *
      * @param object $body The JSON object that should contain an email
      *
-     * @return RegisterDTO Returns the extracted data
+     * @return MemberDTO Returns the extracted data
      */
-    public function parse(object $body) : RegisterDTO
+    public function parse(object $body) : MemberDTO
     {
         $errors = array();
 
@@ -38,8 +38,8 @@ class RegisterParser
         }
         if (!empty($errors))
         {
-            return RegisterDTO::error($errors);
+            return MemberDTO::error($errors);
         }
-        return RegisterDTO::create($body->{'email'}, $body->{'firstName'}, $body->{'lastName'}, $body->{'address1'}, $body->{'address2'}, $body->{'message'} ?? "");
+        return MemberDTO::create($body->{'email'}, $body->{'firstName'}, $body->{'lastName'}, $body->{'address1'}, $body->{'address2'}, $body->{'message'} ?? "");
     }
 }

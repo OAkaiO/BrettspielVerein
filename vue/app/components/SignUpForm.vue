@@ -4,7 +4,7 @@ import * as z from "zod";
 const schema = z.object({
   firstName: zodRequiredString("Vornamen"),
   lastName: zodRequiredString("Nachnamen"),
-  address: zodRequiredString("Strasse"),
+  address1: zodRequiredString("Strasse"),
   address2: zodRequiredString("Ort"),
   email: z.email("Ungültige E-Mail"),
   message: z.string().optional(),
@@ -13,13 +13,13 @@ type Schema = z.output<typeof schema>;
 const state = reactive<Schema>({
   firstName: "",
   lastName: "",
-  address: "",
+  address1: "",
   address2: "",
   email: "",
   message: undefined,
 });
 
-const { post } = usePhpBackend<RegistrationData>("register.php");
+const { post } = usePhpBackend<RegistrationData>("member");
 const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 
 function onSubmit() {
@@ -82,7 +82,7 @@ function onSubmit() {
       required
     >
       <UInput
-        v-model="state.address"
+        v-model="state.address1"
         label="address"
         placeholder="Adresse"
         size="xl"
