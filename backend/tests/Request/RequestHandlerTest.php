@@ -2,6 +2,7 @@
 
 use BVZ\Request\RequestException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -27,9 +28,19 @@ class RequestHandlerTest extends TestCase
         $handler->extractPostBody();
     }
 
-    public function testExtractPostBodyFailsWhenNotValidJson()
+    public static function invalidBodyProvider() : array {
+        return array(
+            [""],
+            ["{hallo}"],
+            ["{'wrong': 'quotes'}"],
+            ['{"incomplete": "Wow"']
+        );
+    }
+
+    #[DataProvider("invalidBodyProvider")]
+    public function testExtractPostBodyFailsWhenNotValidJson(string $invalidBody)
     {
-        $file = $this->getTemporaryFile('{email:"test@unit.com"}');
+        $file = $this->getTemporaryFile($invalidBody);
         $fileName = stream_get_meta_data($file)['uri'];
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $handler = new RequestHandler($fileName);
