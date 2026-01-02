@@ -3,35 +3,20 @@
 namespace BVZ\Newsletter;
 
 use BVZ\MailConfigurator;
-use BVZ\Newsletter\NewsletterParser;
-use BVZ\ParserException;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterService
 {
-    function __construct(private NewsletterParser $parser = new NewsletterParser(),
-                         private MailConfigurator $mailConfigurator = new MailConfigurator())
-    {
-    }
+    function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator())
+    {}
 
-    public function subscribe(string $body)
+    public function subscribe(NewsletterDTO $dto)
     {
-        try {
-            $email = $this->parser->parse($body);
-        }
-        catch(ParserException $e)
-        {
-            $error = $e->getMessage();
-            header("X-Error-State: $error");
-            http_response_code(400);
-            return;
-        }
-
-        $transformArray = array("{mail}" => $email);
+        $transformArray = array("{mail}" => $dto->email);
         $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
         $message = "Ich melde mich hiermit an :)";
-        $mail = $this->mailConfigurator->configureMail($subject, $message, $email);
+        $mail = $this->mailConfigurator->configureMail($subject, $message, $dto->email);
 
         $success = $mail->send();
         if (!$success) {
