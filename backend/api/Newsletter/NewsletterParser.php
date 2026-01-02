@@ -2,40 +2,33 @@
 
 namespace BVZ\Newsletter;
 
-use BVZ\ParserException;
+use BVZ\FieldValidator;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterParser
 {
+    public function __construct(private readonly FieldValidator $validator = new FieldValidator())
+    {}
+
     /**
      * Extracts the passed email from a valid JSON Object and returns it.
      *
-     * @param string $body The JSON object that should contain an email
-     * @throws NewsletterParserException when the body is invalid or does
-     *                                   not contain a (valid) email
+     * @param object $body The JSON object that should contain an email
      *
-     * @return string Returns the extracted valid email
+     * @return NewsletterDTO Returns the extracted valid email
      */
-    public function parse(string $body) : string
+    public function parse(object $body) : NewsletterDTO
     {
-        $parsed = json_decode($body);
-        if ($parsed === null)
-        {
-            throw new ParserException("Body not valid JSON!");
-        }
+        $emailValidation = $this->validator->validateEmailField($body, 'email');
 
-        if (!property_exists($parsed, 'email')) {
-            throw new ParserException("Email address not found!");
-        }
-        $emailAddr = $parsed->{'email'};
-        if (filter_var($emailAddr, FILTER_VALIDATE_EMAIL) === false)
+        if ($emailValidation->isValid)
         {
-            throw new ParserException("Email address not valid!");
+            return NewsletterDTO::create($body->{'email'});
         }
-        else
+        else 
         {
-            return $emailAddr;
+            return NewsletterDTO::error([$emailValidation->message]);
         }
     }
 }

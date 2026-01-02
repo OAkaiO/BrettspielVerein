@@ -1,48 +1,35 @@
 <?php
+
+use BVZ\FieldValidator;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 use BVZ\Newsletter\NewsletterParser;
-use BVZ\ParserException;
+use BVZ\ValidationResult;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterParserTest extends TestCase
 {
-    public static function invalidBodyProvider() : array {
-        return array(
-            [""],
-            ["{hallo}"],
-            ["{'wrong': 'quotes'}"],
-            ['{"incomplete": "Wow"']
-        );
-    }
-
-    #[DataProvider("invalidBodyProvider")]
-    public function testFailsWhenInputIsNotValidJSON(string $invalidBody) : void 
+    public function testFailsFieldValidatorReportsError()
     {
-        $this->expectException(ParserException::class);
-        $this->expectExceptionMessage("Body not valid JSON!");
-        (new NewsletterParser())->parse($invalidBody);
-    }
+        $mockValidator = $this->createStub(FieldValidator::class);
+        $mockValidator->method('validateEmailField')->willReturn(ValidationResult::error("Unit Test"));
 
-    public function testFailsWhenInputDoesNotHaveAnEmailField()
-    {
-        $this->expectException(ParserException::class);
-        $this->expectExceptionMessage("Email address not found!");
-        (new NewsletterParser())->parse('{"something": "unit@test.com"}');
-    }
+        $parser = new NewsletterParser($mockValidator);
+        $result = $parser->parse(new stdClass());
 
-    public function testFailsWhenInputDoesNotContainAValidEmail()
-    {
-        $this->expectException(ParserException::class);
-        $this->expectExceptionMessage("Email address not valid!");
-        (new NewsletterParser())->parse('{"email": "unittest.com"}');
+        $this->assertEquals(['Unit Test'], $result->errors);
     }
 
     public function testReturnsEmailWhenContainedInBody()
     {
-        $result = (new NewsletterParser())->parse('{"email": "unit@test.com"}');
-        $this->assertEquals("unit@test.com", $result);
+        $mockValidator = $this->createStub(FieldValidator::class);
+        $mockValidator->method('validateEmailField')->willReturn(ValidationResult::valid());
+
+        $body = new stdClass();
+        $body->email="unit@test.com";
+
+        $result = (new NewsletterParser())->parse($body);
+        $this->assertEquals("unit@test.com", $result->email);
     }
 }
