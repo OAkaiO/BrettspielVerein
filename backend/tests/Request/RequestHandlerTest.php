@@ -27,6 +27,18 @@ class RequestHandlerTest extends TestCase
         $handler->extractPostBody();
     }
 
+    public function testExtractPostBodyFailsWhenNotValidJson()
+    {
+        $file = $this->getTemporaryFile('{email:"test@unit.com"}');
+        $fileName = stream_get_meta_data($file)['uri'];
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $handler = new RequestHandler($fileName);
+
+        $this->expectException(RequestException::class);
+        $this->expectExceptionMessage("Body not valid JSON!");
+        $handler->extractPostBody();
+    }
+
     public function testExtractPostBodyReturnsFilePassedToHandler()
     {
         $file = $this->getTemporaryFile('{"email":"test@unit.com"}');
@@ -35,7 +47,7 @@ class RequestHandlerTest extends TestCase
         $handler = new RequestHandler($fileName);
 
         $result = $handler->extractPostBody();
-        $this->assertEquals('{"email":"test@unit.com"}', $result);
+        $this->assertEquals('test@unit.com', $result->email);
     }
 
     private function getTemporaryFile(string $contents)

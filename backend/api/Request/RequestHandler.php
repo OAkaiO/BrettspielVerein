@@ -14,11 +14,17 @@ class RequestHandler {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
-    public function extractPostBody(): string 
+    public function extractPostBody(): object 
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             throw new RequestException("Not a POST");
         }
-        return file_get_contents($this->inputFile);
+        $rawBody = file_get_contents($this->inputFile);
+        $parsed = json_decode($rawBody);
+        if ($parsed === null)
+        {
+            throw new RequestException("Body not valid JSON!");
+        }
+        return $parsed;
     }
 }
