@@ -27,7 +27,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertContains('X-Error-State: Could not process registration request!', xdebug_get_headers());
     }
     
-    public function testReturns204WhenMailingtWorks() 
+    public function testReturns204WhenMailingWorks() 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);

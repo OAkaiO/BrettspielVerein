@@ -1,16 +1,15 @@
 <?php
 
 use BVZ\MailConfigurator;
-use BVZ\Question\QuestionDTO;
+use BVZ\Register\RegisterDTO;
 use PHPUnit\Framework\TestCase;
 
-use BVZ\Question\QuestionParser;
-use BVZ\Question\QuestionService;
+use BVZ\Register\RegisterService;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class QuestionServiceTest extends TestCase
+class RegisterServiceTest extends TestCase
 {
     public function testReturns500WhenMailingDoesntWork() 
     {
@@ -20,8 +19,8 @@ class QuestionServiceTest extends TestCase
         $mailConfigurator->method('configureMail')
             ->willReturn($mockMail);
 
-        $service = new QuestionService($mailConfigurator);
-        $service->ask(QuestionDTO::create("unit@test.com", "Unit Test", "Hello"));
+        $service = new RegisterService($mailConfigurator);
+        $service->register(RegisterDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains('X-Error-State: Could not process question!', xdebug_get_headers());
@@ -29,6 +28,16 @@ class QuestionServiceTest extends TestCase
     
     public function testReturns204WhenMailingWorks() 
     {
+        $expectedMessage = <<<TEST
+        
+         Name: Unit Test
+         Adresse: Teststreet
+         Plz + Wohnort: Testcity
+        E-Mail: unit@test.com
+
+        Nachricht
+         Hello
+        TEST;
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
 
@@ -36,10 +45,10 @@ class QuestionServiceTest extends TestCase
         $mailConfigurator->method('configureMail')
             ->willReturn($mockMail);
         $mailConfigurator->expects($this->once())->method('configureMail')
-            ->with('Frage von Unit Test', 'Hello', 'unit@test.com');
+            ->with('Registrierung von Unit Test', $expectedMessage, 'unit@test.com');
 
-        $service = new QuestionService($mailConfigurator);
-        $service->ask(QuestionDTO::create("unit@test.com", "Unit Test", "Hello"));
+        $service = new RegisterService($mailConfigurator);
+        $service->register(RegisterDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
         $this->assertEquals(204, http_response_code());
     }
 }
