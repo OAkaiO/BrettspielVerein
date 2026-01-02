@@ -9,7 +9,8 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterController {
 
-    function __construct(private NewsletterService $service = new NewsletterService(),
+    function __construct(private NewsletterParser $parser = new NewsletterParser(),
+        private NewsletterService $service = new NewsletterService(),
         private RequestHandler $request_handler = new RequestHandler())
     {}
 
@@ -29,8 +30,22 @@ class NewsletterController {
         }
     }
 
-    private function subscribe(string $body)
+    private function subscribe(object $body)
     {
-        $this->service->subscribe($body);
+        $parsed = $this->parser->parse($body);
+        if (empty($parsed->errors))
+        {
+            $this->service->subscribe($parsed);
+            return;
+        }
+        else
+        {
+            foreach($parsed->errors as $error)
+            {
+                header("X-Error-State: $error", false);
+            }
+            http_response_code(400);
+            return;
+        }
     }
 }
