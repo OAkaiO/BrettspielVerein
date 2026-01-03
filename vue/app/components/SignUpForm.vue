@@ -78,12 +78,12 @@ function onSubmit() {
       />
     </UFormField>
     <UFormField
-      name="address"
+      name="address1"
       required
     >
       <UInput
         v-model="state.address1"
-        label="address"
+        label="address1"
         placeholder="Adresse"
         size="xl"
         class="w-full"

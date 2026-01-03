@@ -43,13 +43,13 @@ function onSubmit() {
   >
     <div class="flex flex-col lg:flex-row justify-stretch gap-4">
       <UFormField
-        name="full-name"
+        name="fullName"
         class="grow"
         required
       >
         <UInput
           v-model="state.fullName"
-          label="full-name"
+          label="fullName"
           placeholder="Name"
           size="xl"
           class="w-full"

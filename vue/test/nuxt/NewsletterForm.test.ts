@@ -19,10 +19,10 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("NewsletterForm", () => {
-  it("uses phpBackend with newsletter.php", async () => {
+  it("uses phpBackend with 'newsletter'", async () => {
     await mountSuspended(NewsletterForm);
 
-    expect(usePhpBackendMock).toHaveBeenLastCalledWith("newsletter.php");
+    expect(usePhpBackendMock).toHaveBeenLastCalledWith("newsletter");
   });
 
   it("does not submit when data is not valid", async () => {
