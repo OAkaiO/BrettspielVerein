@@ -12,4 +12,9 @@ class GetRequest extends Request
     {
         parent::__construct($url);
     }
+
+    function trigger(RequestHandler $handler)
+    {
+        $handler->handleGet($this);
+    }
 }

@@ -13,4 +13,9 @@ class PostRequest extends Request
     {
         parent::__construct($url);
     }
+
+    function trigger(RequestHandler $handler)
+    {
+        $handler->handlePost($this);
+    }
 }
