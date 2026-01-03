@@ -4,7 +4,7 @@ use BVZ\MailConfigurator;
 use BVZ\Question\QuestionController;
 use BVZ\Question\QuestionParser;
 use BVZ\Question\QuestionService;
-use BVZ\Request\RequestHandler;
+use BVZ\Request\PostRequest;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +14,7 @@ class QuestionIT extends TestCase
 {
     public function testSuccessfulRequest()
     {
-        $body = '{"fullName":"Unit Test", "email": "unit@test.com", "message": "Hello there"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"fullName":"Unit Test", "email": "unit@test.com", "message": "Hello there"}');
 
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
@@ -33,22 +28,16 @@ class QuestionIT extends TestCase
         $parser = new QuestionParser();
         $service = new QuestionService($mockMailer);
 
-        $controller = new QuestionController($parser, $service, $mockRequestHandler);
+        $controller = new QuestionController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(204, http_response_code());
     }
 
     public function testReturnsWith500WhenMailingFails()
     {
-        $body = '{"fullName":"Unit Test", "email": "unit@test.com", "message": "Hello there"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"fullName":"Unit Test", "email": "unit@test.com", "message": "Hello there"}');
 
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
@@ -58,14 +47,12 @@ class QuestionIT extends TestCase
             ->with('Frage von Unit Test', 'Hello there', 'unit@test.com')
             ->willReturn($mockMail);
 
-
         $parser = new QuestionParser();
         $service = new QuestionService($mockMailer);
 
-        $controller = new QuestionController($parser, $service, $mockRequestHandler);
+        $controller = new QuestionController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains("X-Error-State: Could not process question!", xdebug_get_headers());
@@ -73,24 +60,17 @@ class QuestionIT extends TestCase
 
     public function testFailsWhenMissingData()
     {
-        $body = '{"fullName":"Unit Test", "email": "unit@test.com"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"fullName":"Unit Test", "email": "unit@test.com"}');
 
         $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->never())->method('configureMail');
 
-
         $parser = new QuestionParser();
         $service = new QuestionService($mockMailer);
 
-        $controller = new QuestionController($parser, $service, $mockRequestHandler);
+        $controller = new QuestionController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: message not found or empty!", xdebug_get_headers());

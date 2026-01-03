@@ -4,30 +4,26 @@ use BVZ\Newsletter\NewsletterController;
 use BVZ\Newsletter\NewsletterDTO;
 use BVZ\Newsletter\NewsletterParser;
 use BVZ\Newsletter\NewsletterService;
-use BVZ\Request\RequestException;
-use BVZ\Request\RequestHandler;
+use BVZ\Request\GetRequest;
+use BVZ\Request\PostRequest;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterControllerTest extends TestCase
 {
-    public function testReturnsWithoutCallingServiceIfRequestHandlerThrows()
+    public function testThrowsWhenCalledWithAGetRequest()
     {
         $mockParser = $this->createStub(NewsletterParser::class);
         $mockService = $this->createMock(NewsletterService::class);
         $mockService->expects($this->never())->method('subscribe');
-        $mockRequestHandler = $this->createStub(RequestHandler::class);
 
-        $mockRequestHandler->method('extractPostBody')
-            ->willThrowException(new RequestException("Dummy"));
+        $controller = new NewsletterController($mockParser, $mockService);
 
-        $controller = new NewsletterController($mockParser, $mockService, $mockRequestHandler);
-
-        $controller->handle();
+        $controller->handle(new GetRequest("dummy"));
 
         $this->assertEquals(405, http_response_code());
-        $this->assertContains('X-Error-State: Dummy', xdebug_get_headers());
+        $this->assertContains('X-Error-State: GET not supported', xdebug_get_headers());
     }
 
     public function testReturnsWithoutCallingServiceIfParserReturnsInvalid()
@@ -36,12 +32,11 @@ class NewsletterControllerTest extends TestCase
         $mockParser->method('parse')->willReturn(NewsletterDTO::error(["Unit Test","Another"]));
         $mockService = $this->createMock(NewsletterService::class);
         $mockService->expects($this->never())->method('subscribe');
-        $mockRequestHandler = $this->createStub(RequestHandler::class);
 
 
-        $controller = new NewsletterController($mockParser, $mockService, $mockRequestHandler);
+        $controller = new NewsletterController($mockParser, $mockService);
 
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", new stdClass()));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains('X-Error-State: Unit Test', xdebug_get_headers());
@@ -62,11 +57,8 @@ class NewsletterControllerTest extends TestCase
                     })
         );
 
-        $mockRequestHandler = $this->createStub(RequestHandler::class);
-        $mockRequestHandler->method('extractPostBody')->willReturn(new stdClass());
+        $controller = new NewsletterController($mockParser, $mockService);
 
-        $controller = new NewsletterController($mockParser, $mockService, $mockRequestHandler);
-
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", new stdClass()));
     }
 }

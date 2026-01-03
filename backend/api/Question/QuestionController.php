@@ -2,32 +2,31 @@
 
 namespace BVZ\Question;
 
-use BVZ\Request\RequestException;
+use BVZ\Request\GetRequest;
+use BVZ\Request\PostRequest;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class QuestionController {
+class QuestionController extends RequestHandler {
 
     function __construct(private QuestionParser $parser = new QuestionParser(),
-        private QuestionService $service = new QuestionService(),
-        private RequestHandler $request_handler = new RequestHandler())
+        private QuestionService $service = new QuestionService()
+    )
     {}
 
-    public function handle()
+    function handleGet(GetRequest $get)
     {
-        // for now, we only have one endpoint, so we just call it, otherwise there would 
-        // have to be some differentiation logic here
-        try {
-            $this->ask($this->request_handler->extractPostBody());
-        }
-        catch (RequestException $e)
-        {
-            $message = $e->getMessage();
-            header("X-Error-State: $message");
-            http_response_code(405);
-            return;
-        }
+        http_response_code(405);
+        header("X-Error-State: GET not supported", false);
+        return;
+    }
+
+    function handlePost(PostRequest $post)
+    {
+        // We only have one operation for now, therefore we don't do any explicit
+        // checks for what to call.
+        $this->ask($post->body);
     }
 
     private function ask(object $body)

@@ -4,6 +4,7 @@ use BVZ\MailConfigurator;
 use BVZ\Member\MemberController;
 use BVZ\Member\MemberParser;
 use BVZ\Member\MemberService;
+use BVZ\Request\PostRequest;
 use BVZ\Request\RequestHandler;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +15,7 @@ class MemberIT extends TestCase
 {
     public function testSuccessfulRequest()
     {
-        $body = '{"firstName":"Unit", "lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}';
+        $body = json_decode('{"firstName":"Unit", "lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}');
         $expectedMessage = <<<TEST
         
          Name: Unit Test
@@ -25,11 +26,6 @@ class MemberIT extends TestCase
         Nachricht
          Hello
         TEST;
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
 
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
@@ -43,17 +39,16 @@ class MemberIT extends TestCase
         $parser = new MemberParser();
         $service = new MemberService($mockMailer);
 
-        $controller = new MemberController($parser, $service, $mockRequestHandler);
+        $controller = new MemberController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(204, http_response_code());
     }
 
     public function testReturnsWith500WhenMailingFails()
     {
-        $body = '{"firstName":"Unit", "lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}';
+        $body = json_decode('{"firstName":"Unit", "lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}');
         $expectedMessage = <<<TEST
         
          Name: Unit Test
@@ -64,11 +59,6 @@ class MemberIT extends TestCase
         Nachricht
          Hello
         TEST;
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
 
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
@@ -82,10 +72,9 @@ class MemberIT extends TestCase
         $parser = new MemberParser();
         $service = new MemberService($mockMailer);
 
-        $controller = new MemberController($parser, $service, $mockRequestHandler);
+        $controller = new MemberController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains("X-Error-State: Could not process member signup!", xdebug_get_headers());
@@ -93,12 +82,7 @@ class MemberIT extends TestCase
 
     public function testFailsWhenMissingData()
     {
-        $body = '{"lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}');
 
         $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->never())->method('configureMail');
@@ -107,20 +91,11 @@ class MemberIT extends TestCase
         $parser = new MemberParser();
         $service = new MemberService($mockMailer);
 
-        $controller = new MemberController($parser, $service, $mockRequestHandler);
+        $controller = new MemberController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: firstName not found or empty!", xdebug_get_headers());
-    }
-
-    private function getTemporaryFile(string $contents)
-    {
-        $file = tmpfile();
-        fwrite($file, $contents);
-        fseek($file, 0);
-        return $file;
     }
 }

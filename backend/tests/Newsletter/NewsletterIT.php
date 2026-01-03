@@ -4,7 +4,7 @@ use BVZ\MailConfigurator;
 use BVZ\Newsletter\NewsletterController;
 use BVZ\Newsletter\NewsletterParser;
 use BVZ\Newsletter\NewsletterService;
-use BVZ\Request\RequestHandler;
+use BVZ\Request\PostRequest;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +14,7 @@ class NewsletterIT extends TestCase
 {
     public function testSuccessfulRequest()
     {
-        $body = '{"email": "unit@test.com"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"email": "unit@test.com"}');
 
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
@@ -33,22 +28,17 @@ class NewsletterIT extends TestCase
         $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer);
 
-        $controller = new NewsletterController($parser, $service, $mockRequestHandler);
+        $controller = new NewsletterController($parser, $service);
 
         $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(204, http_response_code());
     }
 
     public function testReturnsWith500WhenMailingFails()
     {
-        $body = '{"email": "unit@test.com"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"email": "unit@test.com"}');
 
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
@@ -62,10 +52,9 @@ class NewsletterIT extends TestCase
         $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer);
 
-        $controller = new NewsletterController($parser, $service, $mockRequestHandler);
+        $controller = new NewsletterController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains("X-Error-State: Could not process registration request!", xdebug_get_headers());
@@ -73,12 +62,7 @@ class NewsletterIT extends TestCase
 
     public function testFailsWhenMissingData()
     {
-        $body = '{"notemail": "unit@test.com"}';
-
-        $file = $this->getTemporaryFile($body);
-        $fileName = stream_get_meta_data($file)['uri'];
-
-        $mockRequestHandler = new RequestHandler($fileName);
+        $body = json_decode('{"notemail": "unit@test.com"}');
 
         $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->never())->method('configureMail');
@@ -87,10 +71,9 @@ class NewsletterIT extends TestCase
         $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer);
 
-        $controller = new NewsletterController($parser, $service, $mockRequestHandler);
+        $controller = new NewsletterController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
-        $controller->handle();
+        $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: Email address not found!", xdebug_get_headers());

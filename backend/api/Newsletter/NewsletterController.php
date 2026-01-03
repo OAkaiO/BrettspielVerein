@@ -2,32 +2,31 @@
 
 namespace BVZ\Newsletter;
 
-use BVZ\Request\RequestException;
+use BVZ\Request\GetRequest;
+use BVZ\Request\PostRequest;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class NewsletterController {
+class NewsletterController extends RequestHandler {
 
     function __construct(private NewsletterParser $parser = new NewsletterParser(),
-        private NewsletterService $service = new NewsletterService(),
-        private RequestHandler $request_handler = new RequestHandler())
+        private NewsletterService $service = new NewsletterService()
+    )
     {}
 
-    public function handle()
+    function handleGet(GetRequest $get)
     {
-        // for now, we only have one endpoint, so we just call it, otherwise there would 
-        // have to be some differentiation logic here
-        try {
-            $this->subscribe($this->request_handler->extractPostBody());
-        }
-        catch (RequestException $e)
-        {
-            $message = $e->getMessage();
-            header("X-Error-State: $message");
-            http_response_code(405);
-            return;
-        }
+        http_response_code(405);
+        header("X-Error-State: GET not supported", false);
+        return;
+    }
+
+    function handlePost(PostRequest $post)
+    {
+        // We only have one operation for now, therefore we don't do any explicit
+        // checks for what to call.
+        $this->subscribe($post->body);
     }
 
     private function subscribe(object $body)
