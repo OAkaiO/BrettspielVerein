@@ -7,6 +7,8 @@
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
 NODE_DOCKER_IMAGE=node:24.12-alpine
 COMPOSER_DOCKER_IMAGE=composer/composer
+PHPUNIT_DOCKER_IMAGE=jitesoft/phpunit:8.2
+
 DIST_DIR=./dist
 DIST_APP_DIR=./dist/app
 
@@ -15,6 +17,8 @@ DIST_APP_DIR=./dist/app
 # =============================================================
 PASSWORD=""
 NPMX_COMMAND=""
+
+NPM_CONTAINER_NAME="npm_container"
 
 # =============================================================
 # Helpers
@@ -146,12 +150,37 @@ stop() {
     docker compose --profile "*" down
 }
 
+unittest() {
+    container_name=php_unit_test
+    echo "Running backend tests"
+    docker container rm $container_name &> /dev/null
+    docker run --name $container_name --user $(id -u):$(id -g) -v ./backend/:/app $PHPUNIT_DOCKER_IMAGE phpunit --configuration phpunit.xml
+    backend_exit_code=$(docker wait $container_name)
+
+    echo "Running frontend tests"
+    NPM_CONTAINER_NAME="frontend_unit_test"
+    docker container rm $NPM_CONTAINER_NAME &> /dev/null
+    npm test
+    frontend_exit_code=$(docker wait $NPM_CONTAINER_NAME)
+
+    if [[ $backend_exit_code -ne 0 ]]; then
+        echo "Backend tests had issues!"
+    fi
+    if [[ $frontend_exit_code -ne 0 ]]; then
+        echo "Frontend tests had issues!"
+    fi
+    if [[ $frontend_exit_code -eq 0 && $backend_exit_code -eq 0 ]]; then
+        echo "All tests passed!"
+    fi
+}
+
 __hookNodeDockerContainerWithCommand() {
-  docker run --rm -v ./vue/:/home/node/app \
-    -w /home/node/app \
-    -u node \
-    -e NPM_CONFIG_UPDATE_NOTIFIER=false \
-    $NODE_DOCKER_IMAGE $@
+    docker run -v ./vue/:/home/node/app \
+        --name $NPM_CONTAINER_NAME \
+        -w /home/node/app \
+        -u node \
+        -e NPM_CONFIG_UPDATE_NOTIFIER=false \
+        $NODE_DOCKER_IMAGE $@
 }
 
 npm() {
@@ -190,6 +219,7 @@ Description:
     - migrateDevDb: Apply the current changelog to the Dev DB.
     - migrateProdDb: Apply the current changelog to the PROD DB, requires -p option
     - stop: Stops any running instances.
+    - test: Run all frontend and backend tests
 
   You can combine any options in any order before specifying TARGET.
 EOF
@@ -254,6 +284,9 @@ buildDist)
 dev)
     dev
     ;;
+test)
+    unittest
+    ;;
 inttest)
     inttest
     ;;
@@ -262,9 +295,11 @@ init)
     ;;
 npm)
     npm "$NPMX_COMMAND"
+    docker container rm $NPM_CONTAINER_NAME &>2
     ;;
 npx)
     npx "$NPMX_COMMAND"
+    docker container rm $NPM_CONTAINER_NAME &>2
     ;;
 migrateDevDb)
     migrateDevDb
