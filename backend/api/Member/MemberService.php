@@ -27,7 +27,7 @@ class MemberService
         if (!$success) {
             // TODO: Logging, as echo kills the http response approach, and doesn't provide value, anyways
             // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
-            header("X-Error-State: Could not process question!");
+            header("X-Error-State: Could not process member signup!");
             http_response_code(500);
         } else {
             http_response_code(204);

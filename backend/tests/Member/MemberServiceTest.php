@@ -23,7 +23,7 @@ class MemberServiceTest extends TestCase
         $service->register(MemberDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
 
         $this->assertEquals(500, http_response_code());
-        $this->assertContains('X-Error-State: Could not process question!', xdebug_get_headers());
+        $this->assertContains('X-Error-State: Could not process member signup!', xdebug_get_headers());
     }
     
     public function testReturns204WhenMailingWorks() 
