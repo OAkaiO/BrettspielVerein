@@ -26,10 +26,10 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("useEventRepository", () => {
-  it("calls usePhpBackend for events.php", () => {
+  it("calls usePhpBackend for 'events'", () => {
     useEventRepository();
 
-    expect(usePhpBackendMock).toBeCalledWith("/events.php");
+    expect(usePhpBackendMock).toBeCalledWith("/events");
   });
 
   it("returns data from php backend with adjusted date and time", async () => {

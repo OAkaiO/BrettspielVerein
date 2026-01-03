@@ -30,7 +30,6 @@ class NewsletterIT extends TestCase
 
         $controller = new NewsletterController($parser, $service);
 
-        $_SERVER['REQUEST_METHOD'] = "POST";
         $controller->handle(new PostRequest("dummy", $body));
 
         $this->assertEquals(204, http_response_code());
@@ -77,13 +76,5 @@ class NewsletterIT extends TestCase
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: Email address not found!", xdebug_get_headers());
-    }
-
-    private function getTemporaryFile(string $contents)
-    {
-        $file = tmpfile();
-        fwrite($file, $contents);
-        fseek($file, 0);
-        return $file;
     }
 }

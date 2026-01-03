@@ -1,8 +1,8 @@
 <?php
 
-namespace BVZ;
+namespace BVZ\Events;
 
-use BVZ\Event;
+use BVZ\Events\Event;
 use Aura\Sql\ExtendedPdo;
 use Aura\SqlQuery\QueryFactory;
 use BVZ\Env;

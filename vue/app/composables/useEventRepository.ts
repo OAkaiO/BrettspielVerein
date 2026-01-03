@@ -9,7 +9,7 @@ function shortenDateAndTime(data: EventData) {
 }
 
 export default function () {
-  const { get } = usePhpBackend("/events.php");
+  const { get } = usePhpBackend("/events");
 
   return {
     repository: {

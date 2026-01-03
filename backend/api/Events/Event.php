@@ -1,6 +1,6 @@
 <?php
 
-namespace BVZ;
+namespace BVZ\Events;
 
 class Event
 {

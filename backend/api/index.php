@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Events\EventController;
 use BVZ\Member\MemberController;
 use BVZ\Newsletter\NewsletterController;
 use BVZ\Question\QuestionController;
@@ -32,6 +33,9 @@ switch ($request->url)
         return;
     case '/api/member':
         (new MemberController())->handle($request);
+        return;
+    case '/api/events':
+        (new EventController())->handle($request);
         return;
     default:
         http_response_code(404);
