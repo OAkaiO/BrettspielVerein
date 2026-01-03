@@ -1,0 +1,26 @@
+name: Node
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install frontend
+      run: npm ci
+      working-directory: ./vue
+
+    - name: Run test suite
+      run: npm test
+      working-directory: ./vue
+
