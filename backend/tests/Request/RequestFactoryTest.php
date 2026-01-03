@@ -1,31 +1,24 @@
 <?php
 
+use BVZ\Request\GetRequest;
+use BVZ\Request\PostRequest;
 use BVZ\Request\RequestException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use BVZ\Request\RequestHandler;
+use BVZ\Request\RequestFactory;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RequestHandlerTest extends TestCase
+class RequestFactoryTest extends TestCase
 {
 
-    public function testRequestUriReturnsExtractedEndOfPath()
+    public function testGetRequestCreatedSuccessfully()
     {
         $_SERVER['REQUEST_URI'] = "/api/unit/test";
-        $this->assertEquals('/api/unit/test', (new RequestHandler())->getRequestUri());
-    }
-
-    public function testExtractPostBodyFailsWhenNotAPost()
-    {
-        $file = $this->getTemporaryFile("");
-        $fileName = stream_get_meta_data($file)['uri'];
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $handler = new RequestHandler($fileName);
+        $request = (new RequestFactory())->getRequest();
 
-        $this->expectException(RequestException::class);
-        $this->expectExceptionMessage("Not a POST");
-        $handler->extractPostBody();
+        $this->assertInstanceOf(GetRequest::class, $request);
     }
 
     public static function invalidBodyProvider() : array {
@@ -43,11 +36,11 @@ class RequestHandlerTest extends TestCase
         $file = $this->getTemporaryFile($invalidBody);
         $fileName = stream_get_meta_data($file)['uri'];
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $handler = new RequestHandler($fileName);
+        $factory = new RequestFactory($fileName);
 
         $this->expectException(RequestException::class);
         $this->expectExceptionMessage("Body not valid JSON!");
-        $handler->extractPostBody();
+        $factory->getRequest();
     }
 
     public function testExtractPostBodyReturnsFilePassedToHandler()
@@ -55,10 +48,14 @@ class RequestHandlerTest extends TestCase
         $file = $this->getTemporaryFile('{"email":"test@unit.com"}');
         $fileName = stream_get_meta_data($file)['uri'];
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $handler = new RequestHandler($fileName);
+        $handler = new RequestFactory($fileName);
 
-        $result = $handler->extractPostBody();
-        $this->assertEquals('test@unit.com', $result->email);
+        $request = $handler->getRequest();
+        $this->assertInstanceOf(PostRequest::class, $request);
+
+        $expectedBody = new stdClass();
+        $expectedBody->email = "test@unit.com";
+        $this->assertEquals($expectedBody, $request->body);
     }
 
     private function getTemporaryFile(string $contents)

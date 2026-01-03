@@ -4,21 +4,18 @@ namespace BVZ\Request;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class RequestHandler {
+class RequestFactory {
 
     function __construct(private string $inputFile = "php://input")
     {}
 
-    public function getRequestUri(): string
+    private function getRequestUri(): string
     {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
-    public function extractPostBody(): object 
+    private function extractPostBody(): object 
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            throw new RequestException("Not a POST");
-        }
         $rawBody = file_get_contents($this->inputFile);
         $parsed = json_decode($rawBody);
         if ($parsed === null)
@@ -26,5 +23,17 @@ class RequestHandler {
             throw new RequestException("Body not valid JSON!");
         }
         return $parsed;
+    }
+
+    public function getRequest()
+    {
+        $uri = $this->getRequestUri();
+        switch ($_SERVER['REQUEST_METHOD'])
+        {
+            case 'GET':
+                return new GetRequest($uri);
+            case 'POST':
+                return new PostRequest($uri, $this->extractPostBody());
+        }
     }
 }
