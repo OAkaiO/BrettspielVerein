@@ -1,5 +1,6 @@
 backend/mailPw.php
 backend/vendor
+backend/.phpunit.result.cache
 **/.env
 dist/*
 !dist/.gitkeep

@@ -1,5 +1,7 @@
 {
   "name": "bvz/bvz",
+  "description": "The backend for the BVZ Website",
+  "license": "proprietary",
   "config": {
     "vendor-dir": "./vendor"
   },

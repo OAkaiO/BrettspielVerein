@@ -1,0 +1,31 @@
+<?php
+
+namespace BVZ\Newsletter;
+
+use BVZ\MailConfigurator;
+
+require_once __DIR__ . "/../../vendor/autoload.php";
+
+class NewsletterService
+{
+    function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator())
+    {}
+
+    public function subscribe(NewsletterDTO $dto)
+    {
+        $transformArray = array("{mail}" => $dto->email);
+        $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
+        $message = "Ich melde mich hiermit an :)";
+        $mail = $this->mailConfigurator->configureMail($subject, $message, $dto->email);
+
+        $success = $mail->send();
+        if (!$success) {
+            // TODO: Logging, as echo kills the http response approach, and doesn't provide value, anyways
+            // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
+            header("X-Error-State: Could not process registration request!");
+            http_response_code(500);
+        } else {
+            http_response_code(204);
+        }
+    }
+}

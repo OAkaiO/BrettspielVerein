@@ -19,10 +19,10 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("QuestionForm", () => {
-  it("uses phpBackend with question.php", async () => {
+  it("uses phpBackend with 'question'", async () => {
     await mountSuspended(QuestionForm);
 
-    expect(usePhpBackendMock).toHaveBeenLastCalledWith("question.php");
+    expect(usePhpBackendMock).toHaveBeenLastCalledWith("question");
   });
 
   it("does not submit when data is not valid", async () => {
@@ -58,7 +58,7 @@ describe("QuestionForm", () => {
       const wrapper = await mountSuspended(QuestionForm);
       const form = wrapper.find("form");
 
-      const fullNameInput = wrapper.find("[label='full-name']");
+      const fullNameInput = wrapper.find("[label='fullName']");
       const messageInput = wrapper.find("[label='message']");
 
       await fullNameInput.setValue("test@unit-test.com");
@@ -74,7 +74,7 @@ describe("QuestionForm", () => {
       const wrapper = await mountSuspended(QuestionForm);
       const form = wrapper.find("form");
 
-      const fullNameInput = wrapper.find("[label='full-name']");
+      const fullNameInput = wrapper.find("[label='fullName']");
       const emailInput = wrapper.find("[label='email']");
 
       await fullNameInput.setValue("Unit Test");
@@ -90,7 +90,7 @@ describe("QuestionForm", () => {
   it("submits successfully when data entered", async () => {
     const wrapper = await mountSuspended(QuestionForm);
     const form = wrapper.find("form");
-    const fullNameInput = wrapper.find("[label='full-name']");
+    const fullNameInput = wrapper.find("[label='fullName']");
     const emailInput = wrapper.find("[label='email']");
     const messageInput = wrapper.find("[label='message']");
 
@@ -118,7 +118,7 @@ describe("QuestionForm", () => {
 
     const wrapper = await mountSuspended(QuestionForm);
     const form = wrapper.find("form");
-    const fullNameInput = wrapper.find("[label='full-name']");
+    const fullNameInput = wrapper.find("[label='fullName']");
     const emailInput = wrapper.find("[label='email']");
     const messageInput = wrapper.find("[label='message']");
 

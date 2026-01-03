@@ -9,7 +9,7 @@ const state = reactive<Partial<Schema>>({
   email: undefined,
 });
 
-const { post } = usePhpBackend("newsletter.php");
+const { post } = usePhpBackend("newsletter");
 const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 
 function onSubmit() {

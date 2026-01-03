@@ -2,18 +2,18 @@
 import * as z from "zod";
 
 const schema = z.object({
-  "full-name": zodRequiredString("Namen"),
-  "email": z.email("Ungültige E-Mail"),
-  "message": zodRequiredString("Nachricht"),
+  fullName: zodRequiredString("Namen"),
+  email: z.email("Ungültige E-Mail"),
+  message: zodRequiredString("Nachricht"),
 });
 type Schema = z.output<typeof schema>;
 const state = reactive<Partial<Schema>>({
-  "full-name": undefined,
-  "email": undefined,
-  "message": undefined,
+  fullName: undefined,
+  email: undefined,
+  message: undefined,
 });
 
-const { post } = usePhpBackend("question.php");
+const { post } = usePhpBackend("question");
 const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 
 function onSubmit() {
@@ -43,13 +43,13 @@ function onSubmit() {
   >
     <div class="flex flex-col lg:flex-row justify-stretch gap-4">
       <UFormField
-        name="full-name"
+        name="fullName"
         class="grow"
         required
       >
         <UInput
-          v-model="state['full-name']"
-          label="full-name"
+          v-model="state.fullName"
+          label="fullName"
           placeholder="Name"
           size="xl"
           class="w-full"

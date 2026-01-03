@@ -1,0 +1,43 @@
+name: PHP
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+      working-directory: ./backend
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Add PHPUnit
+      run: composer require --dev phpunit/phpunit ^10
+      working-directory: ./backend
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+      working-directory: ./backend
+
+    - name: Run test suite
+      run: ./vendor/bin/phpunit --configuration phpunit.xml
+      working-directory: ./backend
+

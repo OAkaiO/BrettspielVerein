@@ -19,10 +19,10 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("SignUpForm", () => {
-  it("uses phpBackend with register.php", async () => {
+  it("uses phpBackend with 'member'", async () => {
     await mountSuspended(SignUpForm);
 
-    expect(usePhpBackendMock).toHaveBeenLastCalledWith("register.php");
+    expect(usePhpBackendMock).toHaveBeenLastCalledWith("member");
   });
 
   it("does not submit when data is not valid", async () => {
@@ -44,7 +44,7 @@ describe("SignUpForm", () => {
       const form = wrapper.find("form");
 
       const lastNameInput = wrapper.find("[label='lastName']");
-      const addressInput = wrapper.find("[label='address']");
+      const addressInput = wrapper.find("[label='address1']");
       const address2Input = wrapper.find("[label='address2']");
       const emailInput = wrapper.find("[label='email']");
       const messageInput = wrapper.find("[label='message']");
@@ -67,7 +67,7 @@ describe("SignUpForm", () => {
       const form = wrapper.find("form");
 
       const firstNameInput = wrapper.find("[label='firstName']");
-      const addressInput = wrapper.find("[label='address']");
+      const addressInput = wrapper.find("[label='address1']");
       const address2Input = wrapper.find("[label='address2']");
       const emailInput = wrapper.find("[label='email']");
       const messageInput = wrapper.find("[label='message']");
@@ -114,7 +114,7 @@ describe("SignUpForm", () => {
 
       const firstNameInput = wrapper.find("[label='firstName']");
       const lastNameInput = wrapper.find("[label='lastName']");
-      const addressInput = wrapper.find("[label='address']");
+      const addressInput = wrapper.find("[label='address1']");
       const emailInput = wrapper.find("[label='email']");
       const messageInput = wrapper.find("[label='message']");
 
@@ -137,7 +137,7 @@ describe("SignUpForm", () => {
 
       const firstNameInput = wrapper.find("[label='firstName']");
       const lastNameInput = wrapper.find("[label='lastName']");
-      const addressInput = wrapper.find("[label='address']");
+      const addressInput = wrapper.find("[label='address1']");
       const address2Input = wrapper.find("[label='address2']");
       const messageInput = wrapper.find("[label='message']");
 
@@ -161,7 +161,7 @@ describe("SignUpForm", () => {
 
     const firstNameInput = wrapper.find("[label='firstName']");
     const lastNameInput = wrapper.find("[label='lastName']");
-    const addressInput = wrapper.find("[label='address']");
+    const addressInput = wrapper.find("[label='address1']");
     const address2Input = wrapper.find("[label='address2']");
     const emailInput = wrapper.find("[label='email']");
     const messageInput = wrapper.find("[label='message']");
@@ -190,7 +190,7 @@ describe("SignUpForm", () => {
 
     const firstNameInput = wrapper.find("[label='firstName']");
     const lastNameInput = wrapper.find("[label='lastName']");
-    const addressInput = wrapper.find("[label='address']");
+    const addressInput = wrapper.find("[label='address1']");
     const address2Input = wrapper.find("[label='address2']");
     const emailInput = wrapper.find("[label='email']");
 
@@ -224,7 +224,7 @@ describe("SignUpForm", () => {
 
     const firstNameInput = wrapper.find("[label='firstName']");
     const lastNameInput = wrapper.find("[label='lastName']");
-    const addressInput = wrapper.find("[label='address']");
+    const addressInput = wrapper.find("[label='address1']");
     const address2Input = wrapper.find("[label='address2']");
     const emailInput = wrapper.find("[label='email']");
     const messageInput = wrapper.find("[label='message']");
