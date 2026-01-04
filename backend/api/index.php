@@ -20,7 +20,7 @@ catch (RequestException $e)
 {
     $message = $e->getMessage();
     header("X-Error-State: $message");
-    http_response_code(405);
+    http_response_code(400);
     return;
 }
 
