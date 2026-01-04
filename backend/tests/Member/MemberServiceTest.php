@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Member\MemberDTO;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +20,7 @@ class MemberServiceTest extends TestCase
         $mailConfigurator->method('configureMail')
             ->willReturn($mockMail);
 
-        $service = new MemberService($mailConfigurator);
+        $service = new MemberService($mailConfigurator, new LoggerFactory(true));
         $service->register(MemberDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
 
         $this->assertEquals(500, http_response_code());
@@ -47,7 +48,7 @@ class MemberServiceTest extends TestCase
         $mailConfigurator->expects($this->once())->method('configureMail')
             ->with('Registrierung von Unit Test', $expectedMessage, 'unit@test.com');
 
-        $service = new MemberService($mailConfigurator);
+        $service = new MemberService($mailConfigurator, new LoggerFactory(true));
         $service->register(MemberDTO::create("unit@test.com", "Unit", "Test", "Teststreet", "Testcity", "Hello"));
         $this->assertEquals(204, http_response_code());
     }

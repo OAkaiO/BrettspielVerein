@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Question\QuestionDTO;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,7 @@ class QuestionServiceTest extends TestCase
         $mailConfigurator->method('configureMail')
             ->willReturn($mockMail);
 
-        $service = new QuestionService($mailConfigurator);
+        $service = new QuestionService($mailConfigurator, new LoggerFactory(true));
         $service->ask(QuestionDTO::create("unit@test.com", "Unit Test", "Hello"));
 
         $this->assertEquals(500, http_response_code());
@@ -38,7 +39,7 @@ class QuestionServiceTest extends TestCase
         $mailConfigurator->expects($this->once())->method('configureMail')
             ->with('Frage von Unit Test', 'Hello', 'unit@test.com');
 
-        $service = new QuestionService($mailConfigurator);
+        $service = new QuestionService($mailConfigurator, new LoggerFactory(true));
         $service->ask(QuestionDTO::create("unit@test.com", "Unit Test", "Hello"));
         $this->assertEquals(204, http_response_code());
     }

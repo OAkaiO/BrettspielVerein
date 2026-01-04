@@ -2,14 +2,22 @@
 
 namespace BVZ\Member;
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
+use Monolog\Logger;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class MemberService
 {
-    function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator())
-    {}
+    private readonly Logger $logger;
+
+    function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator(),
+        private readonly LoggerFactory $loggerFactory = new LoggerFactory()
+    )
+    {
+        $this->logger = $loggerFactory->getLogger('MemberService');
+    }
 
     public function register(MemberDTO $dto)
     {
@@ -25,8 +33,7 @@ class MemberService
 
         $success = $mail->send();
         if (!$success) {
-            // TODO: Logging, as echo kills the http response approach, and doesn't provide value, anyways
-            // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
+            $this->logger->error("Message could not be sent. Mailer Error: " . $mail->ErrorInfo);
             header("X-Error-State: Could not process member signup!");
             http_response_code(500);
         } else {

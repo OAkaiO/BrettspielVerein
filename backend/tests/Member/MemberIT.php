@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Member\MemberController;
 use BVZ\Member\MemberParser;
@@ -37,7 +38,7 @@ class MemberIT extends TestCase
 
 
         $parser = new MemberParser();
-        $service = new MemberService($mockMailer);
+        $service = new MemberService($mockMailer, new LoggerFactory(true));
 
         $controller = new MemberController($parser, $service);
 
@@ -70,7 +71,7 @@ class MemberIT extends TestCase
 
 
         $parser = new MemberParser();
-        $service = new MemberService($mockMailer);
+        $service = new MemberService($mockMailer, new LoggerFactory(true));
 
         $controller = new MemberController($parser, $service);
 
@@ -89,7 +90,7 @@ class MemberIT extends TestCase
 
 
         $parser = new MemberParser();
-        $service = new MemberService($mockMailer);
+        $service = new MemberService($mockMailer, new LoggerFactory(true));
 
         $controller = new MemberController($parser, $service);
 

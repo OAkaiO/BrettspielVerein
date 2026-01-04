@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Newsletter\NewsletterDTO;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,7 @@ class NewsletterServiceTest extends TestCase
         $mailConfigurator->method('configureMail')
             ->willReturn($mockMail);
 
-        $service = new NewsletterService($mailConfigurator);
+        $service = new NewsletterService($mailConfigurator, new LoggerFactory(true));
         $service->subscribe(NewsletterDTO::create("unit@test.com"));
 
         $this->assertEquals(500, http_response_code());
@@ -38,7 +39,7 @@ class NewsletterServiceTest extends TestCase
         $mailConfigurator->expects($this->once())->method('configureMail')
             ->with('Newsletter-Abo von unit@test.com', 'Ich melde mich hiermit an :)', 'unit@test.com');
 
-        $service = new NewsletterService($mailConfigurator);
+        $service = new NewsletterService($mailConfigurator, new LoggerFactory(true));
         $service->subscribe(NewsletterDTO::create("unit@test.com"));
         $this->assertEquals(204, http_response_code());
     }
