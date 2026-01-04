@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Env;
 use BVZ\Events\EventController;
 use BVZ\Member\MemberController;
 use BVZ\Newsletter\NewsletterController;
@@ -10,7 +11,7 @@ use BVZ\Request\RequestFactory;
 require_once __DIR__ . "/../vendor/autoload.php";
 
 // Makes errors not output an error text, but instead return 500 when set to false
-ini_set('display_errors', 1);
+ini_set('display_errors', Env::isDevEnv());
 
 try {
     $request = (new RequestFactory())->getRequest();

@@ -34,4 +34,9 @@ class Env
         }
         return $_ENV[$key];
     }
+
+    static function isDevEnv()
+    {
+        return Env::get(Env::PROFILE) === Env::DEV_PROFILE;
+    }
 }
