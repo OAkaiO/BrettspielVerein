@@ -9,7 +9,8 @@
     "vlucas/phpdotenv": "^5.5",
     "phpmailer/phpmailer": "^6.8",
     "aura/sql": "^5.0",
-    "aura/sqlquery": "^3.0"
+    "aura/sqlquery": "^3.0",
+    "monolog/monolog": "^3.10"
   },
   "autoload": {
     "psr-4": {"BVZ\\" : "./api"}

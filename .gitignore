@@ -5,3 +5,4 @@ backend/.phpunit.result.cache
 dist/*
 !dist/.gitkeep
 **/liquibase.prod.properties
+logging/
