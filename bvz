@@ -19,7 +19,7 @@ PASSWORD=""
 NPMX_COMMAND=""
 
 NPM_CONTAINER_NAME="npm_container"
-
+NPM_CONTAINER_RM="--rm"
 # =============================================================
 # Helpers
 # =============================================================
@@ -55,7 +55,8 @@ buildBackendForIT() {
 
 buildFrontend() {
     echo "Generating the static frontend content."
-    npm run --prefix nuxt generate
+    NPM_CONTAINER_NAME="build_frontend"
+    npm run generate
     cp -r vue/.output/public/* $DIST_APP_DIR
 }
 
@@ -159,6 +160,7 @@ unittest() {
 
     echo "Running frontend tests"
     NPM_CONTAINER_NAME="frontend_unit_test"
+    NPM_CONTAINER_RM=""
     docker container rm $NPM_CONTAINER_NAME &> /dev/null
     npm test
     frontend_exit_code=$(docker wait $NPM_CONTAINER_NAME)
@@ -177,6 +179,7 @@ unittest() {
 __hookNodeDockerContainerWithCommand() {
     docker run -v ./vue/:/home/node/app \
         --name $NPM_CONTAINER_NAME \
+        $NPM_CONTAINER_RM \
         -w /home/node/app \
         -u node \
         -e NPM_CONFIG_UPDATE_NOTIFIER=false \
@@ -184,11 +187,11 @@ __hookNodeDockerContainerWithCommand() {
 }
 
 npm() {
-    __hookNodeDockerContainerWithCommand npm "$1"
+    __hookNodeDockerContainerWithCommand npm "$@"
 }
 
 npx() {
-    __hookNodeDockerContainerWithCommand npx "$1"
+    __hookNodeDockerContainerWithCommand npx "$@"
 }
 
 usage() {
