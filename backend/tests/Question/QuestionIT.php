@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Question\QuestionController;
 use BVZ\Question\QuestionParser;
@@ -26,7 +27,7 @@ class QuestionIT extends TestCase
 
 
         $parser = new QuestionParser();
-        $service = new QuestionService($mockMailer);
+        $service = new QuestionService($mockMailer, new LoggerFactory(true));
 
         $controller = new QuestionController($parser, $service);
 
@@ -48,7 +49,7 @@ class QuestionIT extends TestCase
             ->willReturn($mockMail);
 
         $parser = new QuestionParser();
-        $service = new QuestionService($mockMailer);
+        $service = new QuestionService($mockMailer, new LoggerFactory(true));
 
         $controller = new QuestionController($parser, $service);
 
@@ -66,7 +67,7 @@ class QuestionIT extends TestCase
         $mockMailer->expects($this->never())->method('configureMail');
 
         $parser = new QuestionParser();
-        $service = new QuestionService($mockMailer);
+        $service = new QuestionService($mockMailer, new LoggerFactory(true));
 
         $controller = new QuestionController($parser, $service);
 

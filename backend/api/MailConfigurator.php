@@ -4,16 +4,28 @@ namespace BVZ;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use BVZ\Env;
+use BVZ\Logging\LoggerFactory;
+use Monolog\Logger;
 use PHPMailer\PHPMailer\SMTP;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
 class MailConfigurator
 {
+    private readonly Logger $logger;
+
+    public function __construct(
+        private readonly LoggerFactory $loggerFactory = new LoggerFactory()
+    )
+    {
+        $this->logger = $loggerFactory->getLogger('MailConfigurator');
+    }
 
     private function baseConfigure()
     {
         $mail = new PHPMailer();
+        $mail->Debugoutput = $this->logger;
+
         $mail->isSmtp();
         $mail->Host = Env::get(Env::MAIL_HOST); // Specify main and backup SMTP servers
         $mail->Port = Env::get(Env::MAIL_PORT); // TCP port to connect to
@@ -45,8 +57,7 @@ class MailConfigurator
 
     private function configureDummy($mail)
     {
-        // $mail->SMTPDebug = SMTP::DEBUG_CONNECTION; //TODO: Need to figure out how to not print this to browser
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;
+        $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
     }
 
     private function configureProduction($mail)

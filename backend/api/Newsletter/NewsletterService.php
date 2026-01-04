@@ -2,14 +2,22 @@
 
 namespace BVZ\Newsletter;
 
+use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
+use Monolog\Logger;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterService
 {
-    function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator())
-    {}
+    private readonly Logger $logger;
+
+    function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator(),
+        private readonly LoggerFactory $loggerFactory = new LoggerFactory()
+    )
+    {
+        $this->logger = $loggerFactory->getLogger('NewsletterService');
+    }
 
     public function subscribe(NewsletterDTO $dto)
     {
@@ -20,8 +28,7 @@ class NewsletterService
 
         $success = $mail->send();
         if (!$success) {
-            // TODO: Logging, as echo kills the http response approach, and doesn't provide value, anyways
-            // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"; 
+            $this->logger->error("Message could not be sent. Mailer Error: " . $mail->ErrorInfo);
             header("X-Error-State: Could not process registration request!");
             http_response_code(500);
         } else {
