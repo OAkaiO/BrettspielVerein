@@ -90,7 +90,7 @@ clean() {
 
 dev() {
     echo "Starting local dev environment"
-    docker compose --profile dev up -d
+    USER=$(id -u) GROUP=$(id -g) docker compose --profile dev up -d
 }
 
 installFrontend() {
@@ -101,7 +101,7 @@ installFrontend() {
 inttest() {
     buildDist
 
-    docker compose --profile inttest up -d
+    USER=$(id -u) GROUP=$(id -g) docker compose --profile inttest up -d
 }
 
 awaitDbAlive() {
@@ -145,10 +145,12 @@ init() {
 
     buildBackendForDev
     cp ./backend/.env.example ./backend/.env
+    
+    mkdir logging # required for logging in server
 }
 
 stop() {
-    docker compose --profile "*" down
+    USER=$(id -u) GROUP=$(id -g) docker compose --profile "*" down
 }
 
 unittest() {
